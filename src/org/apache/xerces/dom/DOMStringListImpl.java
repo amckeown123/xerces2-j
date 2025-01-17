@@ -34,27 +34,27 @@ import org.w3c.dom.DOMStringList;
 public class DOMStringListImpl implements DOMStringList {
 	
 	// A collection of DOMString values
-    private final ArrayList fStrings;
+    private final ArrayList<String> fStrings;
 
     /** 
      * Construct an empty list of DOMStringListImpl
      */ 
     public DOMStringListImpl() {
-        fStrings = new ArrayList();    
+        fStrings = new ArrayList<String>();    
     }
 
     /** 
      * Construct a DOMStringListImpl from an ArrayList
      */ 
-    public DOMStringListImpl(ArrayList params) {
+    public DOMStringListImpl(ArrayList<String> params) {
         fStrings = params;    
     }
     
     /** 
      * Construct a DOMStringListImpl from a Vector
      */ 
-    public DOMStringListImpl(Vector params) {
-        fStrings = new ArrayList(params);
+    public DOMStringListImpl(Vector<String> params) {
+        fStrings = new ArrayList<String>(params);
     }
         
 	/**

@@ -36,9 +36,10 @@ import java.security.PrivilegedExceptionAction;
  */
 final class SecuritySupport {
 
+    @SuppressWarnings("unchecked")
     static ClassLoader getContextClassLoader() {
         return (ClassLoader)
-        AccessController.doPrivileged(new PrivilegedAction() {
+        AccessController.doPrivileged(new PrivilegedAction<Object>() {
             public Object run() {
                 ClassLoader cl = null;
                 try {
@@ -51,7 +52,7 @@ final class SecuritySupport {
     
     static ClassLoader getSystemClassLoader() {
         return (ClassLoader)
-        AccessController.doPrivileged(new PrivilegedAction() {
+        AccessController.doPrivileged(new PrivilegedAction<Object>() {
             public Object run() {
                 ClassLoader cl = null;
                 try {
@@ -62,6 +63,7 @@ final class SecuritySupport {
         });
     }
     
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     static ClassLoader getParentClassLoader(final ClassLoader cl) {
         return (ClassLoader)
         AccessController.doPrivileged(new PrivilegedAction() {
@@ -119,9 +121,10 @@ final class SecuritySupport {
         });
     }
     
+    @SuppressWarnings("unchecked")
     static boolean getFileExists(final File f) {
         return ((Boolean)
-                AccessController.doPrivileged(new PrivilegedAction() {
+                AccessController.doPrivileged(new PrivilegedAction<Object>() {
                     public Object run() {
                         return f.exists() ? Boolean.TRUE : Boolean.FALSE;
                     }
@@ -130,7 +133,7 @@ final class SecuritySupport {
     
     static long getLastModified(final File f) {
         return ((Long)
-                AccessController.doPrivileged(new PrivilegedAction() {
+                AccessController.doPrivileged(new PrivilegedAction<Object>() {
                     public Object run() {
                         return new Long(f.lastModified());
                     }

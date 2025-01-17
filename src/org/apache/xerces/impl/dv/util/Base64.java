@@ -302,4 +302,8 @@ public final class  Base64 {
         }
         return newSize;
     }
+
+    public static int getSixbit() {
+        return SIXBIT;
+    }
 }

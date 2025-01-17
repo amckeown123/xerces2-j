@@ -75,6 +75,7 @@ import org.xml.sax.ext.Locator2Impl;
  *
  * @version $Id$
  */
+@SuppressWarnings("deprecation")
 public abstract class AbstractSAXParser
     extends AbstractXMLDocumentParser
     implements PSVIProvider, // PSVI 

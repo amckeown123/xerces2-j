@@ -158,6 +158,7 @@ class PrecisionDecimalDV extends TypeValidator {
         /**
          * @return
          */
+        @SuppressWarnings("unused")
         private int compareFractionalPart(XPrecisionDecimal oval) {
             if(fvalue.equals(oval.fvalue))
                 return EQUAL;

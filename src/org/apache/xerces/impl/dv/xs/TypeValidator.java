@@ -39,7 +39,7 @@ import org.apache.xerces.util.XMLChar;
  */
 public abstract class TypeValidator {
     
-    private static final boolean USE_CODE_POINT_COUNT_FOR_STRING_LENGTH = AccessController.doPrivileged(new PrivilegedAction() {
+    private static final boolean USE_CODE_POINT_COUNT_FOR_STRING_LENGTH = AccessController.doPrivileged(new PrivilegedAction<Object>() {
         public Object run() {
             try {
                 return Boolean.getBoolean("org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength") ? Boolean.TRUE : Boolean.FALSE;

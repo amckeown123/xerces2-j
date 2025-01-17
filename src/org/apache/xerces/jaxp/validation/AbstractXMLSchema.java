@@ -36,10 +36,10 @@ abstract class AbstractXMLSchema extends Schema implements
      * Map containing the initial values of features for 
      * validators created using this grammar pool container.
      */
-    private final HashMap fFeatures;
+    private final HashMap<String, Boolean> fFeatures;
     
     public AbstractXMLSchema() {
-        fFeatures = new HashMap();
+        fFeatures = new HashMap<String, Boolean>();
     }
     
     /*

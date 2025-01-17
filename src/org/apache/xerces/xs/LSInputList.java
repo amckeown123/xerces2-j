@@ -26,7 +26,7 @@ import org.w3c.dom.ls.LSInput;
  * ordered collection of <code>LSInput</code>s, without defining or 
  * constraining how this collection is implemented. 
  */
-public interface LSInputList extends List {
+public interface LSInputList extends List<Object> {
     /**
      *  The number of <code>LSInput</code>s in the list. The range of valid 
      * child object indices is 0 to <code>length-1</code> inclusive. 

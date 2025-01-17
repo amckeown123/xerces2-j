@@ -57,7 +57,7 @@ import org.apache.xerces.xs.XSTypeDefinition;
  *
  * @version $Id$
  */
-public final class XSModelImpl extends AbstractList implements XSModel, XSNamespaceItemList {
+public final class XSModelImpl extends AbstractList<Object> implements XSModel, XSNamespaceItemList {
 
     // the max index / the max value of XSObject type
     private static final short MAX_COMP_IDX = XSTypeDefinition.SIMPLE_TYPE;
@@ -137,7 +137,7 @@ public final class XSModelImpl extends AbstractList implements XSModel, XSNamesp
         }
 
         SchemaGrammar sg1, sg2;
-        Vector gs;
+        Vector<?> gs;
         int i, j, k;
         // and recursively get all imported grammars, add them to our arrays
         for (i = 0; i < len; i++) {
@@ -195,6 +195,7 @@ public final class XSModelImpl extends AbstractList implements XSModel, XSNamesp
         fSubGroupMap = buildSubGroups();
     }
     
+    @SuppressWarnings("unused")
     private SymbolHash buildSubGroups_Org() {
         SubstitutionGroupHandler sgHandler = new SubstitutionGroupHandler(null);
         for (int i = 0 ; i < fGrammarCount; i++) {
@@ -760,22 +761,25 @@ public final class XSModelImpl extends AbstractList implements XSModel, XSNamesp
         return getLength();
     }
     
-    public Iterator iterator() {
-        return listIterator0(0);
+    @SuppressWarnings("unchecked")
+    public Iterator<Object> iterator() {
+        return (Iterator<Object>) listIterator0(0);
     }
     
-    public ListIterator listIterator() {
-        return listIterator0(0);
+    @SuppressWarnings("unchecked")
+    public ListIterator<Object> listIterator() {
+        return (ListIterator<Object>) listIterator0(0);
     }
     
-    public ListIterator listIterator(int index) {
+    @SuppressWarnings("unchecked")
+    public ListIterator<Object> listIterator(int index) {
         if (index >= 0 && index < fGrammarCount) {
-            return listIterator0(index);
+            return (ListIterator<Object>) listIterator0(index);
         }
         throw new IndexOutOfBoundsException("Index: " + index);
     }
     
-    private ListIterator listIterator0(int index) {
+    private ListIterator<?> listIterator0(int index) {
         return new XSNamespaceItemListIterator(index);
     }
     
@@ -785,10 +789,11 @@ public final class XSModelImpl extends AbstractList implements XSModel, XSNamesp
         return a;
     }
     
+    @SuppressWarnings("unchecked")
     public Object[] toArray(Object[] a) {
         if (a.length < fGrammarCount) {
-            Class arrayClass = a.getClass();
-            Class componentType = arrayClass.getComponentType();
+            Class<? extends Object[]> arrayClass = a.getClass();
+            Class<?> componentType = arrayClass.getComponentType();
             a = (Object[]) Array.newInstance(componentType, fGrammarCount);
         }
         toArray0(a);
@@ -804,7 +809,7 @@ public final class XSModelImpl extends AbstractList implements XSModel, XSNamesp
         }
     }
     
-    private final class XSNamespaceItemListIterator implements ListIterator {
+    private final class XSNamespaceItemListIterator implements ListIterator<Object> {
         private int index;
         public XSNamespaceItemListIterator(int index) {
             this.index = index;

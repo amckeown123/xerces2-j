@@ -268,11 +268,11 @@ final class StAXEventResultBuilder implements StAXDocumentHandler {
      * Other methods.
      */
     
-    private Iterator getAttributeIterator(XMLAttributes attributes, int length) {
+    private Iterator<?> getAttributeIterator(XMLAttributes attributes, int length) {
         return (length > 0) ? new AttributeIterator(attributes, length) : EMPTY_COLLECTION_ITERATOR;
     }
     
-    private Iterator getNamespaceIterator() {
+    private Iterator<?> getNamespaceIterator() {
         int length = fNamespaceContext.getDeclaredPrefixCount();
         return (length > 0) ? new NamespaceIterator(length) : EMPTY_COLLECTION_ITERATOR;
     }
@@ -280,7 +280,7 @@ final class StAXEventResultBuilder implements StAXDocumentHandler {
     /**
      * An iterator over XMLAttributes which returns Attribute event objects. 
      */
-    final class AttributeIterator implements Iterator {
+    final class AttributeIterator implements Iterator<Object> {
 
         XMLAttributes fAttributes;
         int fIndex;
@@ -319,7 +319,7 @@ final class StAXEventResultBuilder implements StAXDocumentHandler {
      * An iterator over the current context of a NamespaceContext 
      * which returns Namespace event objects.
      */
-    final class NamespaceIterator implements Iterator {
+    final class NamespaceIterator implements Iterator<Object> {
         
         javax.xml.namespace.NamespaceContext fNC;
         int fIndex;
@@ -361,7 +361,7 @@ final class StAXEventResultBuilder implements StAXDocumentHandler {
     /**
      * An iterator for an empty collection.
      */
-    private static final Iterator EMPTY_COLLECTION_ITERATOR = new Iterator () {
+    private static final Iterator<?> EMPTY_COLLECTION_ITERATOR = new Iterator<Object> () {
         public boolean hasNext() {
             return false;
         }

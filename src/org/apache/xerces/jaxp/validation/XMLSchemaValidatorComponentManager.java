@@ -162,7 +162,7 @@ final class XMLSchemaValidatorComponentManager extends ParserConfigurationSettin
     private boolean fUseGrammarPoolOnly;
     
     /** Lookup map for components required for validation. **/
-    private final HashMap fComponents = new HashMap();
+    private final HashMap<String, Object> fComponents = new HashMap<String, Object>();
     
     //
     // Components
@@ -188,10 +188,10 @@ final class XMLSchemaValidatorComponentManager extends ParserConfigurationSettin
     //
     
     /** Stores initial feature values for validator reset. */
-    private final HashMap fInitFeatures = new HashMap();
+    private final HashMap<String, Boolean> fInitFeatures = new HashMap<String, Boolean>();
     
     /** Stores initial property values for validator reset. */
-    private final HashMap fInitProperties = new HashMap();
+    private final HashMap<String, Object> fInitProperties = new HashMap<String, Object>();
     
     /** Stores the initial security manager. */
     private final SecurityManager fInitSecurityManager;
@@ -483,9 +483,9 @@ final class XMLSchemaValidatorComponentManager extends ParserConfigurationSettin
         
         // Reset feature and property values to their initial values
         if (!fInitFeatures.isEmpty()) {
-            Iterator iter = fInitFeatures.entrySet().iterator();
+            Iterator<?> iter = fInitFeatures.entrySet().iterator();
             while (iter.hasNext()) {
-                Map.Entry entry = (Map.Entry) iter.next();
+                Map.Entry<?, ?> entry = (Map.Entry<?, ?>) iter.next();
                 String name = (String) entry.getKey();
                 boolean value = ((Boolean) entry.getValue()).booleanValue();
                 super.setFeature(name, value);
@@ -493,9 +493,9 @@ final class XMLSchemaValidatorComponentManager extends ParserConfigurationSettin
             fInitFeatures.clear();
         }
         if (!fInitProperties.isEmpty()) {
-            Iterator iter = fInitProperties.entrySet().iterator();
+            Iterator<?> iter = fInitProperties.entrySet().iterator();
             while (iter.hasNext()) {
-                Map.Entry entry = (Map.Entry) iter.next();
+                Map.Entry<?, ?> entry = (Map.Entry<?, ?>) iter.next();
                 String name = (String) entry.getKey();
                 Object value = entry.getValue();
                 super.setProperty(name, value);

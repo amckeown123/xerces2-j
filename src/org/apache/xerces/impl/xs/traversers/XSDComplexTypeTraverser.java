@@ -1145,9 +1145,11 @@ class  XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
             return false;
     }
     
+    @SuppressWarnings("unused")
     private void traverseSimpleContentDecl(Element simpleContentDecl) {
     }
     
+    @SuppressWarnings("unused")
     private void traverseComplexContentDecl(Element complexContentDecl,
             boolean mixedOnComplexTypeDecl) {
     }

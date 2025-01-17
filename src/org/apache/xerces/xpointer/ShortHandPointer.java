@@ -55,7 +55,7 @@ final class ShortHandPointer implements XPointerPart {
     }
     
     public ShortHandPointer(SymbolTable symbolTable) {
-        fSymbolTable = symbolTable;
+        setfSymbolTable(symbolTable);
     }
     
     /**
@@ -197,6 +197,7 @@ final class ShortHandPointer implements XPointerPart {
      * @return A String containing the schema-determined ID. 
      * @throws XNIException
      */
+    @SuppressWarnings("deprecation")
     public String getSchemaDeterminedID(XMLAttributes attributes, int index)
     throws XNIException {
         Augmentations augs = attributes.getAugmentations(index);
@@ -290,5 +291,13 @@ final class ShortHandPointer implements XPointerPart {
      */
     public void setSchemeData(String schemeData) {
         // NA
+    }
+
+    public SymbolTable getfSymbolTable() {
+        return fSymbolTable;
+    }
+
+    public void setfSymbolTable(SymbolTable fSymbolTable) {
+        this.fSymbolTable = fSymbolTable;
     }
 }

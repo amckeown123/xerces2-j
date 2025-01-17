@@ -132,7 +132,7 @@ public class XPath {
      * to build a {@link LocationPath} object from the accumulated
      * {@link Step}s.
      */
-    private LocationPath buildLocationPath( Vector stepsVector ) throws XPathException {
+    private LocationPath buildLocationPath( Vector<Step> stepsVector ) throws XPathException {
         int size = stepsVector.size();
         check(size!=0);
         Step[] steps = new Step[size];
@@ -185,8 +185,8 @@ public class XPath {
             throw new XPathException("c-general-xpath");
         
         //fTokens.dumpTokens();
-        Vector stepsVector = new Vector();
-        ArrayList locationPathsVector= new ArrayList();
+        Vector<Step> stepsVector = new Vector<Step>();
+        ArrayList<LocationPath> locationPathsVector= new ArrayList<LocationPath>();
         
         // true when the next token should be 'Step' (as defined in
         // the production rule [3] of XML Schema P1 section 3.11.6
@@ -311,7 +311,7 @@ public class XPath {
         locationPathsVector.add(buildLocationPath(stepsVector));
 
         // return location path
-        return (LocationPath[])locationPathsVector.toArray(new LocationPath[locationPathsVector.size()]);
+        return locationPathsVector.toArray(new LocationPath[locationPathsVector.size()]);
 
     } // parseExpression(SymbolTable,NamespaceContext)
 
@@ -398,6 +398,7 @@ public class XPath {
         //
 
         /** Returns a string representation of this object. */
+        @SuppressWarnings("unused")
         public String toString() {
             StringBuffer str = new StringBuffer();
             for (int i = 0; i < steps.length; i++) {
@@ -856,10 +857,10 @@ public class XPath {
         private SymbolTable fSymbolTable;
 
         // REVISIT: Code something better here. -Ac
-        private java.util.Hashtable fSymbolMapping = new java.util.Hashtable();
+        private java.util.Hashtable<String, Integer> fSymbolMapping = new java.util.Hashtable<String, Integer>();
 
         // REVISIT: Code something better here. -Ac
-        private java.util.Hashtable fTokenNames = new java.util.Hashtable();
+        private java.util.Hashtable<Integer, String> fTokenNames = new java.util.Hashtable<Integer, String>();
 
         /**
          * Current position in the token list. 
@@ -944,16 +945,12 @@ public class XPath {
 //        }
 //
         public String getTokenString(int token) {
-            return (String)fTokenNames.get(new Integer(token));
+            return fTokenNames.get(new Integer(token));
         }
 
+        @SuppressWarnings("unused")
         public void addToken(String tokenStr) {
-            Integer tokenInt = (Integer)fTokenNames.get(tokenStr);
-            if (tokenInt == null) {
-                tokenInt = new Integer(fTokenNames.size());
-                fTokenNames.put(tokenInt, tokenStr);
-            }
-            addToken(tokenInt.intValue());
+          Integer      tokenInt = new Integer(fTokenNames.size());
         }
 
         public void addToken(int token) {
@@ -977,6 +974,7 @@ public class XPath {
         /**
          * Resets the current position to the head of the token list.
          */
+        @SuppressWarnings("unused")
         public void rewind() {
             fCurrentTokenIndex=0;
         }
@@ -1206,6 +1204,11 @@ public class XPath {
             //}
         }
 
+        @SuppressWarnings("unused")
+        public static String[] getFgtokennames() {
+            return fgTokenNames;
+        }
+
     } // class Tokens
 
     /**
@@ -1315,7 +1318,7 @@ public class XPath {
         public Scanner(SymbolTable symbolTable) {
 
             // save pool and tokens
-            fSymbolTable = symbolTable;
+            setfSymbolTable(symbolTable);
 
         } // <init>(SymbolTable)
 
@@ -1996,6 +1999,30 @@ public class XPath {
             tokens.addToken(token);
         } // addToken(int)
 
+        @SuppressWarnings("unused")
+        public static byte getChartypeInvalid() {
+            return CHARTYPE_INVALID;
+        }
+
+        @SuppressWarnings("unused")
+        public static byte getChartypeOther() {
+            return CHARTYPE_OTHER;
+        }
+
+        @SuppressWarnings("unused")
+        public static byte getChartypeWhitespace() {
+            return CHARTYPE_WHITESPACE;
+        }
+
+        @SuppressWarnings("unused")
+        public SymbolTable getfSymbolTable() {
+            return fSymbolTable;
+        }
+
+        public void setfSymbolTable(SymbolTable fSymbolTable) {
+            this.fSymbolTable = fSymbolTable;
+        }
+
     } // class Scanner
 
     //
@@ -2019,5 +2046,9 @@ public class XPath {
         }
 
     } // main(String[])
+
+    public static boolean isDebugAny() {
+        return DEBUG_ANY;
+    }
 
 } // class XPath

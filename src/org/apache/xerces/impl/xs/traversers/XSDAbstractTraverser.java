@@ -142,7 +142,7 @@ abstract class XSDAbstractTraverser {
         // find the grammar; fSchemaHandler must be known!
         SchemaGrammar grammar = fSchemaHandler.getGrammar(schemaDoc.fTargetNamespace);
         // fish out local attributes passed from parent
-        Vector annotationLocalAttrs = (Vector)parentAttrs[XSAttributeChecker.ATTIDX_NONSCHEMA];
+        Vector<?> annotationLocalAttrs = (Vector<?>)parentAttrs[XSAttributeChecker.ATTIDX_NONSCHEMA];
         // optimize for case where there are no local attributes
         if(annotationLocalAttrs != null && !annotationLocalAttrs.isEmpty()) {
             StringBuffer localStrBuffer = new StringBuffer(64);
@@ -197,6 +197,7 @@ abstract class XSDAbstractTraverser {
         
     }
     
+    @SuppressWarnings("unused")
     XSAnnotationImpl traverseSyntheticAnnotation(Element annotationParent, String initialContent,
             Object[] parentAttrs, boolean isGlobal, XSDocumentInfo schemaDoc) {
         
@@ -205,7 +206,7 @@ abstract class XSDAbstractTraverser {
         // find the grammar; fSchemaHandler must be known!
         SchemaGrammar grammar = fSchemaHandler.getGrammar(schemaDoc.fTargetNamespace);
         // fish out local attributes passed from parent
-        Vector annotationLocalAttrs = (Vector)parentAttrs[XSAttributeChecker.ATTIDX_NONSCHEMA];
+        Vector<?> annotationLocalAttrs = (Vector<?>)parentAttrs[XSAttributeChecker.ATTIDX_NONSCHEMA];
         // optimize for case where there are no local attributes
         if (annotationLocalAttrs != null && !annotationLocalAttrs.isEmpty()) {
             StringBuffer localStrBuffer = new StringBuffer(64);
@@ -339,7 +340,7 @@ abstract class XSDAbstractTraverser {
                     schemaDoc.fValidationContext.setNamespaceSupport(schemaDoc.fNamespaceSupport);
                 }
                 if (enumData == null){
-                    enumData = new Vector();
+                    enumData = new Vector<Object>();
                     enumAnnotations = new XSObjectListImpl();
                 }
                 enumData.addElement(enumVal);
@@ -616,7 +617,7 @@ abstract class XSDAbstractTraverser {
     /*
      * Check whether values of xs:maxLength and xs:enumeration are consistent. Report a warning message if they are not.
      */
-    private void checkEnumerationAndMaxLengthInconsistency(XSSimpleType baseValidator, Vector enumData, Element contextNode, String typeName) {
+    private void checkEnumerationAndMaxLengthInconsistency(XSSimpleType baseValidator, Vector<?> enumData, Element contextNode, String typeName) {
         if (SchemaSymbols.URI_SCHEMAFORSCHEMA.equals(baseValidator.getNamespace()) && 
             SchemaSymbols.ATTVAL_HEXBINARY.equals(baseValidator.getName())) {
             for (int enumIdx = 0; enumIdx < enumData.size(); enumIdx++) {
@@ -649,7 +650,7 @@ abstract class XSDAbstractTraverser {
     /*
      * Check whether values of xs:minLength and xs:enumeration are consistent. Report a warning message if they are not.
      */
-    private void checkEnumerationAndMinLengthInconsistency(XSSimpleType baseValidator, Vector enumData, Element contextNode, String typeName) {
+    private void checkEnumerationAndMinLengthInconsistency(XSSimpleType baseValidator, Vector<?> enumData, Element contextNode, String typeName) {
         if (SchemaSymbols.URI_SCHEMAFORSCHEMA.equals(baseValidator.getNamespace()) && 
             SchemaSymbols.ATTVAL_HEXBINARY.equals(baseValidator.getName())) {
             for (int enumIdx = 0; enumIdx < enumData.size(); enumIdx++) {
@@ -682,7 +683,7 @@ abstract class XSDAbstractTraverser {
     /*
      * Check whether values of xs:length and xs:enumeration are consistent. Report a warning message if they are not.
      */
-    private void checkEnumerationAndLengthInconsistency(XSSimpleType baseValidator, Vector enumData, Element contextNode, String typeName) {
+    private void checkEnumerationAndLengthInconsistency(XSSimpleType baseValidator, Vector<?> enumData, Element contextNode, String typeName) {
         if (SchemaSymbols.URI_SCHEMAFORSCHEMA.equals(baseValidator.getNamespace()) && 
             SchemaSymbols.ATTVAL_HEXBINARY.equals(baseValidator.getName())) {
             for (int enumIdx = 0; enumIdx < enumData.size(); enumIdx++) {

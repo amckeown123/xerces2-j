@@ -150,7 +150,7 @@ public abstract class BasicParserConfiguration
     protected Locale fLocale;
 
     /** Components. */
-    protected ArrayList fComponents;
+    protected ArrayList<XMLComponent> fComponents;
 
     // handlers
 
@@ -196,15 +196,15 @@ public abstract class BasicParserConfiguration
         super(parentSettings);
 
         // create a vector to hold all the components in use
-        fComponents = new ArrayList();
+        fComponents = new ArrayList<XMLComponent>();
 
         // create storage for recognized features and properties
-        fRecognizedFeatures = new ArrayList();
-        fRecognizedProperties = new ArrayList();
+        fRecognizedFeatures = new ArrayList<String>();
+        fRecognizedProperties = new ArrayList<String>();
 
         // create table for features and properties
-        fFeatures = new HashMap();
-        fProperties = new HashMap();
+        fFeatures = new HashMap<String, Boolean>();
+        fProperties = new HashMap<String, Object>();
 
         // add default recognized features
         final String[] recognizedFeatures = {
@@ -442,7 +442,7 @@ public abstract class BasicParserConfiguration
         // forward to every component
         int count = fComponents.size();
         for (int i = 0; i < count; i++) {
-            XMLComponent c = (XMLComponent) fComponents.get(i);
+            XMLComponent c = fComponents.get(i);
             c.setFeature(featureId, state);
         }
         // save state if noone "objects"
@@ -462,7 +462,7 @@ public abstract class BasicParserConfiguration
         // forward to every component
         int count = fComponents.size();
         for (int i = 0; i < count; i++) {
-            XMLComponent c = (XMLComponent) fComponents.get(i);
+            XMLComponent c = fComponents.get(i);
             c.setProperty(propertyId, value);
         }
 
@@ -500,7 +500,7 @@ public abstract class BasicParserConfiguration
         // reset every component
         int count = fComponents.size();
         for (int i = 0; i < count; i++) {
-            XMLComponent c = (XMLComponent) fComponents.get(i);
+            XMLComponent c = fComponents.get(i);
             c.reset(this);
         }
 

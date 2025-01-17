@@ -45,7 +45,7 @@ public class DTDGrammarBucket {
     //
 
     /** Grammars associated with element root name. */
-    protected final Hashtable fGrammars;
+    protected final Hashtable<XMLDTDDescription, DTDGrammar> fGrammars;
 
     // the unique grammar from fGrammars (or that we're
     // building) that is used in validation.
@@ -60,7 +60,7 @@ public class DTDGrammarBucket {
 
     /** Default constructor. */
     public DTDGrammarBucket() {
-        fGrammars = new Hashtable();
+        fGrammars = new Hashtable<XMLDTDDescription, DTDGrammar>();
     } // <init>()
 
     //

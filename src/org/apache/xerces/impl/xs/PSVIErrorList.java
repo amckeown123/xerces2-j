@@ -30,7 +30,7 @@ import org.apache.xerces.xs.StringList;
  * 
  * @version $Id$
  */
-final class PSVIErrorList extends AbstractList implements StringList {
+final class PSVIErrorList extends AbstractList<Object> implements StringList {
 
     private final String[] fArray;
     private final int fLength;

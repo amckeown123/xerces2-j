@@ -580,8 +580,8 @@ class Token implements java.io.Serializable {
     }
 
     // ------------------------------------------------------
-    private final static Hashtable categories = new Hashtable();
-    private final static Hashtable categories2 = new Hashtable();
+    private final static Hashtable<String, Token> categories = new Hashtable<String, Token>();
+    private final static Hashtable<String, Token> categories2 = new Hashtable<String, Token>();
     private static final String[] categoryNames = {
         "Cn", "Lu", "Ll", "Lt", "Lm", "Lo", "Mn", "Me", "Mc", "Nd",
         "Nl", "No", "Zs", "Zl", "Zp", "Cc", "Cf", null, "Co", "Cs",
@@ -970,14 +970,14 @@ class Token implements java.io.Serializable {
         return range;
     }
 
-    static Hashtable nonxs = null;
+    static Hashtable<String, String> nonxs = null;
     /**
      * This method is called by only getRange().
      * So this method need not MT-safe.
      */
     static protected void registerNonXS(String name) {
         if (Token.nonxs == null)
-            Token.nonxs = new Hashtable();
+            Token.nonxs = new Hashtable<String, String>();
         Token.nonxs.put(name, name);
     }
     static protected boolean isRegisterNonXS(String name) {
@@ -1421,7 +1421,7 @@ class Token implements java.io.Serializable {
 
         private static final long serialVersionUID = -2568843945989489861L;
         
-        Vector children;
+        Vector<Token> children;
 
         UnionToken(int type) {
             super(type);
@@ -1429,7 +1429,7 @@ class Token implements java.io.Serializable {
 
         void addChild(Token tok) {
             if (tok == null)  return;
-            if (this.children == null)  this.children = new Vector();
+            if (this.children == null)  this.children = new Vector<Token>();
             if (this.type == UNION) {
                 this.children.addElement(tok);
                 return;

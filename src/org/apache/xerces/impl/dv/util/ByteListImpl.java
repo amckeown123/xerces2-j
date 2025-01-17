@@ -31,7 +31,7 @@ import org.apache.xerces.xs.datatypes.ByteList;
  * 
  * @version $Id$
  */
-public class ByteListImpl extends AbstractList implements ByteList {
+public class ByteListImpl extends AbstractList<Object>  implements ByteList {
 
     // actually data stored in a byte array
     protected final byte[] data;

@@ -33,7 +33,7 @@ import org.apache.xerces.impl.dv.DatatypeValidator;
  */
 public class DTDDVFactoryImpl extends DTDDVFactory {
 
-    static final Hashtable fBuiltInTypes = new Hashtable();
+    static final Hashtable<String, DatatypeValidator> fBuiltInTypes = new Hashtable<String, DatatypeValidator>();
     static {
         createBuiltInTypes();
     }
@@ -45,7 +45,7 @@ public class DTDDVFactoryImpl extends DTDDVFactory {
      * @return      the datatype validator of the given name
      */
     public DatatypeValidator getBuiltInDV(String name) {
-        return (DatatypeValidator)fBuiltInTypes.get(name);
+        return fBuiltInTypes.get(name);
     }
 
     /**
@@ -53,8 +53,9 @@ public class DTDDVFactoryImpl extends DTDDVFactory {
      *
      * @return      a hashtable which contains all datatypes
      */
-    public Hashtable getBuiltInTypes() {
-        return (Hashtable)fBuiltInTypes.clone();
+    @SuppressWarnings("unchecked")
+    public Hashtable<String, DatatypeValidator> getBuiltInTypes() {
+        return (Hashtable<String, DatatypeValidator>)fBuiltInTypes.clone();
     }
 
     // create all built-in types

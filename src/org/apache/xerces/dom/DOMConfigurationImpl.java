@@ -229,7 +229,7 @@ public class DOMConfigurationImpl extends ParserConfigurationSettings
     protected SymbolTable fSymbolTable;
 
     /** Components. */
-    protected ArrayList fComponents;
+    protected ArrayList<XMLComponent> fComponents;
 
     protected ValidationManager fValidationManager;
 
@@ -281,17 +281,18 @@ public class DOMConfigurationImpl extends ParserConfigurationSettings
      * @param symbolTable    The symbol table to use.
      * @param parentSettings The parent settings.
      */
+    @SuppressWarnings({ })
     protected DOMConfigurationImpl(SymbolTable symbolTable,
                                     XMLComponentManager parentSettings) {
         super(parentSettings);
 
         // create storage for recognized features and properties
-        fRecognizedFeatures = new ArrayList();
-        fRecognizedProperties = new ArrayList();
+        fRecognizedFeatures = new ArrayList<>();
+        fRecognizedProperties = new ArrayList<>();
 
         // create table for features and properties
-        fFeatures = new HashMap();
-        fProperties = new HashMap();
+        fFeatures = new HashMap<String, Boolean>();
+        fProperties = new HashMap<String, Object>();
 
         // add default recognized features
         final String[] recognizedFeatures = {
@@ -371,7 +372,7 @@ public class DOMConfigurationImpl extends ParserConfigurationSettings
         }
         fSymbolTable = symbolTable;
 
-        fComponents = new ArrayList();
+        fComponents = new ArrayList<XMLComponent>();
 
         setProperty(SYMBOL_TABLE, fSymbolTable);
         fErrorReporter = new XMLErrorReporter();
@@ -766,7 +767,7 @@ public class DOMConfigurationImpl extends ParserConfigurationSettings
                             // tokenize location string
                             StringTokenizer t = new StringTokenizer(fSchemaLocation, " \n\t\r");
                             if (t.hasMoreTokens()) {
-                                ArrayList locations = new ArrayList();
+                                ArrayList<String> locations = new ArrayList<String>();
                                 locations.add(t.nextToken());
                                 while (t.hasMoreTokens()) {
                                     locations.add (t.nextToken());
@@ -1051,7 +1052,7 @@ public class DOMConfigurationImpl extends ParserConfigurationSettings
      */
 	public DOMStringList getParameterNames() {
 	    if (fRecognizedParameters == null){
-	        ArrayList parameters = new ArrayList();
+	        ArrayList<String> parameters = new ArrayList<String>();
 
 	        //Add DOM recognized parameters
 	        //REVISIT: Would have been nice to have a list of
@@ -1107,7 +1108,7 @@ public class DOMConfigurationImpl extends ParserConfigurationSettings
 
         int count = fComponents.size();
         for (int i = 0; i < count; i++) {
-            XMLComponent c = (XMLComponent) fComponents.get(i);
+            XMLComponent c = fComponents.get(i);
             c.reset(this);
         }
 

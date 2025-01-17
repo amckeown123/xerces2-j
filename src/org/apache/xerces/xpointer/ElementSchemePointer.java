@@ -524,7 +524,7 @@ final class ElementSchemePointer implements XPointerPart {
 
         private SymbolTable fSymbolTable;
 
-        private HashMap fTokenNames = new HashMap();
+        private HashMap<Integer, String> fTokenNames = new HashMap<Integer, String>();
 
         /**
          * Constructor 
@@ -532,7 +532,7 @@ final class ElementSchemePointer implements XPointerPart {
          * @param symbolTable SymbolTable
          */
         private Tokens(SymbolTable symbolTable) {
-            fSymbolTable = symbolTable;
+            setfSymbolTable(symbolTable);
 
             fTokenNames.put(new Integer(XPTRTOKEN_ELEM_NCNAME),
                     "XPTRTOKEN_ELEM_NCNAME");
@@ -549,14 +549,7 @@ final class ElementSchemePointer implements XPointerPart {
             return (String) fTokenNames.get(new Integer(token));
         }
 
-        /**
-         * Returns the token String 
-         * @param token The index of the token
-         * @return String The token string
-         */
-        private Integer getToken(int token) {
-            return (Integer) fTokenNames.get(new Integer(token));
-        }
+ 
 
         /**
          * Add the specified string as a token
@@ -564,11 +557,7 @@ final class ElementSchemePointer implements XPointerPart {
          * @param token The token string
          */
         private void addToken(String tokenStr) {
-            Integer tokenInt = (Integer) fTokenNames.get(tokenStr);
-            if (tokenInt == null) {
-                tokenInt = new Integer(fTokenNames.size());
-                fTokenNames.put(tokenInt, tokenStr);
-            }
+           Integer    tokenInt = new Integer(fTokenNames.size());
             addToken(tokenInt.intValue());
         }
 
@@ -592,6 +581,7 @@ final class ElementSchemePointer implements XPointerPart {
         /**
          * Resets the current position to the head of the token list.
          */
+        @SuppressWarnings("unused")
         private void rewind() {
             fCurrentTokenIndex = 0;
         }
@@ -624,6 +614,7 @@ final class ElementSchemePointer implements XPointerPart {
          * If there's no such next token, this method throws
          * <tt>new XNIException("InvalidXPointerExpression");</tt>.
          */
+        @SuppressWarnings("unused")
         private int peekToken() throws XNIException {
             if (fCurrentTokenIndex == fTokenCount)
                 reportError("XPointerElementSchemeProcessingError", null);
@@ -638,6 +629,7 @@ final class ElementSchemePointer implements XPointerPart {
          * If there's no such next token, this method throws
          * <tt>new XNIException("InvalidXPointerExpression");</tt>.
          */
+        @SuppressWarnings("unused")
         private String nextTokenAsString() throws XNIException {
             String s = getTokenString(nextToken());
             if (s == null)
@@ -651,6 +643,20 @@ final class ElementSchemePointer implements XPointerPart {
          */
         private int getTokenCount() {
             return fTokenCount;
+        }
+
+        @SuppressWarnings("unused")
+        public String[] getFgTokenNames() {
+            return fgTokenNames;
+        }
+
+        @SuppressWarnings("unused")
+        public SymbolTable getfSymbolTable() {
+            return fSymbolTable;
+        }
+
+        public void setfSymbolTable(SymbolTable fSymbolTable) {
+            this.fSymbolTable = fSymbolTable;
         }
     }
 
@@ -703,6 +709,7 @@ final class ElementSchemePointer implements XPointerPart {
         // Data
         //
         /** Symbol table. */
+        @SuppressWarnings("unused")
         private SymbolTable fSymbolTable;
 
         //
@@ -871,6 +878,11 @@ final class ElementSchemePointer implements XPointerPart {
         protected void addToken(Tokens tokens, int token) throws XNIException {
             tokens.addToken(token);
         } // addToken(int)
+
+        @SuppressWarnings("unused")
+        public byte getChartypeInvalid() {
+            return CHARTYPE_INVALID;
+        }
 
     } // class Scanner
 

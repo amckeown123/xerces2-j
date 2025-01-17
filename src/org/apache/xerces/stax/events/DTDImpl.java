@@ -62,14 +62,14 @@ public final class DTDImpl extends XMLEventImpl implements DTD {
     /**
      * @see javax.xml.stream.events.DTD#getNotations()
      */
-    public List getNotations() {
+    public List<?> getNotations() {
         return Collections.EMPTY_LIST;
     }
 
     /**
      * @see javax.xml.stream.events.DTD#getEntities()
      */
-    public List getEntities() {
+    public List<?> getEntities() {
         return Collections.EMPTY_LIST;
     }
     

@@ -165,7 +165,7 @@ final class ValidatorHandlerImpl extends ValidatorHandler implements
     private boolean fNeedPushNSContext = true;
     
     /** Map for tracking unparsed entities. */
-    private HashMap fUnparsedEntities = null;
+    private HashMap<String, String> fUnparsedEntities = null;
     
     /** Flag used to track whether XML names and Namespace URIs have been internalized. */
     private boolean fStringsInternalized = false;
@@ -671,7 +671,7 @@ final class ValidatorHandlerImpl extends ValidatorHandler implements
     public void unparsedEntityDecl(String name, String publicId, 
             String systemId, String notationName) throws SAXException {
         if (fUnparsedEntities == null) {
-            fUnparsedEntities = new HashMap();
+            fUnparsedEntities = new HashMap<String, String>();
         }
         fUnparsedEntities.put(name, name);
     }
@@ -939,11 +939,13 @@ final class ValidatorHandlerImpl extends ValidatorHandler implements
             return getTypeInfoFromPSVI(psvi);
         }
         
+        @SuppressWarnings("unused")
         public TypeInfo getAttributeTypeInfo(String attributeUri, String attributeLocalName) {
             checkStateAttribute();
             return getAttributeTypeInfo(fAttributes.getIndex(attributeUri,attributeLocalName));
         }
         
+        @SuppressWarnings("unused")
         public TypeInfo getAttributeTypeInfo(String attributeQName) {
             checkStateAttribute();
             return getAttributeTypeInfo(fAttributes.getIndex(attributeQName));

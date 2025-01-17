@@ -363,7 +363,7 @@ public class SchemaDOM extends DefaultDocument {
         // for other namespaces so that we can also include them.
         // optimized for simplicity and the case that not many
         // namespaces are declared on this annotation...
-        ArrayList namespaces = new ArrayList();
+        ArrayList<Object> namespaces = new ArrayList<Object>();
         for (int i = 0; i < attributes.getLength(); ++i) {
             String aValue = attributes.getValue(i);
             String aPrefix = attributes.getPrefix(i);
@@ -377,7 +377,7 @@ public class SchemaDOM extends DefaultDocument {
         }
         // now we have to look through currently in-scope namespaces to see what
         // wasn't declared here
-        Enumeration currPrefixes = namespaceContext.getAllPrefixes();
+        Enumeration<?> currPrefixes = namespaceContext.getAllPrefixes();
         while(currPrefixes.hasMoreElements()) {
             String prefix = (String)currPrefixes.nextElement();
             String uri = namespaceContext.getURI(prefix);

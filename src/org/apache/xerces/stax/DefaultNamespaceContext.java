@@ -75,12 +75,12 @@ public final class DefaultNamespaceContext implements NamespaceContext {
         return null;
     } // getPrefix(String)
 
-    public Iterator getPrefixes(String namespaceURI) {
+    public Iterator<?> getPrefixes(String namespaceURI) {
         if (namespaceURI == null) {
             throw new IllegalArgumentException("Namespace URI cannot be null.");
         }
         else if (XMLConstants.XML_NS_URI.equals(namespaceURI)) {
-            return new Iterator() {
+            return new Iterator<Object>() {
                 boolean more = true;
                 public boolean hasNext() {
                     return more;
@@ -98,7 +98,7 @@ public final class DefaultNamespaceContext implements NamespaceContext {
             };
         }
         else if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(namespaceURI)) {
-            return new Iterator() {
+            return new Iterator<Object>() {
                 boolean more = true;
                 public boolean hasNext() {
                     return more;

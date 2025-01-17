@@ -98,6 +98,7 @@ public class TestFirstChild {
         root.appendChild(e3);
         doc.appendChild(root);
 
+        @SuppressWarnings("unused")
         String s1 ="<RootElement><Element1/><Element2/><Element3>Text in Element3</Element3></RootElement>";
 
         return doc;

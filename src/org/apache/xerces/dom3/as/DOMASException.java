@@ -20,6 +20,10 @@ package org.apache.xerces.dom3.as;
 and Save Specification</a>.
  */
 public class DOMASException extends RuntimeException {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4600221276207159233L;
     public DOMASException(short code, String message) {
        super(message);
        this.code = code;

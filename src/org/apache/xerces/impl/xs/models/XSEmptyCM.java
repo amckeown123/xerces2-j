@@ -44,7 +44,7 @@ public class XSEmptyCM implements XSCMValidator {
     // start the content model: did not see any children
     private static final short STATE_START = 0;
     
-    private static final Vector EMPTY = new Vector(0);
+    private static final Vector<Object> EMPTY = new Vector<Object>(0);
 
     //
     // Data
@@ -92,6 +92,7 @@ public class XSEmptyCM implements XSCMValidator {
      * @param currentState Current state of the content model
      * @return true if the last state was a valid final state
      */
+    @SuppressWarnings("unused")
     public boolean endContentModel (int[] currentState){
         boolean isFinal =  false;
         int state = currentState[0];
@@ -126,7 +127,7 @@ public class XSEmptyCM implements XSCMValidator {
      * @return       a Vector whose entries are instances of
      *               either XSWildcardDecl or XSElementDecl.
      */
-    public Vector whatCanGoHere(int[] state) {
+    public Vector<Object> whatCanGoHere(int[] state) {
         return EMPTY;
     }
     

@@ -188,8 +188,8 @@ public class EncodingInfo {
     // is this an encoding name recognized by this JDK?
     // if not, will throw UnsupportedEncodingException
     public static void testJavaEncodingName(String name)  throws UnsupportedEncodingException {
-        final byte [] bTest = {(byte)'v', (byte)'a', (byte)'l', (byte)'i', (byte)'d'};
-        String s = new String(bTest, name);
+   //     final byte [] bTest = {(byte)'v', (byte)'a', (byte)'l', (byte)'i', (byte)'d'};
+   //     String s = new String(bTest, name);
     }
     
     /**
@@ -217,8 +217,8 @@ public class EncodingInfo {
         // Attempt to get methods for Charset and CharsetEncoder on class initialization.
         static {
             try {
-                Class charsetClass = Class.forName("java.nio.charset.Charset");
-                Class charsetEncoderClass = Class.forName("java.nio.charset.CharsetEncoder");
+                Class<?> charsetClass = Class.forName("java.nio.charset.Charset");
+                Class<?> charsetEncoderClass = Class.forName("java.nio.charset.CharsetEncoder");
                 fgCharsetForNameMethod = charsetClass.getMethod("forName", new Class [] {String.class});
                 fgCharsetCanEncodeMethod = charsetClass.getMethod("canEncode", new Class [] {});
                 fgCharsetNewEncoderMethod = charsetClass.getMethod("newEncoder", new Class [] {});
@@ -256,7 +256,7 @@ public class EncodingInfo {
         // Attempt to get methods for char to byte converter on class initialization.
         static {
             try {
-                Class clazz = Class.forName("sun.io.CharToByteConverter");
+                Class<?> clazz = Class.forName("sun.io.CharToByteConverter");
                 fgGetConverterMethod = clazz.getMethod("getConverter", new Class [] {String.class});
                 fgCanConvertMethod = clazz.getMethod("canConvert", new Class [] {Character.TYPE});
                 fgConvertersAvailable = true;

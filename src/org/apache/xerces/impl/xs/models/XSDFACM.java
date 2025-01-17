@@ -659,7 +659,7 @@ public class XSDFACM
          * a large content model such as, "(t001+|t002+|.... |t500+)".
          */
 
-        HashMap stateTable = new HashMap();
+        HashMap<CMStateSet, Integer> stateTable = new HashMap<CMStateSet, Integer>();
 
         /* Optimization(Jan, 2001) */
 
@@ -1109,7 +1109,7 @@ public class XSDFACM
      * @return       a Vector whose entries are instances of
      *               either XSWildcardDecl or XSElementDecl.
      */
-    public Vector whatCanGoHere(int[] state) {
+    public Vector<Object> whatCanGoHere(int[] state) {
         int curState = state[0];
         if (curState < 0)
             curState = state[1];
@@ -1117,7 +1117,7 @@ public class XSDFACM
                 fCountingStates[curState] : null;
         int count = state[2];
 
-        Vector ret = new Vector();
+        Vector<Object> ret = new Vector<Object>();
         for (int elemIndex = 0; elemIndex < fElemMapSize; elemIndex++) {
             int nextState = fTransTable[curState][elemIndex];
             if (nextState != -1) {
@@ -1169,5 +1169,13 @@ public class XSDFACM
         
     public boolean isCompactedForUPA() {
         return fIsCompactedForUPA;
+    }
+
+    public int getfTransTableSize() {
+        return fTransTableSize;
+    }
+
+    public void setfTransTableSize(int fTransTableSize) {
+        this.fTransTableSize = fTransTableSize;
     }
 } // class DFAContentModel

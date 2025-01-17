@@ -51,12 +51,12 @@ public class CMBuilder {
     private final CMNodeFactory fNodeFactory;
 
     public CMBuilder(CMNodeFactory nodeFactory) {
-        fDeclPool = null;
+        setfDeclPool(null);
         fNodeFactory = nodeFactory ;
     }
 
     public void setDeclPool(XSDeclarationPool declPool) {
-        fDeclPool = declPool;
+        setfDeclPool(declPool);
     }
 
     /**
@@ -447,5 +447,13 @@ public class CMBuilder {
             }
         }
         return true;
+    }
+
+    public XSDeclarationPool getfDeclPool() {
+        return fDeclPool;
+    }
+
+    public void setfDeclPool(XSDeclarationPool fDeclPool) {
+        this.fDeclPool = fDeclPool;
     }
 }

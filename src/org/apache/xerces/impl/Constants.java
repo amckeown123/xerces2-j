@@ -560,7 +560,7 @@ public final class Constants {
     };
     
     /** Empty enumeration. */
-    private static final Enumeration fgEmptyEnumeration = new ArrayEnumeration(new Object[] {});
+    private static final Enumeration<?> fgEmptyEnumeration = new ArrayEnumeration(new Object[] {});
     
     //
     // Constructors
@@ -576,13 +576,13 @@ public final class Constants {
     // sax
     
     /** Returns an enumeration of the SAX features. */
-    public static Enumeration getSAXFeatures() {
+    public static Enumeration<?> getSAXFeatures() {
         return fgSAXFeatures.length > 0
         ? new ArrayEnumeration(fgSAXFeatures) : fgEmptyEnumeration;
     } // getSAXFeatures():Enumeration
     
     /** Returns an enumeration of the SAX properties. */
-    public static Enumeration getSAXProperties() {
+    public static Enumeration<?> getSAXProperties() {
         return fgSAXProperties.length > 0
         ? new ArrayEnumeration(fgSAXProperties) : fgEmptyEnumeration;
     } // getSAXProperties():Enumeration
@@ -590,13 +590,13 @@ public final class Constants {
     // xerces
     
     /** Returns an enumeration of the Xerces features. */
-    public static Enumeration getXercesFeatures() {
+    public static Enumeration<?> getXercesFeatures() {
         return fgXercesFeatures.length > 0
         ? new ArrayEnumeration(fgXercesFeatures) : fgEmptyEnumeration;
     } // getXercesFeatures():Enumeration
     
     /** Returns an enumeration of the Xerces properties. */
-    public static Enumeration getXercesProperties() {
+    public static Enumeration<?> getXercesProperties() {
         return fgXercesProperties.length > 0
         ? new ArrayEnumeration(fgXercesProperties) : fgEmptyEnumeration;
     } // getXercesProperties():Enumeration
@@ -611,7 +611,7 @@ public final class Constants {
      * @author Andy Clark, IBM
      */
     static class ArrayEnumeration
-    implements Enumeration {
+    implements Enumeration<Object> {
         
         //
         // Data

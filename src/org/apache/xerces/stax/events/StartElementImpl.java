@@ -44,7 +44,7 @@ import org.apache.xerces.stax.DefaultNamespaceContext;
  */
 public final class StartElementImpl extends ElementImpl implements StartElement {
     
-    private static final Comparator QNAME_COMPARATOR = new Comparator() {
+    private static final Comparator<Object> QNAME_COMPARATOR = new Comparator<Object>() {
         public int compare(Object o1, Object o2) {
             if (o1.equals(o2)) {
                 return 0;
@@ -54,25 +54,26 @@ public final class StartElementImpl extends ElementImpl implements StartElement 
             return name1.toString().compareTo(name2.toString());
         }};
 
-    private final Map fAttributes;
+    private final Map<QName, Attribute> fAttributes;
     private final NamespaceContext fNamespaceContext;
 
     /**
      * @param location
      * @param schemaType
      */
-    public StartElementImpl(final QName name, final Iterator attributes, final Iterator namespaces, final NamespaceContext namespaceContext, final Location location) {
+    @SuppressWarnings({ })
+    public StartElementImpl(final QName name, final Iterator<?> attributes, final Iterator<?> namespaces, final NamespaceContext namespaceContext, final Location location) {
         super(name, true, namespaces, location);
         if (attributes != null && attributes.hasNext()) {
-            fAttributes = new TreeMap(QNAME_COMPARATOR);
+            fAttributes = new TreeMap<QName, Attribute>(QNAME_COMPARATOR);
             do {
                 Attribute attr = (Attribute) attributes.next();
-                fAttributes.put(attr.getName(), attr);
+                fAttributes.put((QName) attr.getName(), attr);
             }
             while (attributes.hasNext());
         }
         else {
-            fAttributes = Collections.EMPTY_MAP;
+            fAttributes = Collections.emptyMap();
         }
         fNamespaceContext = (namespaceContext != null) ? namespaceContext : DefaultNamespaceContext.getInstance();
     }
@@ -80,8 +81,8 @@ public final class StartElementImpl extends ElementImpl implements StartElement 
     /**
      * @see javax.xml.stream.events.StartElement#getAttributes()
      */
-    public Iterator getAttributes() {
-        return createImmutableIterator(fAttributes.values().iterator());
+    public Iterator<?> getAttributes() {
+        return fAttributes.values().iterator();
     }
 
     /**
@@ -117,14 +118,14 @@ public final class StartElementImpl extends ElementImpl implements StartElement 
             }
             writer.write(name.getLocalPart());
             // Write namespace declarations.
-            Iterator nsIter = getNamespaces();
+            Iterator<?> nsIter = getNamespaces();
             while (nsIter.hasNext()) {
                 Namespace ns = (Namespace) nsIter.next();
                 writer.write(' ');
                 ns.writeAsEncodedUnicode(writer);
             }
             // Write attributes
-            Iterator attrIter = getAttributes();
+            Iterator<?> attrIter = getAttributes();
             while (attrIter.hasNext()) {
                 Attribute attr = (Attribute) attrIter.next();
                 writer.write(' ');

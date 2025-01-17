@@ -34,27 +34,27 @@ import org.w3c.dom.DOMImplementationList;
 public class DOMImplementationListImpl implements DOMImplementationList {
 
     // A collection of DOMImplementations
-    private final ArrayList fImplementations;
+    private final ArrayList<?> fImplementations;
 
     /**
      * Construct an empty list of DOMImplementations
      */
     public DOMImplementationListImpl() {
-        fImplementations = new ArrayList();
+        fImplementations = new ArrayList<String>();
     }
     
     /** 
      * Construct a list of DOMImplementations from an ArrayList
      */ 
-    public DOMImplementationListImpl(ArrayList params) {
+    public DOMImplementationListImpl(ArrayList<?> params) {
         fImplementations = params;    
     }
 
     /** 
      * Construct a list of DOMImplementations from a Vector
      */ 
-    public DOMImplementationListImpl(Vector params) {
-        fImplementations = new ArrayList(params);
+    public DOMImplementationListImpl(Vector<String> params) {
+        fImplementations = new ArrayList<String>(params);
     }
 
     /**

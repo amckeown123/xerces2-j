@@ -156,7 +156,7 @@ public abstract class BaseMarkupSerializer
      * Vector holding comments and PIs that come before the root
      * element (even after it), see {@link #serializePreRoot}.
      */
-    private Vector          _preRoot;
+    private Vector<String>          _preRoot;
 
 
     /**
@@ -179,7 +179,7 @@ public abstract class BaseMarkupSerializer
      * Accumulated here prior to starting an element and placing this
      * list in the element state.
      */
-    protected Hashtable     _prefixes;
+    protected Hashtable<String, Object>     _prefixes;
 
 
     /**
@@ -615,7 +615,7 @@ public abstract class BaseMarkupSerializer
         // the PI directly but place it in the pre-root vector.
         if ( isDocumentState() ) {
             if ( _preRoot == null )
-                _preRoot = new Vector();
+                _preRoot = new Vector<String>();
             _preRoot.addElement( fStrBuffer.toString() );
         } else {
             _printer.indent();
@@ -662,7 +662,7 @@ public abstract class BaseMarkupSerializer
         // the comment directly but place it in the pre-root vector.
         if ( isDocumentState() ) {
             if ( _preRoot == null )
-                _preRoot = new Vector();
+                _preRoot = new Vector<String>();
             _preRoot.addElement( fStrBuffer.toString() );
         } else {
             // Indent this element on a new line if the first
@@ -802,7 +802,7 @@ public abstract class BaseMarkupSerializer
         throws SAXException
     {
         if ( _prefixes == null )
-            _prefixes = new Hashtable();
+            _prefixes = new Hashtable<String, Object>();
         _prefixes.put( uri, prefix == null ? "" : prefix );
     }
 
@@ -1194,7 +1194,7 @@ public abstract class BaseMarkupSerializer
                 }
                 // DOM Level 1 -- does implementation have methods?
                 catch (NoSuchMethodError nsme) {
-                    Class docTypeClass = docType.getClass();
+                    Class<? extends DocumentType> docTypeClass = docType.getClass();
 
                     String docTypePublicId = null;
                     String docTypeSystemId = null;

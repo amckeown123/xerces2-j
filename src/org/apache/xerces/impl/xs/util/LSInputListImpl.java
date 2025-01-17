@@ -32,7 +32,7 @@ import org.w3c.dom.ls.LSInput;
  * 
  * @version $Id$
  */
-public final class LSInputListImpl extends AbstractList implements LSInputList {
+public final class LSInputListImpl extends AbstractList<Object> implements LSInputList {
     
     /**
      * An immutable empty list.
@@ -100,10 +100,11 @@ public final class LSInputListImpl extends AbstractList implements LSInputList {
         return a;
     }
     
+    @SuppressWarnings("unchecked")
     public Object[] toArray(Object[] a) {
         if (a.length < fLength) {
-            Class arrayClass = a.getClass();
-            Class componentType = arrayClass.getComponentType();
+            Class<?> arrayClass = a.getClass();
+            Class<?> componentType = arrayClass.getComponentType();
             a = (Object[]) Array.newInstance(componentType, fLength);
         }
         toArray0(a);

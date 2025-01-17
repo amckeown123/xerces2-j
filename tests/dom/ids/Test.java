@@ -113,6 +113,7 @@ public class Test {
         
         // 
         // remove default attribute and check on retrieval what its value
+        @SuppressWarnings("unused")
         Attr removedAttr = testEmployee.removeAttributeNode(id);
         String value = testEmployee.getAttribute("id2");
         Assertion.verify(value.equals("default.id"), "value='default.id'");

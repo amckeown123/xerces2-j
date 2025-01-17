@@ -61,6 +61,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  * @version $Id$
  */
+@SuppressWarnings("deprecation")
 public class SAXParserImpl extends javax.xml.parsers.SAXParser
     implements JAXPConstants, PSVIProvider {
     
@@ -107,7 +108,7 @@ public class SAXParserImpl extends javax.xml.parsers.SAXParser
      * Create a SAX parser with the associated features
      * @param features Hashtable of SAX features, may be null
      */
-    SAXParserImpl(SAXParserFactoryImpl spf, Hashtable features) 
+    SAXParserImpl(SAXParserFactoryImpl spf, Hashtable<?, ?> features) 
         throws SAXException {
         this(spf, features, false);
     }
@@ -116,7 +117,7 @@ public class SAXParserImpl extends javax.xml.parsers.SAXParser
      * Create a SAX parser with the associated features
      * @param features Hashtable of SAX features, may be null
      */
-    SAXParserImpl(SAXParserFactoryImpl spf, Hashtable features, boolean secureProcessing)
+    SAXParserImpl(SAXParserFactoryImpl spf, Hashtable<?, ?> features, boolean secureProcessing)
         throws SAXException
     {
         // Instantiate a SAXParser directly and not through SAX so that we use the right ClassLoader
@@ -207,12 +208,12 @@ public class SAXParserImpl extends javax.xml.parsers.SAXParser
      * XXX Does not handle possible conflicts between SAX feature names and
      * JAXP specific feature names, eg. SAXParserFactory.isValidating()
      */
-    private void setFeatures(Hashtable features)
+    private void setFeatures(Hashtable<?, ?> features)
         throws SAXNotSupportedException, SAXNotRecognizedException {
         if (features != null) {
-            Iterator entries = features.entrySet().iterator();
+            Iterator<?> entries = features.entrySet().iterator();
             while (entries.hasNext()) {
-                Map.Entry entry = (Map.Entry) entries.next();
+                Map.Entry<?, ?> entry = (Map.Entry<?, ?>) entries.next();
                 String feature = (String) entry.getKey();
                 boolean value = ((Boolean) entry.getValue()).booleanValue();
                 xmlReader.setFeature0(feature, value);
@@ -361,8 +362,8 @@ public class SAXParserImpl extends javax.xml.parsers.SAXParser
      */
     public static class JAXPSAXParser extends org.apache.xerces.parsers.SAXParser {
         
-        private final HashMap fInitFeatures = new HashMap();
-        private final HashMap fInitProperties = new HashMap();
+        private final HashMap<String, Boolean> fInitFeatures = new HashMap<String, Boolean>();
+        private final HashMap<String, Object> fInitProperties = new HashMap<String, Object>();
         private final SAXParserImpl fSAXParser;
 
         public JAXPSAXParser() {
@@ -529,11 +530,11 @@ public class SAXParserImpl extends javax.xml.parsers.SAXParser
         
         synchronized void restoreInitState()
             throws SAXNotRecognizedException, SAXNotSupportedException {
-            Iterator iter;
+            Iterator<?> iter;
             if (!fInitFeatures.isEmpty()) {
                 iter = fInitFeatures.entrySet().iterator();
                 while (iter.hasNext()) {
-                    Map.Entry entry = (Map.Entry) iter.next();
+                    Map.Entry<?, ?> entry = (Map.Entry<?, ?>) iter.next();
                     String name = (String) entry.getKey();
                     boolean value = ((Boolean) entry.getValue()).booleanValue();
                     super.setFeature(name, value);
@@ -543,7 +544,7 @@ public class SAXParserImpl extends javax.xml.parsers.SAXParser
             if (!fInitProperties.isEmpty()) {
                 iter = fInitProperties.entrySet().iterator();
                 while (iter.hasNext()) {
-                    Map.Entry entry = (Map.Entry) iter.next();
+                    Map.Entry<?, ?> entry = (Map.Entry<?, ?>) iter.next();
                     String name = (String) entry.getKey();
                     Object value = entry.getValue();
                     super.setProperty(name, value);

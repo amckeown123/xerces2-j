@@ -80,7 +80,7 @@ final class StAXSchemaParser {
     private final QName fAttributeQName = new QName();
     private final XMLAttributesImpl fAttributes = new XMLAttributesImpl();
     private final XMLString fTempString = new XMLString();
-    private final ArrayList fDeclaredPrefixes = new ArrayList();
+    private final ArrayList<Object> fDeclaredPrefixes = new ArrayList<Object>();
     private final XMLStringBuffer fStringBuffer = new XMLStringBuffer();
     private int fDepth;
     
@@ -311,7 +311,7 @@ final class StAXSchemaParser {
 
     private void fillXMLAttributes(StartElement event) {
         fAttributes.removeAllAttributes();
-        final Iterator attrs = event.getAttributes();
+        final Iterator<?> attrs = event.getAttributes();
         while (attrs.hasNext()) {
             Attribute attr = (Attribute) attrs.next();
             fillQName(fAttributeQName, attr.getName());
@@ -343,7 +343,7 @@ final class StAXSchemaParser {
         String nsPrefix = null;
         String nsURI = null;
         
-        final Iterator iter = fDeclaredPrefixes.iterator();
+        final Iterator<Object> iter = fDeclaredPrefixes.iterator();
         while (iter.hasNext()) {
             nsPrefix = (String) iter.next();
             nsURI = fNamespaceContext.getURI(nsPrefix);
@@ -378,7 +378,7 @@ final class StAXSchemaParser {
     }
     
     /** Fills in the list of declared prefixes. */
-    private void fillDeclaredPrefixes(Iterator namespaces) {
+    private void fillDeclaredPrefixes(Iterator<?> namespaces) {
         fDeclaredPrefixes.clear();
         while (namespaces.hasNext()) {
             Namespace ns = (Namespace) namespaces.next();

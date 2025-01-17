@@ -130,6 +130,7 @@ public class PSVIElementNSImpl extends ElementNSImpl implements ElementPSVI {
      * @return The canonical lexical representation of the declaration's {value constraint} value.
      * @see <a href="http://www.w3.org/TR/xmlschema-1/#e-schema_default>XML Schema Part 1: Structures [schema default]</a>
      */
+    @SuppressWarnings("deprecation")
     public String getSchemaDefault() {
         return fDeclaration == null ? null : fDeclaration.getConstraintValue();
     }

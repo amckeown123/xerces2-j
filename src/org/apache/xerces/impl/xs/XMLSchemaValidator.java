@@ -40,6 +40,7 @@ import org.apache.xerces.impl.dv.xs.XSSimpleTypeDecl;
 import org.apache.xerces.impl.validation.ConfigurableValidationState;
 import org.apache.xerces.impl.validation.ValidationManager;
 import org.apache.xerces.impl.validation.ValidationState;
+import org.apache.xerces.impl.xs.XMLSchemaLoader.LocationArray;
 import org.apache.xerces.impl.xs.identity.Field;
 import org.apache.xerces.impl.xs.identity.FieldActivator;
 import org.apache.xerces.impl.xs.identity.IdentityConstraint;
@@ -341,7 +342,7 @@ public class XMLSchemaValidator
     static final XSAttributeDecl XSI_NONAMESPACESCHEMALOCATION = SchemaGrammar.SG_XSI.getGlobalAttributeDecl(SchemaSymbols.XSI_NONAMESPACESCHEMALOCATION);
 
     //
-    private static final Hashtable EMPTY_TABLE = new Hashtable();
+    private static final Hashtable<String, LocationArray> EMPTY_TABLE = new Hashtable<String, LocationArray>();
 
     //
     // Data
@@ -403,7 +404,7 @@ public class XMLSchemaValidator
 
         // store error codes; starting position of the errors for each element;
         // number of element (depth); and whether to record error
-        Vector fErrors = new Vector();
+        Vector<String> fErrors = new Vector<String>();
         int[] fContext = new int[INITIAL_STACK_SIZE];
         int fContextCount;
 
@@ -446,7 +447,7 @@ public class XMLSchemaValidator
             // copy errors from the list to an string array
             String[] errors = new String[size];
             for (int i = 0; i < size; i++) {
-                errors[i] = (String) fErrors.elementAt(contextPos + i);
+                errors[i] = fErrors.elementAt(contextPos + i);
             }
             // remove errors of the current element
             fErrors.setSize(contextPos);
@@ -470,7 +471,7 @@ public class XMLSchemaValidator
             // copy errors from the list to an string array
             String[] errors = new String[size];
             for (int i = 0; i < size; i++) {
-                errors[i] = (String) fErrors.elementAt(contextPos + i);
+                errors[i] = fErrors.elementAt(contextPos + i);
             }
             // don't resize the vector: leave the errors for this attribute
             // to the containing element
@@ -521,9 +522,9 @@ public class XMLSchemaValidator
 
     /** Schema Grammar Description passed,  to give a chance to application to supply the Grammar */
     protected final XSDDescription fXSDDescription = new XSDDescription();
-    protected final Hashtable fLocationPairs = new Hashtable();
-    protected final Hashtable fExpandedLocationPairs = new Hashtable();
-    protected final ArrayList fUnparsedLocations = new ArrayList();
+    protected final Hashtable<String, LocationArray> fLocationPairs = new Hashtable<String, LocationArray>();
+    protected final Hashtable<Object, Object> fExpandedLocationPairs = new Hashtable<Object, Object>();
+    protected final ArrayList<Object> fUnparsedLocations = new ArrayList<Object>();
 
 
     // handlers
@@ -1149,11 +1150,11 @@ public class XMLSchemaValidator
 
     // Schema Normalization
 
-    private static final boolean DEBUG_NORMALIZATION = false;
+//    private static final boolean DEBUG_NORMALIZATION = false;
     // temporary empty string buffer.
     private final XMLString fEmptyXMLStr = new XMLString(null, 0, -1);
     // temporary character buffer, and empty string buffer.
-    private static final int BUFFER_SIZE = 20;
+//    private static final int BUFFER_SIZE = 20;
     private final XMLString fNormalizedStr = new XMLString();
     private boolean fFirstChunk = true;
     // got first chunk in characters() (SAX)
@@ -1949,7 +1950,7 @@ public class XMLSchemaValidator
             if (fCurrCMState[0] == XSCMValidator.FIRST_ERROR) {
                 XSComplexTypeDecl ctype = (XSComplexTypeDecl) fCurrentType;
                 //REVISIT: is it the only case we will have particle = null?
-                Vector next;
+                Vector<?> next;
                 if (ctype.fParticle != null
                     && (next = fCurrentCM.whatCanGoHere(fCurrCMState)).size() > 0) {
                     String expected = expectedStr(next);
@@ -2461,7 +2462,7 @@ public class XMLSchemaValidator
         // have we reached the end tag of the validation root?
         if (fElementDepth == 0) {
             // 7 If the element information item is the validation root, it must be valid per Validation Root Valid (ID/IDREF) (3.3.4).
-            Iterator invIdRefs = fValidationState.checkIDRefID();
+            Iterator<?> invIdRefs = fValidationState.checkIDRefID();
             fValidationState.resetIDTables();
             if (invIdRefs != null) {
                 while (invIdRefs.hasNext()) {
@@ -2621,7 +2622,7 @@ public class XMLSchemaValidator
         }
         if (nsLocation != null) {
             XMLSchemaLoader.LocationArray la =
-                ((XMLSchemaLoader.LocationArray) fLocationPairs.get(XMLSymbols.EMPTY_STRING));
+                fLocationPairs.get(XMLSymbols.EMPTY_STRING);
             if (la == null) {
                 la = new XMLSchemaLoader.LocationArray();
                 fLocationPairs.put(XMLSymbols.EMPTY_STRING, la);
@@ -2683,7 +2684,7 @@ public class XMLSchemaValidator
                 fXSDDescription.setBaseSystemId(fLocator.getExpandedSystemId());
             }
 
-            Hashtable locationPairs = fLocationPairs;
+            Hashtable<String, LocationArray> locationPairs = fLocationPairs;
             Object locationArray =
                 locationPairs.get(namespace == null ? XMLSymbols.EMPTY_STRING : namespace);
             if (locationArray != null) {
@@ -3587,7 +3588,7 @@ public class XMLSchemaValidator
                 XMLErrorReporter.SEVERITY_ERROR);
     }
     
-    private String expectedStr(Vector expected) {
+    private String expectedStr(Vector<?> expected) {
         StringBuffer ret = new StringBuffer("{");
         int size = expected.size();
         for (int i = 0; i < size; i++) {
@@ -3716,9 +3717,9 @@ public class XMLSchemaValidator
         protected int fValuesCount;
 
         /** global data */
-        public final Vector fValues = new Vector();
+        public final Vector<Object> fValues = new Vector<Object>();
         public ShortVector fValueTypes = null;
-        public Vector fItemValueTypes = null;
+        public Vector<ShortList> fItemValueTypes = null;
         
         private boolean fUseValueTypeVector = false;
         private int fValueTypesLength = 0; 
@@ -3936,7 +3937,7 @@ public class XMLSchemaValidator
          */
         public int contains(ValueStoreBase vsb) {
             
-            final Vector values = vsb.fValues;         
+            final Vector<Object> values = vsb.fValues;         
             final int size1 = values.size();
             if (fFieldCount <= 1) {
                 for (int i = 0; i < size1; ++i) {
@@ -4015,7 +4016,7 @@ public class XMLSchemaValidator
         } // toString(Object[]):String
         
         /** Returns a string of the specified values. */
-        protected String toString(Vector values, int start, int length) {
+        protected String toString(Vector<Object> values, int start, int length) {
 
             // no values
             if (length == 0) {
@@ -4105,7 +4106,7 @@ public class XMLSchemaValidator
                     (fItemValueType != null && fItemValueType.equals(itemValueType)))) {
                 fUseItemValueTypeVector = true;
                 if (fItemValueTypes == null) {
-                    fItemValueTypes = new Vector(fItemValueTypesLength * 2);
+                    fItemValueTypes = new Vector<ShortList>(fItemValueTypesLength * 2);
                 }
                 for (int i = 1; i < fItemValueTypesLength; ++i) {
                     fItemValueTypes.add(fItemValueType);
@@ -4116,7 +4117,7 @@ public class XMLSchemaValidator
         
         private ShortList getItemValueTypeAt(int index) {
             if (fUseItemValueTypeVector) {
-                return (ShortList) fItemValueTypes.elementAt(index);
+                return fItemValueTypes.elementAt(index);
             }
             return fItemValueType;
         }
@@ -4242,7 +4243,7 @@ public class XMLSchemaValidator
             // verify references
             // get the key store corresponding (if it exists):
             fKeyValueStore =
-                (ValueStoreBase) fValueStoreCache.fGlobalIDConstraintMap.get(
+                fValueStoreCache.fGlobalIDConstraintMap.get(
                     ((KeyRef) fIdentityConstraint).getKey());
 
             if (fKeyValueStore == null) {
@@ -4288,7 +4289,7 @@ public class XMLSchemaValidator
         // values stores
 
         /** stores all global Values stores. */
-        protected final ArrayList fValueStores = new ArrayList();
+        protected final ArrayList<ValueStoreBase> fValueStores = new ArrayList<ValueStoreBase>();
 
         /**
          * Values stores associated to specific identity constraints.
@@ -4299,7 +4300,7 @@ public class XMLSchemaValidator
          * descendant-or-self axes occur on recursively-defined
          * elements.
          */
-        protected final HashMap fIdentityConstraint2ValueStoreMap = new HashMap();
+        protected final HashMap<LocalIDKey, ValueStoreBase> fIdentityConstraint2ValueStoreMap = new HashMap<LocalIDKey, ValueStoreBase>();
 
         // sketch of algorithm:
         // - when a constraint is first encountered, its
@@ -4320,8 +4321,8 @@ public class XMLSchemaValidator
         // the preceding siblings' eligible id constraints;
         // the fGlobalIDConstraintMap contains descendants+self.
         // keyrefs can only match descendants+self.
-        protected final Stack fGlobalMapStack = new Stack();
-        protected final HashMap fGlobalIDConstraintMap = new HashMap();
+        protected final Stack<HashMap<IdentityConstraint, ValueStoreBase>> fGlobalMapStack = new Stack<HashMap<IdentityConstraint, ValueStoreBase>>();
+        protected final HashMap<IdentityConstraint, ValueStoreBase> fGlobalIDConstraintMap = new HashMap<IdentityConstraint, ValueStoreBase>();
 
         //
         // Constructors
@@ -4345,10 +4346,11 @@ public class XMLSchemaValidator
 
         // startElement:  pushes the current fGlobalIDConstraintMap
         // onto fGlobalMapStack and clears fGlobalIDConstraint map.
+        @SuppressWarnings("unchecked")
         public void startElement() {
             // only clone the map when there are elements
             if (fGlobalIDConstraintMap.size() > 0)
-                fGlobalMapStack.push(fGlobalIDConstraintMap.clone());
+                fGlobalMapStack.push((HashMap<IdentityConstraint, ValueStoreBase>) fGlobalIDConstraintMap.clone());
             else
                 fGlobalMapStack.push(null);
             fGlobalIDConstraintMap.clear();
@@ -4361,19 +4363,19 @@ public class XMLSchemaValidator
             if (fGlobalMapStack.isEmpty()) {
                 return; // must be an invalid doc!
             }
-            HashMap oldMap = (HashMap) fGlobalMapStack.pop();
+            HashMap<?, ?> oldMap = fGlobalMapStack.pop();
             // return if there is no element
             if (oldMap == null) {
                 return;
             }
 
-            Iterator entries = oldMap.entrySet().iterator();
+            Iterator<?> entries = oldMap.entrySet().iterator();
             while (entries.hasNext()) {
-                Map.Entry entry = (Map.Entry) entries.next();
+                Map.Entry<?, ?> entry = (Map.Entry<?, ?>) entries.next();
                 IdentityConstraint id = (IdentityConstraint) entry.getKey();
                 ValueStoreBase oldVal = (ValueStoreBase) entry.getValue();
                 if (oldVal != null) {
-                    ValueStoreBase currVal = (ValueStoreBase) fGlobalIDConstraintMap.get(id);
+                    ValueStoreBase currVal = fGlobalIDConstraintMap.get(id);
                     if (currVal == null) {
                         fGlobalIDConstraintMap.put(id, oldVal);
                     }
@@ -4447,12 +4449,12 @@ public class XMLSchemaValidator
         public ValueStoreBase getValueStoreFor(IdentityConstraint id, int initialDepth) {
             fLocalId.fDepth = initialDepth;
             fLocalId.fId = id;
-            return (ValueStoreBase) fIdentityConstraint2ValueStoreMap.get(fLocalId);
+            return fIdentityConstraint2ValueStoreMap.get(fLocalId);
         } // getValueStoreFor(IdentityConstraint, int):ValueStoreBase
 
         /** Returns the global value store associated to the specified IdentityConstraint. */
         public ValueStoreBase getGlobalValueStoreFor(IdentityConstraint id) {
-            return (ValueStoreBase) fGlobalIDConstraintMap.get(id);
+            return fGlobalIDConstraintMap.get(id);
         } // getValueStoreFor(IdentityConstraint):ValueStoreBase
 
         // This method takes the contents of the (local) ValueStore
@@ -4463,10 +4465,10 @@ public class XMLSchemaValidator
             fLocalId.fDepth = initialDepth;
             fLocalId.fId = id;
             ValueStoreBase newVals =
-                (ValueStoreBase) fIdentityConstraint2ValueStoreMap.get(fLocalId);
+                fIdentityConstraint2ValueStoreMap.get(fLocalId);
             if (id.getCategory() == IdentityConstraint.IC_KEYREF)
                 return;
-            ValueStoreBase currVals = (ValueStoreBase) fGlobalIDConstraintMap.get(id);
+            ValueStoreBase currVals = fGlobalIDConstraintMap.get(id);
             if (currVals != null) {
                 currVals.append(newVals);
                 fGlobalIDConstraintMap.put(id, currVals);
@@ -4480,7 +4482,7 @@ public class XMLSchemaValidator
 
             int count = fValueStores.size();
             for (int i = 0; i < count; i++) {
-                ValueStoreBase valueStore = (ValueStoreBase) fValueStores.get(i);
+                ValueStoreBase valueStore = fValueStores.get(i);
                 valueStore.endDocument();
             }
 

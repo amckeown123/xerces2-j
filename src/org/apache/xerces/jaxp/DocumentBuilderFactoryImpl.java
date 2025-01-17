@@ -68,8 +68,8 @@ public class DocumentBuilderFactoryImpl extends DocumentBuilderFactory {
         Constants.XERCES_FEATURE_PREFIX + Constants.CREATE_CDATA_NODES_FEATURE;
     
     /** These are DocumentBuilderFactory attributes not DOM attributes */
-    private Hashtable attributes;
-    private Hashtable features;
+    private Hashtable<String, Object> attributes;
+    private Hashtable<String, Boolean> features;
     private Schema grammar;
     private boolean isXIncludeAware;
     
@@ -130,7 +130,7 @@ public class DocumentBuilderFactoryImpl extends DocumentBuilderFactory {
 
         // Create Hashtable if none existed before
         if (attributes == null) {
-            attributes = new Hashtable();
+            attributes = new Hashtable<String, Object>();
         }
 
         attributes.put(name, value);
@@ -275,7 +275,7 @@ public class DocumentBuilderFactoryImpl extends DocumentBuilderFactory {
         }
            
         if (features == null) {
-            features = new Hashtable();
+            features = new Hashtable<String, Boolean>();
         }
         features.put(name, value ? Boolean.TRUE : Boolean.FALSE);
         // Test the feature by possibly throwing SAX exceptions

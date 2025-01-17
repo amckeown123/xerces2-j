@@ -187,6 +187,7 @@ public class TreeWalkerImpl implements TreeWalker {
      *  after applying filter, whatToshow.
      *  If result is not null, set the current Node.
      */
+    @SuppressWarnings("unused")
     public Node               previousNode() {
         Node result;
         
@@ -225,9 +226,8 @@ public class TreeWalkerImpl implements TreeWalker {
             fCurrentNode = result;
             return fCurrentNode;
         }
-        
-        // otherwise return null.
         return null;
+
     }
     
     /** Return the next Node from the current node, 

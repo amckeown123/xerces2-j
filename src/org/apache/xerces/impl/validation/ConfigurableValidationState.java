@@ -74,7 +74,7 @@ public final class ConfigurableValidationState extends ValidationState {
      * @return null, if ID/IDREF checking is turned off
      *         otherwise, returns the value of the super implementation
      */
-    public Iterator checkIDRefID() {
+    public Iterator<?> checkIDRefID() {
         return (fIdIdrefChecking) ? super.checkIDRefID() : null;
     }
     

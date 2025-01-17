@@ -98,6 +98,7 @@ public class Test {
 
     public static Document deserialize(String filename) throws Exception {
         System.out.println("De-Serializing parsed document");
+        @SuppressWarnings("resource")
         ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename));
         Document result = (Document) in.readObject();
         return result;

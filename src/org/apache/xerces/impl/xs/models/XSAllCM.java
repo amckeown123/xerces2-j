@@ -202,8 +202,8 @@ public class XSAllCM implements XSCMValidator {
      * @return       a Vector whose entries are instances of
      *               either XSWildcardDecl or XSElementDecl.
      */
-    public Vector whatCanGoHere(int[] state) {
-        Vector ret = new Vector();
+    public Vector<XSElementDecl> whatCanGoHere(int[] state) {
+        Vector<XSElementDecl> ret = new Vector<XSElementDecl>();
         for (int i = 0; i < fNumElements; i++) {
             // we only try to look for a matching decl if we have not seen
             // this element yet.

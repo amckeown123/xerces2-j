@@ -49,6 +49,7 @@ import org.xml.sax.SAXException;
  * @author Michael Glavassevich, IBM
  * @version $Id$
  */
+@SuppressWarnings("deprecation")
 final class StreamValidatorHelper implements ValidatorHelper {
     
     // feature identifiers
@@ -92,7 +93,7 @@ final class StreamValidatorHelper implements ValidatorHelper {
     //
     
     /** SoftReference to parser configuration. **/
-    private SoftReference fConfiguration = new SoftReference(null);
+    private SoftReference<XML11Configuration> fConfiguration = new SoftReference<XML11Configuration>(null);
     
     /** Schema validator. **/
     private final XMLSchemaValidator fSchemaValidator;
@@ -103,7 +104,7 @@ final class StreamValidatorHelper implements ValidatorHelper {
     /**
      * The parser maintains a reference to the configuration, so it must be a SoftReference too.
      */
-    private SoftReference fParser = new SoftReference(null);
+    private SoftReference<SAXParser> fParser = new SoftReference<SAXParser>(null);
     
     /** Serializer factory. **/
     private SerializerFactory fSerializerFactory;
@@ -125,7 +126,7 @@ final class StreamValidatorHelper implements ValidatorHelper {
             // Gets the parser configuration. We'll create and initialize a new one, if we 
             // haven't created one before or if the previous one was garbage collected.
             boolean newConfig = false;
-            XMLParserConfiguration config = (XMLParserConfiguration) fConfiguration.get();
+            XMLParserConfiguration config = fConfiguration.get();
             if (config == null) {
                 config = initialize();
                 newConfig = true;
@@ -166,10 +167,10 @@ final class StreamValidatorHelper implements ValidatorHelper {
 
                 // we're using the parser only as an XNI-to-SAX converter,
                 // so that we can use the SAX-based serializer
-                SAXParser parser = (SAXParser) fParser.get();
+                SAXParser parser = fParser.get();
                 if (newConfig || parser == null) {
                     parser = new SAXParser(config);
-                    fParser = new SoftReference(parser);
+                    fParser = new SoftReference<SAXParser>(parser);
                 }
                 else {
                     parser.reset();
@@ -221,7 +222,7 @@ final class StreamValidatorHelper implements ValidatorHelper {
         config.setDocumentHandler(fSchemaValidator);
         config.setDTDHandler(null);
         config.setDTDContentModelHandler(null);
-        fConfiguration = new SoftReference(config);
+        fConfiguration = new SoftReference<XML11Configuration>(config);
         return config;
     }
     

@@ -48,7 +48,7 @@ public class SoftReferenceSymbolTable extends SymbolTable {
      */
     protected SREntry[] fBuckets = null;
 
-    private final ReferenceQueue fReferenceQueue;
+    private final ReferenceQueue<?> fReferenceQueue;
     
     //
     // Constructors
@@ -89,7 +89,7 @@ public class SoftReferenceSymbolTable extends SymbolTable {
         fThreshold = (int)(fTableSize * loadFactor);
         fCount = 0;
 
-        fReferenceQueue = new ReferenceQueue();
+        fReferenceQueue = new ReferenceQueue<Object>();
     }
 
     /**
@@ -396,7 +396,7 @@ public class SoftReferenceSymbolTable extends SymbolTable {
      * 
      * The "SR" stands for SoftReference.
      */
-    protected static final class SREntry extends SoftReference {
+    protected static final class SREntry extends SoftReference<Object> {
 
         /** The next entry. */
         public SREntry next;
@@ -415,8 +415,9 @@ public class SoftReferenceSymbolTable extends SymbolTable {
          * Constructs a new entry from the specified symbol and next entry
          * reference.
          */
-        public SREntry(String internedSymbol, SREntry next, int bucket, ReferenceQueue q) {
-            super(new SREntryData(internedSymbol), q);
+        @SuppressWarnings("unchecked")
+        public SREntry(String internedSymbol, SREntry next, int bucket, ReferenceQueue<?> q) {
+            super(new SREntryData(internedSymbol), (ReferenceQueue<? super Object>) q);
             initialize(next, bucket);
         }
 
@@ -424,8 +425,9 @@ public class SoftReferenceSymbolTable extends SymbolTable {
          * Constructs a new entry from the specified symbol information and
          * next entry reference.
          */
-        public SREntry(String internedSymbol, char[] ch, int offset, int length, SREntry next, int bucket, ReferenceQueue q) {
-            super(new SREntryData(internedSymbol, ch, offset, length), q);
+        @SuppressWarnings("unchecked")
+        public SREntry(String internedSymbol, char[] ch, int offset, int length, SREntry next, int bucket, ReferenceQueue<?> q) {
+            super(new SREntryData(internedSymbol, ch, offset, length), (ReferenceQueue<? super Object>) q);
             initialize(next, bucket);
         }
         

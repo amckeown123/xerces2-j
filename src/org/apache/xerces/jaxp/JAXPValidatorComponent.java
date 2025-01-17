@@ -361,13 +361,14 @@ final class JAXPValidatorComponent
             this.fContentHandler = handler;
         }
         
+        @SuppressWarnings("unused")
         public ContentHandler getContentHandler() {
             return fContentHandler;
         }
         
 
         public void xmlDecl(String version, String encoding, String standalone, Augmentations augs) throws XNIException {
-            this.fVersion = version;
+            this.setfVersion(version);
         }
 
         public void startDocument(XMLLocator locator, String encoding, NamespaceContext namespaceContext, Augmentations augs) throws XNIException {
@@ -456,6 +457,15 @@ final class JAXPValidatorComponent
             } catch (SAXException e) {
                 throw new XNIException(e);
             }
+        }
+
+        @SuppressWarnings("unused")
+        public String getfVersion() {
+            return fVersion;
+        }
+
+        public void setfVersion(String fVersion) {
+            this.fVersion = fVersion;
         }
     }
     
@@ -551,9 +561,11 @@ final class JAXPValidatorComponent
         public TypeInfo getAttributeTypeInfo(int index) {
             return null;
         }
+        @SuppressWarnings({ "unused" })
         public TypeInfo getAttributeTypeInfo(String attributeQName) {
             return null;
         }
+        @SuppressWarnings("unused")
         public TypeInfo getAttributeTypeInfo(String attributeUri, String attributeLocalName) {
             return null;
         }
@@ -592,6 +604,11 @@ final class JAXPValidatorComponent
 
     public Object getPropertyDefault(String propertyId) {
         return null;
+    }
+
+
+    public TypeInfoProvider getTypeInfoProvider() {
+        return typeInfoProvider;
     }
 
 }

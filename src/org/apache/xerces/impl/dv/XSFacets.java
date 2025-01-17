@@ -73,14 +73,14 @@ public class XSFacets {
     /**
      * Vector containing values of Enumeration facet, as String's.
      */
-    public Vector enumeration;
+    public Vector<?> enumeration;
 
     /**
      * An array parallel to "Vector enumeration". It contains namespace context
      * of each enumeration value. Elements of this vector are NamespaceContext
      * objects.
      */
-    public Vector enumNSDecls;
+    public Vector<?> enumNSDecls;
 
     /**
      * value of maxInclusive facet.

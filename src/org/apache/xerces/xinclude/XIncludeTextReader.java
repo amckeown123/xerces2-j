@@ -132,9 +132,9 @@ public class XIncludeTextReader {
                     final HTTPInputSource httpInputSource = (HTTPInputSource) source;
                     
                     // set request properties
-                    Iterator propIter = httpInputSource.getHTTPRequestProperties();
+                    Iterator<?> propIter = httpInputSource.getHTTPRequestProperties();
                     while (propIter.hasNext()) {
-                        Map.Entry entry = (Map.Entry) propIter.next();
+                        Map.Entry<?, ?> entry = (Map.Entry<?, ?>) propIter.next();
                         urlConnection.setRequestProperty((String) entry.getKey(), (String) entry.getValue());
                     }
                     

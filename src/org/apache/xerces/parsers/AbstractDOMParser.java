@@ -260,13 +260,13 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
     // data
 
     /** Base uri stack*/
-    protected final Stack fBaseURIStack = new Stack ();
+    protected final Stack<String> fBaseURIStack = new Stack<String> ();
 
     /** LSParserFilter: tracks the element depth within a rejected subtree. */
     protected int fRejectedElementDepth = 0;
 
     /** LSParserFilter: store depth of skipped elements */
-    protected Stack fSkippedElemStack = null;
+    protected Stack<Boolean> fSkippedElemStack = null;
 
     /** LSParserFilter: true if inside entity reference */
     protected boolean fInEntityRef = false;
@@ -342,7 +342,7 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
             !documentClassName.equals(PSVI_DOCUMENT_CLASS_NAME)) {
             // verify that this class exists and is of the right type
             try {
-                Class _class = ObjectFactory.findProviderClass (documentClassName,
+                Class<?> _class = ObjectFactory.findProviderClass (documentClassName,
                 ObjectFactory.findClassLoader (), true);
                 //if (!_class.isAssignableFrom(Document.class)) {
                 if (!Document.class.isAssignableFrom (_class)) {
@@ -787,18 +787,18 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
                 // use specified document class
                 try {
                     ClassLoader cl = ObjectFactory.findClassLoader();
-                    Class documentClass = ObjectFactory.findProviderClass (fDocumentClassName,
+                    Class<?> documentClass = ObjectFactory.findProviderClass (fDocumentClassName,
                         cl, true);
                     fDocument = (Document)documentClass.newInstance ();
 
                     // if subclass of our own class that's cool too
-                    Class defaultDocClass =
+                    Class<?> defaultDocClass =
                     ObjectFactory.findProviderClass (CORE_DOCUMENT_CLASS_NAME,
                         cl, true);
                     if (defaultDocClass.isAssignableFrom (documentClass)) {
                         fDocumentImpl = (CoreDocumentImpl)fDocument;
 
-                        Class psviDocClass = ObjectFactory.findProviderClass (PSVI_DOCUMENT_CLASS_NAME,
+                        Class<?> psviDocClass = ObjectFactory.findProviderClass (PSVI_DOCUMENT_CLASS_NAME,
                             cl, true);
                         if (psviDocClass.isAssignableFrom (documentClass)) {
                             fStorePSVI = true;
@@ -1736,6 +1736,7 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
      *
      * @param node
      */
+    @SuppressWarnings("deprecation")
     protected final void handleBaseURI (int node){
         short nodeType = fDeferredDocumentImpl.getNodeType (node, false);
 

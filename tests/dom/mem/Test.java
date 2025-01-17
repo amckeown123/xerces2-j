@@ -75,7 +75,7 @@ public class Test {
      */
     public static boolean DOMExceptionsTest(Object node,
 					    String methodName,
-					    Class[] methodSignature,
+					    Class<?>[] methodSignature,
 					    Object[] parameters,
 					    short code)
     {
@@ -112,6 +112,7 @@ public class Test {
     //  Test Doc01      Create a new empty document
     //
     {
+        @SuppressWarnings("unused")
         Document    doc;
         doc = new DocumentImpl();
     }
@@ -127,15 +128,24 @@ public class Test {
         //  creation of implementation objects that are set up on first use.
         //  Don't watch for leaks in this block (no  / )
         Document doc = new DocumentImpl();
+        @SuppressWarnings("unused")
         Element     el = doc.createElement("Doc02Element");
+        @SuppressWarnings("unused")
         DocumentFragment frag = doc.createDocumentFragment ();
+        @SuppressWarnings("unused")
         Text  text = doc.createTextNode("Doc02TextNode");
+        @SuppressWarnings("unused")
         Comment comment = doc.createComment("Doc02Comment");
+        @SuppressWarnings("unused")
         CDATASection  cdataSec = doc.createCDATASection("Doc02CDataSection");
+        @SuppressWarnings("unused")
         DocumentType  docType = doc.getImplementation().createDocumentType("Doc02DocumentType", null, null);
+        @SuppressWarnings("unused")
         Notation notation = ((DocumentImpl) doc).createNotation("Doc02Notation");
+        @SuppressWarnings("unused")
         ProcessingInstruction pi = doc.createProcessingInstruction("Doc02PITarget",
                                     "Doc02PIData");
+        @SuppressWarnings("unused")
         NodeList    nodeList = doc.getElementsByTagName("*");
     }
 
@@ -143,6 +153,7 @@ public class Test {
     
     {
         Document doc = new DocumentImpl();
+        @SuppressWarnings("unused")
         Element     el = doc.createElement("Doc02Element");
     }
     
@@ -150,6 +161,7 @@ public class Test {
     
     {
         Document    doc = new DocumentImpl();
+        @SuppressWarnings("unused")
         DocumentFragment frag = doc.createDocumentFragment ();
     };
     
@@ -158,6 +170,7 @@ public class Test {
     
     {
         Document doc = new DocumentImpl();
+        @SuppressWarnings("unused")
         Element     el = doc.createElement("Doc02Element");
     }
     
@@ -165,6 +178,7 @@ public class Test {
     
     {
         Document doc = new DocumentImpl();
+        @SuppressWarnings("unused")
         Text  text = doc.createTextNode("Doc02TextNode");
     }
     
@@ -172,6 +186,7 @@ public class Test {
     
     {
         Document doc = new DocumentImpl();
+        @SuppressWarnings("unused")
         Comment comment = doc.createComment("Doc02Comment");
     }
     
@@ -179,6 +194,7 @@ public class Test {
     
     {
         Document doc = new DocumentImpl();
+        @SuppressWarnings("unused")
         CDATASection  cdataSec = doc.createCDATASection("Doc02CDataSection");
     }
     
@@ -187,6 +203,7 @@ public class Test {
     
     {
         Document doc = new DocumentImpl();
+        @SuppressWarnings("unused")
         DocumentType  docType = doc.getImplementation().createDocumentType("Doc02DocumentType", null, null);
     }
     
@@ -195,6 +212,7 @@ public class Test {
     
     {
         Document doc = new DocumentImpl();
+        @SuppressWarnings("unused")
         Notation notation = ((DocumentImpl)doc).createNotation("Doc02Notation");
     }
     
@@ -203,6 +221,7 @@ public class Test {
     
     {
         Document doc = new DocumentImpl();
+        @SuppressWarnings("unused")
         ProcessingInstruction pi = doc.createProcessingInstruction("Doc02PITarget",
                                     "Doc02PIData");
     }
@@ -211,6 +230,7 @@ public class Test {
     
     {
         Document doc = new DocumentImpl();
+        @SuppressWarnings("unused")
         Attr  attribute = doc.createAttribute("Doc02Attribute");
     }
     
@@ -219,6 +239,7 @@ public class Test {
     
     {
         Document doc = new DocumentImpl();
+        @SuppressWarnings("unused")
         EntityReference  er = doc.createEntityReference("Doc02EntityReference");
     }
     
@@ -226,6 +247,7 @@ public class Test {
     
     {
         Document doc = new DocumentImpl();
+        @SuppressWarnings("unused")
         NodeList    nodeList = doc.getElementsByTagName("*");
     }
     
@@ -259,6 +281,7 @@ public class Test {
         Assertion.verify(rootEl.getFirstChild() == textNode);
         Assertion.verify(rootEl.getLastChild() == textNode2);
 
+        @SuppressWarnings("unused")
         NodeList    nodeList = doc.getElementsByTagName("*");
     };
     
@@ -891,6 +914,7 @@ public class Test {
         
         String docNSURI = "http://document.namespace";
         Document doc = impl.createDocument(docNSURI, qName, dt);
+        @SuppressWarnings("unused")
         Element rootEl = doc.getDocumentElement();
 
         //
@@ -1321,6 +1345,7 @@ public class Test {
         el.setUserData("mykey", c, h);
         MyHandler h2 = new MyHandler("mykey2", el2, el);
         el.setUserData("mykey2", el2, h2);
+        @SuppressWarnings("unused")
         Node cl = el.cloneNode(false);
         Assertion.verify(h.fCalled == true);
         Assertion.verify(h2.fCalled == true);

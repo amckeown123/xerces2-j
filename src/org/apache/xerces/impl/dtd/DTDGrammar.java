@@ -248,7 +248,7 @@ public class DTDGrammar
     private XMLContentSpec fContentSpec = new XMLContentSpec();
 
     /** table of XMLElementDecl   */
-    Hashtable   fElementDeclTab     = new Hashtable();
+    Hashtable<String, XMLElementDecl>   fElementDeclTab     = new Hashtable<String, XMLElementDecl>();
 
     /** Children content model operation stack. */
     private short[] fOpStack = null;
@@ -796,7 +796,7 @@ public class DTDGrammar
             int chunk, index = 0;
             String currName = null;
             final int size = fElementDeclCount;
-            ArrayList elements = new ArrayList(size);
+            ArrayList<String> elements = new ArrayList<String>(size);
             for (int i = 0; i < size; ++i) {
                 chunk = i >> CHUNK_SHIFT;
                 index = i & CHUNK_MASK;
@@ -2889,5 +2889,21 @@ public class DTDGrammar
             return (fEntityNotation[chunk][index]!=null)?true:false;
         }
         return false; 
+    }
+
+    public XMLEntityDecl getfEntityDecl() {
+        return fEntityDecl;
+    }
+
+    public void setfEntityDecl(XMLEntityDecl fEntityDecl) {
+        this.fEntityDecl = fEntityDecl;
+    }
+
+    public int getfEpsilonIndex() {
+        return fEpsilonIndex;
+    }
+
+    public void setfEpsilonIndex(int fEpsilonIndex) {
+        this.fEpsilonIndex = fEpsilonIndex;
     }
 } // class DTDGrammar

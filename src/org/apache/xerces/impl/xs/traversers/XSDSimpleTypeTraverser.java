@@ -31,6 +31,7 @@ import org.apache.xerces.impl.xs.util.XSObjectListImpl;
 import org.apache.xerces.util.DOMUtil;
 import org.apache.xerces.xni.QName;
 import org.apache.xerces.xs.XSConstants;
+import org.apache.xerces.xs.XSObject;
 import org.apache.xerces.xs.XSObjectList;
 import org.apache.xerces.xs.XSTypeDefinition;
 import org.w3c.dom.Element;
@@ -238,7 +239,7 @@ class XSDSimpleTypeTraverser extends XSDAbstractTraverser {
         QName baseTypeName = (QName)contentAttrs[restriction ?
                 XSAttributeChecker.ATTIDX_BASE :
                     XSAttributeChecker.ATTIDX_ITEMTYPE];
-        Vector memberTypes = (Vector)contentAttrs[XSAttributeChecker.ATTIDX_MEMBERTYPES];
+        Vector<?> memberTypes = (Vector<?>)contentAttrs[XSAttributeChecker.ATTIDX_MEMBERTYPES];
         //content = {annotation?,simpleType?...}
         Element content = DOMUtil.getFirstChildElement(child);
         //check content (annotation?, ...)
@@ -283,12 +284,12 @@ class XSDSimpleTypeTraverser extends XSDAbstractTraverser {
             }
         }
         // get types from "memberTypes" attribute
-        ArrayList dTValidators = null;
+        ArrayList<XSObject> dTValidators = null;
         XSSimpleType dv = null;
         XSObjectList dvs;
         if (union && memberTypes != null && memberTypes.size() > 0) {
             int size = memberTypes.size();
-            dTValidators = new ArrayList(size);
+            dTValidators = new ArrayList<XSObject>(size);
             // for each qname in the list
             for (int i = 0; i < size; i++) {
                 // get the type decl
@@ -323,7 +324,7 @@ class XSDSimpleTypeTraverser extends XSDAbstractTraverser {
             }
             else if (union) {
                 if (dTValidators == null) {
-                    dTValidators = new ArrayList(2);
+                    dTValidators = new ArrayList<XSObject>(2);
                 }
                 do {
                     // traverse this child to get the member type

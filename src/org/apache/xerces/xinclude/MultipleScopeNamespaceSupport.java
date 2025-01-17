@@ -63,7 +63,7 @@ public class MultipleScopeNamespaceSupport extends NamespaceSupport {
     /* (non-Javadoc)
      * @see org.apache.xerces.xni.NamespaceContext#getAllPrefixes()
      */
-    public Enumeration getAllPrefixes() {
+    public Enumeration<?> getAllPrefixes() {
         int count = 0;
         if (fPrefixes.length < (fNamespace.length / 2)) {
             // resize prefix array          

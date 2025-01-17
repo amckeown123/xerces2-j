@@ -337,7 +337,7 @@ public class DOMSerializerImpl implements LSSerializer, DOMConfiguration {
     public DOMStringList getParameterNames() {
     	
      	if (fRecognizedParameters == null){
-			ArrayList parameters = new ArrayList();
+			ArrayList<String> parameters = new ArrayList<String>();
 
 			//Add DOM recognized parameters
 			//REVISIT: Would have been nice to have a list of 

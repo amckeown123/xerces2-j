@@ -202,6 +202,7 @@ public class XPathMatcher {
      *
      * @throws SAXException Thrown by handler to signal an error.
      */
+    @SuppressWarnings("deprecation")
     public void startElement(QName element, XMLAttributes attributes) {
         if (DEBUG_METHODS2) {
             System.out.println(toString()+"#startElement("+
@@ -450,6 +451,7 @@ public class XPathMatcher {
     //
 
     /** Normalizes text. */
+    @SuppressWarnings("unused")
     private String normalize(String s) {
         StringBuffer str = new StringBuffer();
         int length = s.length();

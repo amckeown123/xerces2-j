@@ -1244,6 +1244,7 @@ public class XMLDTDValidator
 
                     // add attribute
                     fTempQName.setValues(attPrefix, attLocalpart, attRawName, fTempAttDecl.name.uri);
+                    @SuppressWarnings("unused")
                     int newAttr = attributes.addAttribute(fTempQName, attType, attValue);
                 }
             }
@@ -1278,6 +1279,7 @@ public class XMLDTDValidator
                     }
                 }
             }
+            @SuppressWarnings("unused")
             int attDefIndex = -1;
             int position =
             fDTDGrammar.getFirstAttributeDeclIndex(elementIndex);
@@ -1555,6 +1557,7 @@ public class XMLDTDValidator
         boolean spaceStart = false;
         boolean readingNonSpace = false;
         int count = 0;
+        @SuppressWarnings("unused")
         int eaten = 0;
         String attrValue = attributes.getValue(index);
         char[] attValue = new char[attrValue.length()];
@@ -1692,6 +1695,7 @@ public class XMLDTDValidator
         fDTDGrammar.getElementDecl(elementIndex, fTempElementDecl);
 
         // Get the element name index from the element
+        @SuppressWarnings("unused")
         final String elementType = fCurrentElement.rawname;
 
         // Get out the content spec for this element
@@ -1758,6 +1762,7 @@ public class XMLDTDValidator
     } // checkContent(int,int,QName[]):int
 
     /** Returns the content spec type for an element index. */
+    @SuppressWarnings("unused")
     private int getContentSpecType(int elementIndex) {
 
         int contentSpecType = -1;
@@ -2068,7 +2073,7 @@ public class XMLDTDValidator
             //   IDREF and IDREFS attr (V_IDREF0)
             //
             if (fPerformValidation) {
-                Iterator invIdRefs = fValidationState.checkIDRefID();
+                Iterator<?> invIdRefs = fValidationState.checkIDRefID();
                 if (invIdRefs != null) {
                     while (invIdRefs.hasNext()) {
                         fErrorReporter.reportError( XMLMessageFormatter.XML_DOMAIN,
@@ -2113,6 +2118,10 @@ public class XMLDTDValidator
     public boolean characterData(String data, Augmentations augs) {       
         characters(new XMLString(data.toCharArray(), 0, data.length()), augs);
         return true;
+    }
+
+    public static int getTopLevelScope() {
+        return TOP_LEVEL_SCOPE;
     }
 
 } // class XMLDTDValidator

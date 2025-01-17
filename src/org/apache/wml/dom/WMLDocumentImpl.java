@@ -35,16 +35,16 @@ public class WMLDocumentImpl extends DocumentImpl implements WMLDocument {
     
     private static final long serialVersionUID = -6582904849512384104L;
     
-    private static Hashtable        _elementTypesWML;
-    private static final Class[]    _elemClassSigWML =
+    private static Hashtable<String, Class<?>>        _elementTypesWML;
+    private static final Class<?>[]    _elemClassSigWML =
         new Class[] { WMLDocumentImpl.class, String.class };
     
     public Element createElement( String tagName ) throws DOMException
     {
-        Class        elemClass;
-        Constructor    cnst;
+        Class<?>        elemClass;
+        Constructor<?>    cnst;
         
-        elemClass = (Class) _elementTypesWML.get( tagName );
+        elemClass = _elementTypesWML.get( tagName );
         if ( elemClass != null ) {
             try	{
                 cnst = elemClass.getConstructor( _elemClassSigWML );
@@ -75,7 +75,7 @@ public class WMLDocumentImpl extends DocumentImpl implements WMLDocument {
     }
     
     static {
-        _elementTypesWML = new Hashtable();
+        _elementTypesWML = new Hashtable<String, Class<?>>();
         _elementTypesWML.put("b", WMLBElementImpl.class);
         _elementTypesWML.put("noop", WMLNoopElementImpl.class);
         _elementTypesWML.put("a", WMLAElementImpl.class);

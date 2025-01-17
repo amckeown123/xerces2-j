@@ -31,6 +31,7 @@ import org.xml.sax.ext.Attributes2;
  *
  * @version $Id$
  */
+@SuppressWarnings("deprecation")
 public final class AttributesProxy
     implements AttributeList, Attributes2 {
     

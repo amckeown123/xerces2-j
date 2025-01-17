@@ -34,7 +34,7 @@ import org.apache.xerces.xni.grammars.XMLGrammarPool;
 final class WeakReferenceXMLSchema extends AbstractXMLSchema {
     
     /** Weak reference to grammar pool. */
-    private WeakReference fGrammarPool = new WeakReference(null);
+    private WeakReference<XMLGrammarPool> fGrammarPool = new WeakReference<XMLGrammarPool>(null);
 
     public WeakReferenceXMLSchema() {}
     
@@ -48,7 +48,7 @@ final class WeakReferenceXMLSchema extends AbstractXMLSchema {
         // yet or the garbage collector has already cleaned out the previous one. 
         if (grammarPool == null) {
             grammarPool = new SoftReferenceGrammarPool();
-            fGrammarPool = new WeakReference(grammarPool);
+            fGrammarPool = new WeakReference<XMLGrammarPool>(grammarPool);
         }
         return grammarPool;
     }

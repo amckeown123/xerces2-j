@@ -19,6 +19,7 @@ package org.apache.xerces.impl.xs.util;
 
 import java.util.AbstractMap;
 import java.util.AbstractSet;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -41,7 +42,7 @@ import org.apache.xerces.xs.XSObject;
  *
  * @version $Id$
  */
-public class XSNamedMapImpl extends AbstractMap implements XSNamedMap {
+public class XSNamedMapImpl extends AbstractMap<Object,Object> implements XSNamedMap {
 
     /**
      * An immutable empty map.
@@ -61,7 +62,7 @@ public class XSNamedMapImpl extends AbstractMap implements XSNamedMap {
     // used when this map is accessed as a list.
     int fLength = -1;
     // Set of Map.Entry<QName,XSObject> for the java.util.Map methods
-    private Set fEntrySet = null;
+    private Set<?> fEntrySet = null;
     
     /**
      * Construct an XSNamedMap implementation for one namespace
@@ -231,9 +232,9 @@ public class XSNamedMapImpl extends AbstractMap implements XSNamedMap {
                 entries[i] = new XSNamedMapEntry(new QName(xso.getNamespace(), xso.getName()), xso);
             }
             // Create a view of this immutable map.
-            fEntrySet = new AbstractSet() {
-                public Iterator iterator() {
-                    return new Iterator() {
+            fEntrySet = new AbstractSet<Object>() {
+                public Iterator<Object> iterator() {
+                    return new Iterator<Object>() {
                         private int index = 0;
                         public boolean hasNext() {
                             return (index < length);
@@ -276,7 +277,7 @@ public class XSNamedMapImpl extends AbstractMap implements XSNamedMap {
         }
         public boolean equals(Object o) {
             if (o instanceof Map.Entry) {
-                Map.Entry e = (Map.Entry) o;
+                Map.Entry<?, ?> e = (Map.Entry<?, ?>) o;
                 Object otherKey = e.getKey();
                 Object otherValue = e.getValue();
                 return (key == null ? otherKey == null : key.equals(otherKey)) &&
@@ -295,6 +296,54 @@ public class XSNamedMapImpl extends AbstractMap implements XSNamedMap {
             buffer.append(String.valueOf(value));
             return buffer.toString();
         }
+    }
+
+    @Override
+    public boolean isEmpty() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean containsValue(Object value) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public Object put(Object key, Object value) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Object remove(Object key) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void putAll(Map<? extends Object, ? extends Object> m) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void clear() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public Set<Object> keySet() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Collection<Object> values() {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 } // class XSNamedMapImpl

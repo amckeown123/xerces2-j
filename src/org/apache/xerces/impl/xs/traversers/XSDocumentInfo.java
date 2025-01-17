@@ -45,7 +45,7 @@ class XSDocumentInfo {
     // Data
     protected SchemaNamespaceSupport fNamespaceSupport;
     protected SchemaNamespaceSupport fNamespaceSupportRoot;
-    protected Stack SchemaNamespaceSupportStack = new Stack();
+    protected Stack<SchemaNamespaceSupport> SchemaNamespaceSupportStack = new Stack<SchemaNamespaceSupport>();
 
     // schema's attributeFormDefault
     protected boolean fAreLocalAttributesQualified;
@@ -67,7 +67,7 @@ class XSDocumentInfo {
     protected Element fSchemaElement;
 
     // all namespaces that this document can refer to
-    Vector fImportedNS = new Vector();
+    Vector<Object> fImportedNS = new Vector<Object>();
     
     protected ValidationState fValidationContext = new ValidationState();
 
@@ -180,13 +180,13 @@ class XSDocumentInfo {
     
     // store whether we have reported an error about that this document
     // can't access components from the given namespace
-    private Vector fReportedTNS = null;
+    private Vector<String> fReportedTNS = null;
     // check whether we need to report an error against the given uri.
     // if we have reported an error, then we don't need to report again;
     // otherwise we reported the error, and remember this fact.
     final boolean needReportTNSError(String uri) {
         if (fReportedTNS == null)
-            fReportedTNS = new Vector();
+            fReportedTNS = new Vector<String>();
         else if (fReportedTNS.contains(uri))
             return false;
         fReportedTNS.addElement(uri);

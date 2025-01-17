@@ -318,10 +318,10 @@ public class HTMLSerializer
                 preserveSpace = true;
 
             if ( addNSAttr ) {
-                Iterator entries = _prefixes.entrySet().iterator();
+                Iterator<?> entries = _prefixes.entrySet().iterator();
                 while (entries.hasNext()) {
                     _printer.printSpace();
-                    Map.Entry entry = (Map.Entry) entries.next();
+                    Map.Entry<?, ?> entry = (Map.Entry<?, ?>) entries.next();
                     value = (String) entry.getKey();
                     name = (String) entry.getValue();
                     if ( name.length() == 0 ) {

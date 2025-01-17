@@ -284,14 +284,14 @@ public class DOMErrorHandlerWrapper
     private static class DOMErrorTypeMap {
         
         /** Map for converting internal error codes to DOM error types. **/
-        private static Hashtable fgDOMErrorTypeTable;
+        private static Hashtable<XMLErrorCode, String> fgDOMErrorTypeTable;
         
         static {
             // initialize error type table: internal error codes (represented by domain and key) need to be mapped to a DOM error type.
             
             // REVISIT: do well-formedness issues involving XML declaration <?xml ... ?> need to be added to hash table (no XML declaration node in DOM, but Document includes xmlEncoding, xmlStandalone, xmlVersion, etc.
             
-            fgDOMErrorTypeTable = new Hashtable();   
+            fgDOMErrorTypeTable = new Hashtable<XMLErrorCode, String>();   
             fgDOMErrorTypeTable.put(new XMLErrorCode(XMLMessageFormatter.XML_DOMAIN, "InvalidCharInCDSect"), "wf-invalid-character");
             fgDOMErrorTypeTable.put(new XMLErrorCode(XMLMessageFormatter.XML_DOMAIN, "InvalidCharInContent"), "wf-invalid-character");
             fgDOMErrorTypeTable.put(new XMLErrorCode(XMLMessageFormatter.XML_DOMAIN, "TwoColonsInQName"), "wf-invalid-character-in-node-name");

@@ -62,7 +62,7 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
     protected int fGrammarCount = 0;
     
     /** Reference queue for cleared grammar references */
-    protected final ReferenceQueue fReferenceQueue = new ReferenceQueue();
+    protected final ReferenceQueue<?> fReferenceQueue = new ReferenceQueue<Object>();
     
     //
     // Constructors
@@ -367,7 +367,7 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
      * Removes stale entries from the pool.
      */
     private void clean() {
-        Reference ref = fReferenceQueue.poll();
+        Reference<?> ref = fReferenceQueue.poll();
         while (ref != null) {
             Entry entry = ((SoftGrammarReference) ref).entry;
             if (entry != null) {
@@ -390,7 +390,7 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
         public XMLGrammarDescription desc;
         public SoftGrammarReference grammar;
                 
-        protected Entry(int hash, int bucket, XMLGrammarDescription desc, Grammar grammar, Entry next, ReferenceQueue queue) {
+        protected Entry(int hash, int bucket, XMLGrammarDescription desc, Grammar grammar, Entry next, ReferenceQueue<?> queue) {
             this.hash = hash;
             this.bucket = bucket;
             this.prev = null;
@@ -419,12 +419,13 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
      * This class stores a soft reference to a grammar object. It keeps a reference
      * to its associated entry, so that it can be easily removed from the pool.
      */
-    static final class SoftGrammarReference extends SoftReference {
+    static final class SoftGrammarReference extends SoftReference<Object> {
 
         public Entry entry;
         
-        protected SoftGrammarReference(Entry entry, Grammar grammar, ReferenceQueue queue) {
-            super(grammar, queue);
+        @SuppressWarnings("unchecked")
+        protected SoftGrammarReference(Entry entry, Grammar grammar, ReferenceQueue<?> queue) {
+            super(grammar, (ReferenceQueue<? super Object>) queue);
             this.entry = entry;
         }
         

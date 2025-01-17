@@ -32,7 +32,7 @@ import org.apache.xerces.xs.StringList;
  *
  * @version $Id$
  */
-public final class StringListImpl extends AbstractList implements StringList {
+public final class StringListImpl extends AbstractList<Object> implements StringList {
 
     /**
      * An immutable empty list.
@@ -46,9 +46,9 @@ public final class StringListImpl extends AbstractList implements StringList {
 
     // REVISIT: this is temp solution. In general we need to use this class
     //          instead of the Vector.
-    private final Vector fVector;
+    private final Vector<?> fVector;
 
-    public StringListImpl(Vector v) {
+    public StringListImpl(Vector<?> v) {
         fVector = v;        
         fLength = (v == null) ? 0 : v.size();
         fArray = null;
@@ -138,13 +138,14 @@ public final class StringListImpl extends AbstractList implements StringList {
         return a;
     }
     
+    @SuppressWarnings("unchecked")
     public Object[] toArray(Object[] a) {
         if (fVector != null) {
             return fVector.toArray(a);
         }
         if (a.length < fLength) {
-            Class arrayClass = a.getClass();
-            Class componentType = arrayClass.getComponentType();
+            Class<?> arrayClass = a.getClass();
+            Class<?> componentType = arrayClass.getComponentType();
             a = (Object[]) Array.newInstance(componentType, fLength);
         }
         toArray0(a);

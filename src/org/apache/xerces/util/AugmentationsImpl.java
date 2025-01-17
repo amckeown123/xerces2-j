@@ -85,7 +85,7 @@ public class AugmentationsImpl implements Augmentations {
      * Returns an enumeration of the keys in the Augmentations structure
      *
      */
-    public Enumeration keys (){
+    public Enumeration<Object> keys (){
         return fAugmentationsContainer.keys();
     }
 
@@ -104,7 +104,7 @@ public class AugmentationsImpl implements Augmentations {
         abstract public Object putItem(Object key, Object item);
         abstract public Object getItem(Object key);
         abstract public Object removeItem(Object key);
-        abstract public Enumeration keys();
+        abstract public Enumeration<Object> keys();
         abstract public void clear();
         abstract public boolean isFull();
         abstract public AugmentationsItemsContainer expand();
@@ -116,7 +116,7 @@ public class AugmentationsImpl implements Augmentations {
         final Object[] fAugmentations = new Object[SIZE_LIMIT*2];
         int fNumEntries = 0;
 
-        public Enumeration keys() {
+        public Enumeration<Object> keys() {
             return new SmallContainerKeyEnumeration();
         }
 
@@ -211,7 +211,7 @@ public class AugmentationsImpl implements Augmentations {
             return buff.toString();
         }
 
-        final class SmallContainerKeyEnumeration implements Enumeration {
+        final class SmallContainerKeyEnumeration implements Enumeration<Object> {
             
             Object [] enumArray = new Object[fNumEntries];
             int next = 0;
@@ -242,7 +242,7 @@ public class AugmentationsImpl implements Augmentations {
 
     final static class LargeContainer extends AugmentationsItemsContainer {
         
-        private final HashMap fAugmentations = new HashMap();
+        private final HashMap<Object, Object> fAugmentations = new HashMap<Object, Object>();
 
         public Object getItem(Object key) {
             return fAugmentations.get(key);
@@ -256,7 +256,7 @@ public class AugmentationsImpl implements Augmentations {
             return fAugmentations.remove(key);
         }
 
-        public Enumeration keys() {
+        public Enumeration<Object> keys() {
             return Collections.enumeration(fAugmentations.keySet());
         }
 
@@ -275,9 +275,9 @@ public class AugmentationsImpl implements Augmentations {
         public String toString() {
             StringBuffer buff = new StringBuffer();
             buff.append("LargeContainer");
-            Iterator entries = fAugmentations.entrySet().iterator();
+            Iterator<?> entries = fAugmentations.entrySet().iterator();
             while (entries.hasNext()) {
-                Map.Entry entry = (Map.Entry) entries.next();
+                Map.Entry<?, ?> entry = (Map.Entry<?, ?>) entries.next();
                 buff.append("\nkey == ");
                 buff.append(entry.getKey());
                 buff.append("; value == ");

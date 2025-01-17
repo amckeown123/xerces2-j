@@ -41,6 +41,7 @@ public class InputData extends InputSource {
         uri = dataPrefix + sourceId;
     }
 
+    @SuppressWarnings("deprecation")
     public String toURIString() throws Exception {
         return new File(uri).toURL().toString();
     }

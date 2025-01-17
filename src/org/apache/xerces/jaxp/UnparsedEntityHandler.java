@@ -48,7 +48,7 @@ final class UnparsedEntityHandler implements XMLDTDFilter, EntityState {
     private final ValidationManager fValidationManager;
     
     /** Map for tracking unparsed entities. */
-    private HashMap fUnparsedEntities = null;
+    private HashMap<String, String> fUnparsedEntities = null;
     
     UnparsedEntityHandler(ValidationManager manager) {
         fValidationManager = manager;
@@ -169,7 +169,7 @@ final class UnparsedEntityHandler implements XMLDTDFilter, EntityState {
             XMLResourceIdentifier identifier, String notation,
             Augmentations augmentations) throws XNIException {
         if (fUnparsedEntities == null) {
-            fUnparsedEntities = new HashMap();
+            fUnparsedEntities = new HashMap<String, String>();
         }
         fUnparsedEntities.put(name, name);
         if (fDTDHandler != null) {

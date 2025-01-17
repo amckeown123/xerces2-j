@@ -287,7 +287,7 @@ public class DOMASBuilderImpl
         if ((grammars[0] = (Grammar)currModel.getGrammar()) != null) {
             grammarPool.cacheGrammars(grammars[0].getGrammarDescription().getGrammarType(), grammars);
         }
-        Vector modelStore = currModel.getInternalASModels();
+        Vector<?> modelStore = currModel.getInternalASModels();
         for (int i = 0; i < modelStore.size(); i++) {
             initGrammarPool((ASModelImpl)modelStore.elementAt(i), grammarPool);
         }

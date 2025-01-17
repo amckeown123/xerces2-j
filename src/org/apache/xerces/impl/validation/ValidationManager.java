@@ -33,7 +33,7 @@ import java.util.ArrayList;
  */
 public class ValidationManager {
 
-    protected final ArrayList fVSs = new ArrayList();
+    protected final ArrayList<ValidationState> fVSs = new ArrayList<ValidationState>();
     protected boolean fGrammarFound = false;
 
     // used by the DTD validator to tell other components that it has a

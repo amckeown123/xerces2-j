@@ -52,16 +52,16 @@ public class ParserConfigurationSettings
     // data
 
     /** Recognized properties. */
-    protected ArrayList fRecognizedProperties;
+    protected ArrayList<String> fRecognizedProperties;
 
     /** Properties. */
-    protected HashMap fProperties;
+    protected HashMap<String, Object> fProperties;
 
     /** Recognized features. */
-    protected ArrayList fRecognizedFeatures;
+    protected ArrayList<String> fRecognizedFeatures;
 
     /** Features. */
-    protected HashMap fFeatures;
+    protected HashMap<String, Boolean> fFeatures;
 
     /** Parent parser configuration settings. */
     protected XMLComponentManager fParentSettings;
@@ -82,12 +82,12 @@ public class ParserConfigurationSettings
     public ParserConfigurationSettings(XMLComponentManager parent) {
 
         // create storage for recognized features and properties
-        fRecognizedFeatures = new ArrayList();
-        fRecognizedProperties = new ArrayList();
+        fRecognizedFeatures = new ArrayList<String>();
+        fRecognizedProperties = new ArrayList<String>();
 
         // create table for features and properties
-        fFeatures = new HashMap();
-        fProperties = new HashMap();
+        fFeatures = new HashMap<String, Boolean>();
+        fProperties = new HashMap<String, Object>();
 
         // save parent
         fParentSettings = parent;

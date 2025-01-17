@@ -142,9 +142,9 @@ public class XSAttributeChecker {
 
     // used to store the map from element name to attribute list
     // for 14 global elements
-    private static final Hashtable fEleAttrsMapG = new Hashtable(29);
+    private static final Hashtable<String, Container> fEleAttrsMapG = new Hashtable<String, Container>(29);
     // for 39 local elememnts
-    private static final Hashtable fEleAttrsMapL = new Hashtable(79);
+    private static final Hashtable<String, Container> fEleAttrsMapL = new Hashtable<String, Container>(79);
 
     // used to initialize fEleAttrsMap
     // step 1: all possible data types
@@ -923,10 +923,10 @@ public class XSAttributeChecker {
     protected SymbolTable fSymbolTable = null;
 
     // used to store the mapping from processed element to attributes
-    protected Hashtable fNonSchemaAttrs = new Hashtable();
+    protected Hashtable<Object, Object> fNonSchemaAttrs = new Hashtable<Object, Object>();
 
     // temprory vector, used to hold the namespace list
-    protected Vector fNamespaceList = new Vector();
+    protected Vector<String> fNamespaceList = new Vector<String>();
 
     // whether this attribute appeared in the current element
     protected boolean[] fSeen = new boolean[ATTIDX_COUNT];
@@ -971,6 +971,7 @@ public class XSAttributeChecker {
      * @param enumAsQName  whether to tread enumeration value as QName
      * @return             an array containing attribute values
      */
+    @SuppressWarnings("unchecked")
     public Object[] checkAttributes(Element element, boolean isGlobal,
                                     XSDocumentInfo schemaDoc, boolean enumAsQName) {
         if (element == null)
@@ -989,7 +990,7 @@ public class XSAttributeChecker {
             reportSchemaError("s4s-elt-schema-ns", new Object[] {elName}, element);
         }
 
-        Hashtable eleAttrsMap = fEleAttrsMapG;
+        Hashtable<String, Container> eleAttrsMap = fEleAttrsMapG;
         String lookupName = elName;
 
         // REVISIT: only local element and attribute are different from others.
@@ -1012,7 +1013,7 @@ public class XSAttributeChecker {
         }
 
         // get desired attribute list of this element
-        Container attrList = (Container)eleAttrsMap.get(lookupName);
+        Container attrList = eleAttrsMap.get(lookupName);
         if (attrList == null) {
             // should never gets here.
             // when this method is called, the call already knows that
@@ -1067,10 +1068,10 @@ public class XSAttributeChecker {
                 else {
                     if(attrValues[ATTIDX_NONSCHEMA] == null) {
                         // these are usually small
-                        attrValues[ATTIDX_NONSCHEMA] = new Vector(4,2);
+                        attrValues[ATTIDX_NONSCHEMA] = new Vector<Object>(4,2);
                     }
-                    ((Vector)attrValues[ATTIDX_NONSCHEMA]).addElement(attrName);
-                    ((Vector)attrValues[ATTIDX_NONSCHEMA]).addElement(attrVal);
+                    ((Vector<String>)attrValues[ATTIDX_NONSCHEMA]).addElement(attrName);
+                    ((Vector<String>)attrValues[ATTIDX_NONSCHEMA]).addElement(attrVal);
                     // for attributes from other namespace
                     // store them in a list, and TRY to validate them after
                     // schema traversal (because it's "lax")
@@ -1193,7 +1194,7 @@ public class XSAttributeChecker {
 
         String value = XMLChar.trim(ivalue);
         Object retValue = null;
-        Vector memberType;
+        Vector<QName> memberType;
         int choice;
 
         switch (dvIndex) {
@@ -1403,7 +1404,7 @@ public class XSAttributeChecker {
             break;
         case DT_MEMBERTYPES:
             // memberTypes = List of QName
-            memberType = new Vector();
+            memberType = new Vector<QName>();
             try {
                 StringTokenizer t = new StringTokenizer(value, " \n\t\r");
                 while (t.hasMoreTokens()) {
@@ -1533,10 +1534,10 @@ public class XSAttributeChecker {
     // REVISIT: pass the proper element node to reportSchemaError
     public void checkNonSchemaAttributes(XSGrammarBucket grammarBucket) {
         // for all attributes
-        Iterator entries = fNonSchemaAttrs.entrySet().iterator();
+        Iterator<?> entries = fNonSchemaAttrs.entrySet().iterator();
         XSAttributeDecl attrDecl;
         while (entries.hasNext()) {
-            Map.Entry entry = (Map.Entry) entries.next();
+            Map.Entry<?, ?> entry = (Map.Entry<?, ?>) entries.next();
             // get name, uri, localpart
             String attrRName = (String) entry.getKey();
             String attrURI = attrRName.substring(0,attrRName.indexOf(','));
@@ -1557,7 +1558,7 @@ public class XSAttributeChecker {
             }
 
             // get all values appeared with this attribute name
-            Vector values = (Vector) entry.getValue();
+            Vector<?> values = (Vector<?>) entry.getValue();
             String elName;
             String attrName = (String)values.elementAt(0);
             // for each of the values
@@ -1685,7 +1686,7 @@ public class XSAttributeChecker {
         attrArray[ATTIDX_ISRETURNED] = Boolean.TRUE;
         // better clear nonschema vector
         if(attrArray[ATTIDX_NONSCHEMA] != null)
-            ((Vector)attrArray[ATTIDX_NONSCHEMA]).clear();
+            ((Vector<?>)attrArray[ATTIDX_NONSCHEMA]).clear();
         // and put it into the pool
         fArrayPool[--fPoolPos] = attrArray;
     }
@@ -1769,9 +1770,9 @@ class SmallContainer extends Container {
 }
 
 class LargeContainer extends Container {
-    Hashtable items;
+    Hashtable<String, OneAttr> items;
     LargeContainer(int size) {
-        items = new Hashtable(size*2+1);
+        items = new Hashtable<String, OneAttr>(size*2+1);
         values = new OneAttr[size];
     }
     void put(String key, OneAttr value) {
@@ -1779,7 +1780,7 @@ class LargeContainer extends Container {
         values[pos++] = value;
     }
     OneAttr get(String key) {
-        OneAttr ret = (OneAttr)items.get(key);
+        OneAttr ret = items.get(key);
         return ret;
     }
 }

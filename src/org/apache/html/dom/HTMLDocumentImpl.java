@@ -118,7 +118,7 @@ public class HTMLDocumentImpl
      *
      * @see #createElement
      */
-    private static Hashtable        _elementTypesHTML;
+    private static Hashtable<String, Class<?>>        _elementTypesHTML;
 
 
     /**
@@ -127,7 +127,7 @@ public class HTMLDocumentImpl
      *
      * @see #createElement
      */
-    private static final Class[]    _elemClassSigHTML =
+    private static final Class<?>[]    _elemClassSigHTML =
                 new Class[] { HTMLDocumentImpl.class, String.class };
 
 
@@ -462,14 +462,14 @@ public class HTMLDocumentImpl
     public Element createElement( String tagName )
         throws DOMException
     {
-        Class        elemClass;
-        Constructor    cnst;
+        Class<?>        elemClass;
+        Constructor<?>    cnst;
 
         // First, make sure tag name is all upper case, next get the associated
         // element class. If no class is found, generate a generic HTML element.
         // Do so also if an unexpected exception occurs.
         tagName = tagName.toUpperCase(Locale.ENGLISH);
-        elemClass = (Class) _elementTypesHTML.get( tagName );
+        elemClass = _elementTypesHTML.get( tagName );
         if ( elemClass != null )
         {
             // Get the constructor for the element. The signature specifies an
@@ -650,8 +650,8 @@ public class HTMLDocumentImpl
         }
         
         // check whether a class change is required
-        Class newClass = (Class) _elementTypesHTML.get(newNodeName.toUpperCase(Locale.ENGLISH));
-        Class oldClass = (Class) _elementTypesHTML.get(el.getTagName());
+        Class<?> newClass = _elementTypesHTML.get(newNodeName.toUpperCase(Locale.ENGLISH));
+        Class<?> oldClass = _elementTypesHTML.get(el.getTagName());
         return newClass == oldClass;
     }
 
@@ -704,7 +704,7 @@ public class HTMLDocumentImpl
 
         if ( _elementTypesHTML != null )
             return;
-        _elementTypesHTML = new Hashtable( 63 );
+        _elementTypesHTML = new Hashtable<String, Class<?>>( 63 );
         populateElementType( "A", "HTMLAnchorElementImpl" );
         populateElementType( "APPLET", "HTMLAppletElementImpl" );
         populateElementType( "AREA", "HTMLAreaElementImpl" );

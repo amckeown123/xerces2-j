@@ -132,7 +132,8 @@ public Notation createNotation(Document doc, String name) {
 public void docBuilder(org.w3c.dom.Document document, String name)
 {
 	Document doc = document;
-	boolean OK = true;
+	@SuppressWarnings("unused")
+    boolean OK = true;
 		
 	Element docFirstElement = doc.createElement(name + "FirstElement");
 	doc.appendChild(docFirstElement);
@@ -201,11 +202,14 @@ public void docBuilder(org.w3c.dom.Document document, String name)
 	Text docNode4 = doc.createTextNode(name + "docTextNode4");
 	
 	Entity docEntity = (Entity) doc.getDoctype().getEntities().getNamedItem("ourEntityNode"); // Get the Entity node
-	DocumentType docDocType = (DocumentType) doc.getFirstChild();	// Get the DocumentType node
-	EntityReference entityReferenceText = (EntityReference) doc.getLastChild().getLastChild().getLastChild().getFirstChild();
+	@SuppressWarnings("unused")
+    DocumentType docDocType = (DocumentType) doc.getFirstChild();	// Get the DocumentType node
+	@SuppressWarnings("unused")
+    EntityReference entityReferenceText = (EntityReference) doc.getLastChild().getLastChild().getLastChild().getFirstChild();
 	Text entityReferenceText2 = doc.createTextNode("entityReferenceText information");
 //************************************************* ERROR TESTS
-	DTest tests = new DTest();
+	@SuppressWarnings("unused")
+    DTest tests = new DTest();
 
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(document, "appendChild", new Class[]{Node.class}, new Object[]{docBody}, DOMException.HIERARCHY_REQUEST_ERR )); 
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(docNode3, "appendChild", new Class[]{Node.class}, new Object[]{docNode4}, DOMException.HIERARCHY_REQUEST_ERR )); 
@@ -250,7 +254,7 @@ public void docBuilder(org.w3c.dom.Document document, String name)
  *
  * @author Philip W. Davis
  */
-public static boolean DOMExceptionsTest(Object node, String methodName, Class[] methodSignature, Object[] parameters, short code) {
+public static boolean DOMExceptionsTest(Object node, String methodName, Class<?>[] methodSignature, Object[] parameters, short code) {
 	
 	
 	boolean asExpected = false;
@@ -444,8 +448,10 @@ public static void main(String args[]) {
 	
 	DTest test = new DTest();
 
-	long avgTime = 0;
-	boolean OK = true;
+	@SuppressWarnings("unused")
+    long avgTime = 0;
+	@SuppressWarnings("unused")
+    boolean OK = true;
 	long startTime = 0;//****************Time the whole thing for efficiency of DOM implementation
 	 
 //	for (int i=0; i< 1000; i++)
@@ -654,7 +660,8 @@ public void testAttr(org.w3c.dom.Document document)
 		// Deep clone test comparison is in testNode & testDocument
 
 //************************************************* ERROR TESTS
-	DTest tests = new DTest();
+	@SuppressWarnings("unused")
+    DTest tests = new DTest();
         Assertion.verify(
           DTest.DOMExceptionsTest(document.getDocumentElement(),
                                   "appendChild",
@@ -812,7 +819,8 @@ public void testCharacterData(org.w3c.dom.Document document)
 	//	println("Using subString 0,25 you get:" + charData.substringData(0,25));
 
 //************************************************* ERROR TESTS
-	DTest tests = new DTest();
+	@SuppressWarnings("unused")
+    DTest tests = new DTest();
 
 //!! Throws INDEX_SIZE_ERR ********************
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(charData, "deleteData", new Class[]{int.class, int.class}, 
@@ -969,7 +977,8 @@ public void testDocument(org.w3c.dom.Document document)
 {
 	DTest make = new DTest();
 	DocumentFragment docFragment, docFragment2;
-	Element newElement;
+	@SuppressWarnings("unused")
+    Element newElement;
 	Node node, node2;
 	String[] elementNames =  {"dFirstElement", "dTestBody", "dBodyLevel21","dBodyLevel31","dBodyLevel32",
 				   "dBodyLevel22","dBodyLevel33","dBodyLevel34","dBodyLevel23","dBodyLevel24"};
@@ -1056,7 +1065,8 @@ public void testDocument(org.w3c.dom.Document document)
 		}
 	}
 
-	DTest tests = new DTest();
+	@SuppressWarnings("unused")
+    DTest tests = new DTest();
 
 	
 //	Document z = tests.createDocument();
@@ -1110,7 +1120,8 @@ public void testDocumentFragment(org.w3c.dom.Document document)
 {
 	boolean OK = true;
 // For debugging*****	println("\n          testDocumentFragment's outputs:\n");
-	DocumentFragment testDocFragment = document.createDocumentFragment();
+	@SuppressWarnings("unused")
+    DocumentFragment testDocFragment = document.createDocumentFragment();
 		
 	//	testDocFragment.setNodeValue("This is a document fragment!");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********
 	
@@ -1184,9 +1195,11 @@ public void testDocumentType(org.w3c.dom.Document document)
  */
 public void testDOMerrors(Document document) {
 
-	boolean OK = true;
+	@SuppressWarnings("unused")
+    boolean OK = true;
 
-	DTest tests = new DTest();
+	@SuppressWarnings("unused")
+    DTest tests = new DTest();
 
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(document, "appendChild", new Class[]{Node.class}, new Object[]{testElementNode}, DOMException.HIERARCHY_REQUEST_ERR )); 
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(testTextNode, "appendChild", new Class[]{Node.class}, new Object[]{testTextNode}, DOMException.HIERARCHY_REQUEST_ERR )); 
@@ -1273,7 +1286,8 @@ public void testElement(org.w3c.dom.Document document)
 	Attr attributeNode, newAttributeNode;
 	Element element, element2;
 	Node node, node2;
-	String attribute, compare;
+	@SuppressWarnings("unused")
+    String attribute, compare;
 	String[] attributeCompare = {"AnotherFirstElementAttribute", "dFirstElement", "testAttribute"};
 	String[] elementNames =  {"dFirstElement", "dTestBody", "dBodyLevel21","dBodyLevel31","dBodyLevel32",
 				   "dBodyLevel22","dBodyLevel33","dBodyLevel34","dBodyLevel23","dBodyLevel24"};
@@ -1579,7 +1593,8 @@ public void testNotation(org.w3c.dom.Document document)
  */
 public void testPI(org.w3c.dom.Document document)
 {
-	Node node, node2;
+	@SuppressWarnings("unused")
+    Node node, node2;
 	ProcessingInstruction pI, pI2;
 	String compare;
 	boolean OK = true;
@@ -1668,7 +1683,8 @@ public void testText(org.w3c.dom.Document document)
 
 
 //************************************************* ERROR TESTS
-	DTest tests = new DTest();		
+	@SuppressWarnings("unused")
+    DTest tests = new DTest();		
 	//!! Throws INDEX_SIZE_ERR ********************
 	//	text.splitText(-1);
 	//	text.splitText(100);

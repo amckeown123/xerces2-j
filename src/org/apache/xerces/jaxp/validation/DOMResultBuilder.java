@@ -105,7 +105,7 @@ final class DOMResultBuilder implements DOMDocumentHandler {
     private Node fCurrentNode;
     private Node fFragmentRoot;
     
-    private final ArrayList fTargetChildren = new ArrayList();
+    private final ArrayList<Node> fTargetChildren = new ArrayList<Node>();
     
     private boolean fIgnoreChars;
     

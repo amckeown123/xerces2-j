@@ -122,7 +122,7 @@ final class StAXValidatorHelper implements ValidatorHelper, EntityState {
     private final XMLStreamReaderLocation fXMLStreamReaderLocation = new XMLStreamReaderLocation();
     
     /** Map for tracking entity declarations. */
-    private HashMap fEntities = null;
+    private HashMap<String, EntityDeclaration> fEntities = null;
     
     /** Flag used to track whether XML names and Namespace URIs have been internalized. */
     private boolean fStringsInternalized = false;
@@ -152,7 +152,7 @@ final class StAXValidatorHelper implements ValidatorHelper, EntityState {
     final QName fElementQName = new QName();
     final QName fAttributeQName = new QName();
     final XMLAttributesImpl fAttributes = new XMLAttributesImpl();
-    final ArrayList fDeclaredPrefixes = new ArrayList();
+    final ArrayList<Object> fDeclaredPrefixes = new ArrayList<Object>();
     final XMLString fTempString = new XMLString();
     final XMLStringBuffer fStringBuffer = new XMLStringBuffer();
 
@@ -296,11 +296,11 @@ final class StAXValidatorHelper implements ValidatorHelper, EntityState {
     }
     
     /** Copies entity declarations into a hash map. */
-    final void processEntityDeclarations(List entityDecls) {
+    final void processEntityDeclarations(List<?> entityDecls) {
         int size = (entityDecls != null) ? entityDecls.size() : 0;
         if (size > 0) {
             if (fEntities == null) {
-                fEntities = new HashMap();
+                fEntities = new HashMap<String, EntityDeclaration>();
             }
             for (int i = 0; i < size; ++i) {
                 EntityDeclaration decl = (EntityDeclaration) entityDecls.get(i);
@@ -415,7 +415,7 @@ final class StAXValidatorHelper implements ValidatorHelper, EntityState {
                             }
                             break;
                         case XMLStreamConstants.DTD:
-                            processEntityDeclarations((List) reader.getProperty("javax.xml.stream.entities"));
+                            processEntityDeclarations((List<?>) reader.getProperty("javax.xml.stream.entities"));
                             break;
                     }
                     eventType = reader.next();
@@ -589,7 +589,7 @@ final class StAXValidatorHelper implements ValidatorHelper, EntityState {
         /** Fills in the XMLAttributes object. */
         private void fillXMLAttributes(StartElement event) {
             fAttributes.removeAllAttributes();
-            final Iterator attrs = event.getAttributes();
+            final Iterator<?> attrs = event.getAttributes();
             while (attrs.hasNext()) {
                 Attribute attr = (Attribute) attrs.next();
                 fillQName(fAttributeQName, attr.getName());
@@ -612,7 +612,7 @@ final class StAXValidatorHelper implements ValidatorHelper, EntityState {
         }
         
         /** Fills in the list of declared prefixes. */
-        private void fillDeclaredPrefixes(Iterator namespaces) {
+        private void fillDeclaredPrefixes(Iterator<?> namespaces) {
             fDeclaredPrefixes.clear();
             while (namespaces.hasNext()) {
                 Namespace ns = (Namespace) namespaces.next();

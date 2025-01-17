@@ -2098,7 +2098,8 @@ import java.util.Locale;
   *
   * @return true if the string contains any reserved characters
   */
-  private static boolean isReservedCharacter(char p_char) {
+  @SuppressWarnings("unused")
+private static boolean isReservedCharacter(char p_char) {
      return (p_char <= ']' && (fgLookupTable[p_char] & RESERVED_CHARACTERS) != 0);
   }
 
@@ -2107,7 +2108,8 @@ import java.util.Locale;
   *
   * @return true if the char is unreserved, false otherwise
   */
-  private static boolean isUnreservedCharacter(char p_char) {
+  @SuppressWarnings("unused")
+private static boolean isUnreservedCharacter(char p_char) {
      return (p_char <= '~' && (fgLookupTable[p_char] & MASK_UNRESERVED_MASK) != 0);
   }
 

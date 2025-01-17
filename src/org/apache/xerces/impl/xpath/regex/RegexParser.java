@@ -79,7 +79,7 @@ class RegexParser {
     int parenOpened = 1;
     int parennumber = 1;
     boolean hasBackReferences;
-    Vector references = null;
+    Vector<ReferencePosition> references = null;
 
     public RegexParser() {
         this.setLocale(Locale.getDefault());
@@ -490,7 +490,7 @@ class RegexParser {
             }
 
             this.hasBackReferences = true;
-            if (this.references == null)  this.references = new Vector();
+            if (this.references == null)  this.references = new Vector<ReferencePosition>();
             this.references.addElement(new ReferencePosition(finalRefno, this.offset));
             this.offset ++;
             if (this.regex.charAt(this.offset) != ')')  throw ex("parser.factor.1", this.offset);
@@ -625,7 +625,7 @@ class RegexParser {
 
         Token tok = Token.createBackReference(finalRefnum);
         this.hasBackReferences = true;
-        if (this.references == null)  this.references = new Vector();
+        if (this.references == null)  this.references = new Vector<ReferencePosition>();
         this.references.addElement(new ReferencePosition(finalRefnum, this.offset-2));
         this.next();
         return tok;

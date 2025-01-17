@@ -225,6 +225,7 @@ public class Test implements DOMErrorHandler, LSResourceResolver {
                 e1.appendChild(e3);
 
                 testElem.removeAttributeNode(testElem.getAttributeNodeNS(null, "contr"));
+                @SuppressWarnings("unused")
                 NamedNodeMap map = testElem.getAttributes();
                 config = core.getDomConfig();
                 errorCounter = 0;
@@ -474,6 +475,7 @@ public class Test implements DOMErrorHandler, LSResourceResolver {
             config.setParameter("entities", Boolean.TRUE);
             Document doc = builder.parseURI("tests/dom/dom3/wholeText.xml");
 
+            @SuppressWarnings("unused")
             Element root = doc.getDocumentElement();
             Element test = (Element)doc.getElementsByTagName("elem").item(0);
             
@@ -483,6 +485,7 @@ public class Test implements DOMErrorHandler, LSResourceResolver {
             
             test.appendChild(doc.createEntityReference("ent1"));
             DocumentType doctype = doc.getDoctype();
+            @SuppressWarnings("unused")
             Node entity = doctype.getEntities().getNamedItem("ent3");
 
             NodeList ls = test.getChildNodes();
@@ -517,6 +520,7 @@ public class Test implements DOMErrorHandler, LSResourceResolver {
             } catch (DOMException e){
                Assertion.verify(e !=null);
             }
+            @SuppressWarnings("unused")
             String compare3 = "Test: The Content ends here. ";
             //Assertion.assert(((Text)test.getFirstChild()).getWholeText().equals(compare3), "Compare3");
             

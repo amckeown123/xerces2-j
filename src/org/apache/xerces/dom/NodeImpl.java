@@ -1797,7 +1797,7 @@ public abstract class NodeImpl
         return ownerDocument().getUserData(this, key);
     }
 
-	protected Hashtable getUserDataRecord(){
+	protected Hashtable<?, ?> getUserDataRecord(){
         return ownerDocument().getUserDataRecord(this);
 	}
 

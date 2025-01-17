@@ -55,9 +55,11 @@ public class TestNS {
                 printUsage();
                 System.exit(1);
             }
+            @SuppressWarnings("unused")
             int repetition = 0;
             boolean namespaces = true;
             boolean validation = false;
+            @SuppressWarnings("unused")
             boolean schemaValidation = false;
             boolean deferred = true;
             boolean modify = true;
@@ -216,6 +218,7 @@ public class TestNS {
                     element.appendChild(core.createTextNode("\n\n"));
                     
 
+                    @SuppressWarnings("unused")
                     Text text;
                     // add xmlns attribute
                     element.appendChild(core.createComment("create element: prefix bound to http://child7,"

@@ -265,8 +265,8 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
     private int fMaxLength = -1;
     private int fTotalDigits = -1;
     private int fFractionDigits = -1;
-    private Vector fPattern;
-    private Vector fPatternStr;
+    private Vector<RegularExpression> fPattern;
+    private Vector<String> fPatternStr;
     private ValidatedInfo[] fEnumeration;
     private int fEnumerationSize;
     private ShortList fEnumerationTypeList;
@@ -649,6 +649,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
         return fWhiteSpace;
     }
 
+    @SuppressWarnings("unused")
     public short getPrimitiveKind() {
         if (fVariety == VARIETY_ATOMIC && fValidationDV != DV_ANYSIMPLETYPE) {
             if (fValidationDV == DV_ID || fValidationDV == DV_IDREF || fValidationDV == DV_ENTITY) {
@@ -842,9 +843,9 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
                     reportError("InvalidRegex", new Object[]{facets.pattern, e.getLocalizedMessage()});
                 }
                 if (regex != null) {
-                    fPattern = new Vector();
+                    fPattern = new Vector<RegularExpression>();
                     fPattern.addElement(regex);
-                    fPatternStr = new Vector();
+                    fPatternStr = new Vector<String>();
                     fPatternStr.addElement(facets.pattern);
                     fFacetsDefined |= FACET_PATTERN;
                     if ((fixedFacet & FACET_PATTERN) != 0)
@@ -870,10 +871,10 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
             if ((allowedFacet & FACET_ENUMERATION) == 0) {
                 reportError("cos-applicable-facets", new Object[]{"enumeration", fTypeName});
             } else {
-                Vector enumVals = facets.enumeration;
+                Vector<?> enumVals = facets.enumeration;
                 int size = enumVals.size();
                 fEnumeration = new ValidatedInfo[size];
-                Vector enumNSDecls = facets.enumNSDecls;
+                Vector<?> enumNSDecls = facets.enumNSDecls;
                 ValidationContextImpl ctx = new ValidationContextImpl(context);
                 enumerationAnnotations = facets.enumAnnotations;
                 fEnumerationSize = 0;
@@ -2540,6 +2541,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
 
     }//setCardinality
 
+    @SuppressWarnings("unused")
     private short getPrimitiveDV(short validationDV){
 
         if (validationDV == DV_ID || validationDV == DV_IDREF || validationDV == DV_ENTITY){
@@ -2690,6 +2692,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
      * 
      * @return boolean True if the type is derived by restriciton for the reference type
      */
+    @SuppressWarnings("unused")
     private boolean isDerivedByAny(String ancestorNS, String ancestorName,
             XSTypeDefinition type) {
 
@@ -3436,7 +3439,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
         }
     }
     
-    private static abstract class AbstractObjectList extends AbstractList implements ObjectList {
+    private static abstract class AbstractObjectList extends AbstractList<Object> implements ObjectList {
         public Object get(int index) {
             if (index >= 0 && index < getLength()) {
                 return item(index);

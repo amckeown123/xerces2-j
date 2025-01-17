@@ -46,6 +46,7 @@ import org.xml.sax.SAXParseException;
  * 
  * @version $Id$
  */
+@SuppressWarnings("deprecation")
 public class Test {
 
 
@@ -405,6 +406,7 @@ public void domPrint()
 void domPrint(Node node)
 {
 
+    @SuppressWarnings("unused")
     String        s;
     Node          child;
     NamedNodeMap  attributes;

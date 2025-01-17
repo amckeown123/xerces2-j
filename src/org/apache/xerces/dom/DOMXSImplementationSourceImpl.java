@@ -76,7 +76,7 @@ public class DOMXSImplementationSourceImpl
      *   features.
      */
     public DOMImplementationList getDOMImplementationList(String features) {
-        final ArrayList implementations = new ArrayList();
+        final ArrayList<DOMImplementation> implementations = new ArrayList<DOMImplementation>();
 
         // first check whether the CoreDOMImplementation would do
         DOMImplementationList list = super.getDOMImplementationList(features);

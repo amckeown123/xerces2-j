@@ -77,7 +77,7 @@ public class NamedNodeMapImpl
     protected final static short HASDEFAULTS  = 0x1<<2;
 
     /** Nodes. */
-    protected List nodes;
+    protected List<Node> nodes;
 
     protected NodeImpl ownerNode; // the node this map belongs to
 
@@ -195,7 +195,7 @@ public class NamedNodeMapImpl
         } else {
             i = -1 - i; // Insert point (may be end of list)
             if (null == nodes) {
-                nodes = new ArrayList(5);
+                nodes = new ArrayList<Node>(5);
             }
             nodes.add(i, arg);
         }
@@ -245,7 +245,7 @@ public class NamedNodeMapImpl
             } else {
                 i = -1 - i; // Insert point (may be end of list)
                 if (null == nodes) {
-                    nodes = new ArrayList(5);
+                    nodes = new ArrayList<Node>(5);
                 }
                 nodes.add(i, arg);
             }
@@ -334,12 +334,12 @@ public class NamedNodeMapImpl
     }
 
     protected void cloneContent(NamedNodeMapImpl srcmap) {
-        List srcnodes = srcmap.nodes;
+        List<?> srcnodes = srcmap.nodes;
         if (srcnodes != null) {
             int size = srcnodes.size();
             if (size != 0) {
                 if (nodes == null) {
-                    nodes = new ArrayList(size);
+                    nodes = new ArrayList<Node>(size);
                 }
                 else {
                     nodes.clear();
@@ -560,7 +560,7 @@ public class NamedNodeMapImpl
             else {
                 i = -1 - i; // Insert point (may be end of list)
                 if (null == nodes) {
-                    nodes = new ArrayList(5);
+                    nodes = new ArrayList<Node>(5);
                 }
                 nodes.add(i, arg);
             }
@@ -574,15 +574,15 @@ public class NamedNodeMapImpl
      * @param list   ArrayList to copy information into.
      * @return A copy of this node named map
      */
-    protected ArrayList cloneMap(ArrayList list) {
+    protected ArrayList<Node> cloneMap(ArrayList<Node> list) {
         if (list == null) {
-            list = new ArrayList(5);
+            list = new ArrayList<Node>(5);
         }
         list.clear();
         if (nodes != null) {
             final int size = nodes.size();
             for (int i = 0; i < size; ++i) {
-                list.add(nodes.get(i));
+                list.add((Node) nodes.get(i));
             }
         }
         return list;
@@ -606,15 +606,15 @@ public class NamedNodeMapImpl
         in.defaultReadObject();
         if (nodes != null) {
             // cast to Vector is required
-            nodes = new ArrayList((Vector)nodes);
+            nodes = new ArrayList<Node>((Vector<Node>)nodes);
         }
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {
-        List oldNodes = this.nodes;
+        List<Node> oldNodes = this.nodes;
         try {
             if (oldNodes != null) {
-                this.nodes = new Vector(oldNodes);
+                this.nodes = new Vector<Node>(oldNodes);
             }
             out.defaultWriteObject();
         }

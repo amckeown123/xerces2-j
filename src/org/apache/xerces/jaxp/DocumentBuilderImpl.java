@@ -106,12 +106,12 @@ public class DocumentBuilderImpl extends DocumentBuilder
     /** Initial EntityResolver */
     private final EntityResolver fInitEntityResolver;
     
-    DocumentBuilderImpl(DocumentBuilderFactoryImpl dbf, Hashtable dbfAttrs, Hashtable features)
+    DocumentBuilderImpl(DocumentBuilderFactoryImpl dbf, Hashtable<?, ?> dbfAttrs, Hashtable<?, ?> features)
         throws SAXNotRecognizedException, SAXNotSupportedException {
         this(dbf, dbfAttrs, features, false);
     }
 
-    DocumentBuilderImpl(DocumentBuilderFactoryImpl dbf, Hashtable dbfAttrs, Hashtable features, boolean secureProcessing)
+    DocumentBuilderImpl(DocumentBuilderFactoryImpl dbf, Hashtable<?, ?> dbfAttrs, Hashtable<?, ?> features, boolean secureProcessing)
         throws SAXNotRecognizedException, SAXNotSupportedException
     {
         domParser = new DOMParser();
@@ -200,12 +200,12 @@ public class DocumentBuilderImpl extends DocumentBuilder
         fInitEntityResolver = domParser.getEntityResolver();
     }
     
-    private void setFeatures(Hashtable features)
+    private void setFeatures(Hashtable<?, ?> features)
         throws SAXNotSupportedException, SAXNotRecognizedException {
         if (features != null) {
-            Iterator entries = features.entrySet().iterator();
+            Iterator<?> entries = features.entrySet().iterator();
             while (entries.hasNext()) {
-                Map.Entry entry = (Map.Entry) entries.next();
+                Map.Entry<?, ?> entry = (Map.Entry<?, ?>) entries.next();
                 String feature = (String) entry.getKey();
                 boolean value = ((Boolean) entry.getValue()).booleanValue();
                 domParser.setFeature(feature, value);
@@ -220,7 +220,7 @@ public class DocumentBuilderImpl extends DocumentBuilder
      * attribute names and JAXP specific attribute names,
      * eg. DocumentBuilderFactory.setValidating()
      */
-    private void setDocumentBuilderFactoryAttributes(Hashtable dbfAttrs)
+    private void setDocumentBuilderFactoryAttributes(Hashtable<?, ?> dbfAttrs)
         throws SAXNotSupportedException, SAXNotRecognizedException
     {
         if (dbfAttrs == null) {
@@ -228,9 +228,9 @@ public class DocumentBuilderImpl extends DocumentBuilder
             return;
         }
 
-        Iterator entries = dbfAttrs.entrySet().iterator();
+        Iterator<?> entries = dbfAttrs.entrySet().iterator();
         while (entries.hasNext()) {
-            Map.Entry entry = (Map.Entry) entries.next();
+            Map.Entry<?, ?> entry = (Map.Entry<?, ?>) entries.next();
             String name = (String) entry.getKey();
             Object val = entry.getValue();
             if (val instanceof Boolean) {

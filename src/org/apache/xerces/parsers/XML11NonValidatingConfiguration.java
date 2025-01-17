@@ -172,13 +172,13 @@ public class XML11NonValidatingConfiguration extends ParserConfigurationSettings
     protected Locale fLocale;
     
     /** XML 1.0 Components. */
-    protected ArrayList fComponents;
+    protected ArrayList<XMLComponent> fComponents;
     
     /** XML 1.1. Components. */
-    protected ArrayList fXML11Components = null;
+    protected ArrayList<XMLComponent> fXML11Components = null;
     
     /** Common components: XMLEntityManager, XMLErrorReporter */
-    protected ArrayList fCommonComponents = null;
+    protected ArrayList<XMLComponent> fCommonComponents = null;
     
     /** The document handler. */
     protected XMLDocumentHandler fDocumentHandler;
@@ -316,19 +316,19 @@ public class XML11NonValidatingConfiguration extends ParserConfigurationSettings
 
 		// create a vector to hold all the components in use
 		// XML 1.0 specialized components
-		fComponents = new ArrayList();
+		fComponents = new ArrayList<XMLComponent>();
 		// XML 1.1 specialized components
-		fXML11Components = new ArrayList();
+		fXML11Components = new ArrayList<XMLComponent>();
 		// Common components for XML 1.1. and XML 1.0
-		fCommonComponents = new ArrayList();
+		fCommonComponents = new ArrayList<XMLComponent>();
 
 		// create storage for recognized features and properties
 		fRecognizedFeatures = new ArrayList();
 		fRecognizedProperties = new ArrayList();
 
 		// create table for features and properties
-		fFeatures = new HashMap();
-		fProperties = new HashMap();
+		fFeatures = new HashMap<String, Boolean>();
+		fProperties = new HashMap<String, Object>();
 
         // add default recognized features
         final String[] recognizedFeatures =

@@ -18,6 +18,7 @@
 package org.apache.xerces.stax.events;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -44,16 +45,16 @@ abstract class ElementImpl extends XMLEventImpl {
     /**
      * Namespaces declared in the current scope.
      */
-    private final List fNamespaces;
+    private final List<Namespace> fNamespaces;
     
     /**
      * Constructor.
      */
-    ElementImpl(final QName name, final boolean isStartElement, Iterator namespaces, final Location location) {
+    ElementImpl(final QName name, final boolean isStartElement, Iterator<?> namespaces, final Location location) {
         super(isStartElement ? START_ELEMENT : END_ELEMENT, location);
         fName = name;
         if (namespaces != null && namespaces.hasNext()) {
-            fNamespaces = new ArrayList();
+            fNamespaces = new ArrayList<Namespace>();
             do {
                 Namespace ns = (Namespace) namespaces.next();
                 fNamespaces.add(ns);
@@ -61,7 +62,7 @@ abstract class ElementImpl extends XMLEventImpl {
             while (namespaces.hasNext());
         }
         else {
-            fNamespaces = Collections.EMPTY_LIST;
+            fNamespaces = Collections.emptyList();
         }
     }
     
@@ -77,19 +78,20 @@ abstract class ElementImpl extends XMLEventImpl {
      * @see javax.xml.stream.events.StartElement#getNamespaces()
      * @see javax.xml.stream.events.EndElement#getNamespaces()
      */
-    public final Iterator getNamespaces() {
-        return createImmutableIterator(fNamespaces.iterator());
+    @SuppressWarnings("unchecked")
+    public final Iterator<?> getNamespaces() {
+        return createImmutableIterator((Collection<Namespace>) fNamespaces.iterator());
     }
     
-    static Iterator createImmutableIterator(Iterator iter) {
-        return new NoRemoveIterator(iter);
+    static Iterator<?> createImmutableIterator(Collection<Namespace> col) {
+        return new NoRemoveIterator(col.iterator());
     }
     
-    private static final class NoRemoveIterator implements Iterator {
+    private static final class NoRemoveIterator implements Iterator<Object> {
         
-        private final Iterator fWrapped;
+        private final Iterator<Namespace> fWrapped;
         
-        public NoRemoveIterator(Iterator wrapped) {
+        public NoRemoveIterator(Iterator<Namespace> wrapped) {
             fWrapped = wrapped;
         }
         

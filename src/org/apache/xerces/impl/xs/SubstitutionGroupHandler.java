@@ -19,7 +19,6 @@ package org.apache.xerces.impl.xs;
 
 import java.util.Hashtable;
 import java.util.Vector;
-
 import org.apache.xerces.xni.QName;
 import org.apache.xerces.xs.XSConstants;
 import org.apache.xerces.xs.XSObjectList;
@@ -177,10 +176,10 @@ public class SubstitutionGroupHandler {
     // - a Vector, which contains all elements that has this element as their
     //   substitution group affilication
     // - an array of OneSubGroup, which contains its substitution group before block.
-    Hashtable fSubGroupsB = new Hashtable();
+    Hashtable<XSElementDecl, Object> fSubGroupsB = new Hashtable<XSElementDecl, Object>();
     private static final OneSubGroup[] EMPTY_VECTOR = new OneSubGroup[0];
     // The real substitution groups (after "block")
-    Hashtable fSubGroups = new Hashtable();
+    Hashtable<XSElementDecl, XSElementDecl[]> fSubGroups = new Hashtable<XSElementDecl, XSElementDecl[]>();
 
     /**
      * clear the internal registry of substitutionGroup information
@@ -193,18 +192,19 @@ public class SubstitutionGroupHandler {
     /**
      * add a list of substitution group information.
      */
+    @SuppressWarnings("unchecked")
     public void addSubstitutionGroup(XSElementDecl[] elements) {
         XSElementDecl subHead, element;
-        Vector subGroup;
+        Vector<XSElementDecl> subGroup;
         // for all elements with substitution group affiliation
         for (int i = elements.length-1; i >= 0; i--) {
             element = elements[i];
             subHead = element.fSubGroup;
             // check whether this an entry for this element
-            subGroup = (Vector)fSubGroupsB.get(subHead);
+            subGroup = (Vector<XSElementDecl>)fSubGroupsB.get(subHead);
             if (subGroup == null) {
                 // if not, create a new one
-                subGroup = new Vector();
+                subGroup = new Vector<XSElementDecl>();
                 fSubGroupsB.put(subHead, subGroup);
             }
             // add to the vactor
@@ -269,14 +269,15 @@ public class SubstitutionGroupHandler {
             return (OneSubGroup[])subGroup;
         
         // we only have the *direct* substitutions
-        Vector group = (Vector)subGroup, newGroup = new Vector();
+        Vector<?> group = (Vector<?>) subGroup;
+        Vector<OneSubGroup> newGroup = new Vector<OneSubGroup>();
         OneSubGroup[] group1;
         // then for each of the direct substitutions, get its substitution
         // group, and combine the groups together.
         short dMethod, bMethod, dSubMethod, bSubMethod;
         for (int i = group.size()-1, j; i >= 0; i--) {
             // Check whether this element is blocked. If so, ignore it.
-            XSElementDecl sub = (XSElementDecl)group.elementAt(i);
+            XSElementDecl sub = (XSElementDecl) group.elementAt(i);
             if (!getDBMethods(sub.fType, element.fType, methods))
                 continue;
             // Remember derivation methods and blocks from the types

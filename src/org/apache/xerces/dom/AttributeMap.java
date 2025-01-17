@@ -115,7 +115,7 @@ public class AttributeMap extends NamedNodeMapImpl {
         } else {
             i = -1 - i; // Insert point (may be end of list)
             if (null == nodes) {
-                nodes = new ArrayList(5);
+                nodes = new ArrayList<Node>(5);
             }
             nodes.add(i, arg);
         }
@@ -191,12 +191,12 @@ public class AttributeMap extends NamedNodeMapImpl {
             } else {
                 i = -1 - i; // Insert point (may be end of list)
                 if (null == nodes) {
-                    nodes = new ArrayList(5);
+                    nodes = new ArrayList<Node>(5);
                 }
                 nodes.add(i, arg);
             }
         }
-        //    	changed(true);
+        //      changed(true);
         
         // notify document
         ownerNode.ownerDocument().setAttrNode(argn, previous);
@@ -485,12 +485,12 @@ public class AttributeMap extends NamedNodeMapImpl {
      * Override parent's method to set the ownerNode correctly
      */
     protected void cloneContent(NamedNodeMapImpl srcmap) {
-        List srcnodes = srcmap.nodes;
+        List<?> srcnodes = srcmap.nodes;
         if (srcnodes != null) {
             int size = srcnodes.size();
             if (size != 0) {
                 if (nodes == null) {
-                    nodes = new ArrayList(size);
+                    nodes = new ArrayList<Node>(size);
                 }
                 else {
                     nodes.clear();
@@ -555,12 +555,12 @@ public class AttributeMap extends NamedNodeMapImpl {
                 AttrImpl d = (AttrImpl) defaults.nodes.get(n);
                 int i = findNamePoint(d.getNodeName(), 0); 
                 if (i < 0) {
-            		i = -1 - i; 
+                    i = -1 - i; 
                     NodeImpl clone = (NodeImpl) d.cloneNode(true);
                     clone.ownerNode = ownerNode;
                     clone.isOwned(true);
                     clone.isSpecified(false);
-            		nodes.add(i, clone);
+                    nodes.add(i, clone);
                 }
             }
         }
@@ -589,7 +589,7 @@ public class AttributeMap extends NamedNodeMapImpl {
             else {
                 i = -1 - i; // Insert point (may be end of list)
                 if (null == nodes) {
-                    nodes = new ArrayList(5);
+                    nodes = new ArrayList<Node>(5);
                 }
                 nodes.add(i, arg);
             }

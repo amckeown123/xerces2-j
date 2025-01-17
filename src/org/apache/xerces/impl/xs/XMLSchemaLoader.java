@@ -253,7 +253,7 @@ XSLoader, DOMConfiguration {
     private XSDDescription fXSDDescription = new XSDDescription();
     private SchemaDVFactory fDefaultSchemaDVFactory;
     
-    private WeakHashMap fJAXPCache;
+    private WeakHashMap<Object, SchemaGrammar> fJAXPCache;
     private Locale fLocale = Locale.getDefault();
     
     // XSLoader attributes
@@ -340,7 +340,7 @@ XSLoader, DOMConfiguration {
         }
         fCMBuilder = builder;
         fSchemaHandler = new XSDHandler(fGrammarBucket);
-        fJAXPCache = new WeakHashMap();
+        fJAXPCache = new WeakHashMap<Object, SchemaGrammar>();
         
         fSettingsChanged = true;
     }
@@ -538,7 +538,7 @@ XSLoader, DOMConfiguration {
         desc.setBaseSystemId(source.getBaseSystemId());
         desc.setLiteralSystemId( source.getSystemId());
         // none of the other fields make sense for preparsing
-        Hashtable locationPairs = new Hashtable();
+        Hashtable<String, LocationArray> locationPairs = new Hashtable<String, LocationArray>();
         // Process external schema location properties.
         // We don't call tokenizeSchemaLocationStr here, because we also want
         // to check whether the values are valid URI.
@@ -570,7 +570,7 @@ XSLoader, DOMConfiguration {
      */
     SchemaGrammar loadSchema(XSDDescription desc,
             XMLInputSource source,
-            Hashtable locationPairs) throws IOException, XNIException {
+            Hashtable<String, LocationArray> locationPairs) throws IOException, XNIException {
         
         // this should only be done once per invocation of this object;
         // unless application alters JAXPSource in the mean time.
@@ -595,7 +595,7 @@ XSLoader, DOMConfiguration {
      * @return the XMLInputSource
      * @throws IOException
      */
-    public static XMLInputSource resolveDocument(XSDDescription desc, Hashtable locationPairs,
+    public static XMLInputSource resolveDocument(XSDDescription desc, Hashtable<?, ?> locationPairs,
             XMLEntityResolver entityResolver) throws IOException {
         String loc = null;
         // we consider the schema location properties for import
@@ -626,7 +626,7 @@ XSLoader, DOMConfiguration {
     
     // add external schema locations to the location pairs
     public static void processExternalHints(String sl, String nsl,
-            Hashtable locations,
+            Hashtable<String, LocationArray> locations,
             XMLErrorReporter er) {
         if (sl != null) {
             try {
@@ -679,7 +679,7 @@ XSLoader, DOMConfiguration {
     // @param schemaStr     The schemaLocation string to tokenize
     // @param locations     Hashtable mapping namespaces to LocationArray objects holding lists of locaitons
     // @return true if no problems; false if string could not be tokenized
-    public static boolean tokenizeSchemaLocationStr(String schemaStr, Hashtable locations, String base) {
+    public static boolean tokenizeSchemaLocationStr(String schemaStr, Hashtable<String, LocationArray> locations, String base) {
         if (schemaStr!= null) {
             StringTokenizer t = new StringTokenizer(schemaStr, " \n\t\r");
             String namespace, location;
@@ -716,13 +716,13 @@ XSLoader, DOMConfiguration {
      * Note: all JAXP schema files will be checked for full-schema validity if the feature was set up
      * 
      */
-    private void processJAXPSchemaSource(Hashtable locationPairs) throws IOException {
+    private void processJAXPSchemaSource(Hashtable<String, LocationArray> locationPairs) throws IOException {
         fJAXPProcessed = true;
         if (fJAXPSource == null) {
             return;
         }
         
-        Class componentType = fJAXPSource.getClass().getComponentType();
+        Class<?> componentType = fJAXPSource.getClass().getComponentType();
         XMLInputSource xis = null;
         String sid = null;
         if (componentType == null) {
@@ -781,7 +781,7 @@ XSLoader, DOMConfiguration {
         // InputSource also, apart from [] of type Object.
         Object[] objArr = (Object[]) fJAXPSource;
         // make local vector for storing target namespaces of schemasources specified in object arrays.
-        ArrayList jaxpSchemaSourceNamespaces = new ArrayList();
+        ArrayList<String> jaxpSchemaSourceNamespaces = new ArrayList<String>();
         for (int i = 0; i < objArr.length; i++) {
             if (objArr[i] instanceof InputStream ||
                     objArr[i] instanceof InputSource) {
@@ -961,6 +961,7 @@ XSLoader, DOMConfiguration {
     /* (non-Javadoc)
      * @see org.apache.xerces.xni.parser.XMLComponent#reset(org.apache.xerces.xni.parser.XMLComponentManager)
      */
+    @SuppressWarnings("unused")
     public void reset(XMLComponentManager componentManager) throws XMLConfigurationException {
         
         fGrammarBucket.reset();
@@ -1267,7 +1268,7 @@ XSLoader, DOMConfiguration {
      */
     public DOMStringList getParameterNames() {
         if (fRecognizedParameters == null){
-            ArrayList v = new ArrayList();
+            ArrayList<String> v = new ArrayList<String>();
             v.add(Constants.DOM_VALIDATE);
             v.add(Constants.DOM_ERROR_HANDLER);
             v.add(Constants.DOM_RESOURCE_RESOLVER);

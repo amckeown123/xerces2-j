@@ -101,19 +101,19 @@ public class DocumentImpl
     //
 
     /** Node Iterators */
-    protected transient List iterators;
+    protected transient List<WeakReference<Object>> iterators;
     
     /** Reference queue for cleared Node Iterator references */
-    protected transient ReferenceQueue iteratorReferenceQueue;
+    protected transient ReferenceQueue<?> iteratorReferenceQueue;
 
     /** Ranges */
-    protected transient List ranges;
+    protected transient List<WeakReference<Object>> ranges;
     
     /** Reference queue for cleared Range references */
-    protected transient ReferenceQueue rangeReferenceQueue;
+    protected transient ReferenceQueue<?> rangeReferenceQueue;
 
     /** Table for event listeners registered to this document nodes. */
-    protected Hashtable eventListeners;
+    protected Hashtable<NodeImpl, Vector<LEntry>> eventListeners;
 
     /** Bypass mutation events firing. */
     protected boolean mutationEvents = false;
@@ -237,12 +237,12 @@ public class DocumentImpl
                                                      filter,
                                                      entityReferenceExpansion);
         if (iterators == null) {
-            iterators = new LinkedList();
-            iteratorReferenceQueue = new ReferenceQueue();
+            iterators = new LinkedList<WeakReference<Object>>();
+            iteratorReferenceQueue = new ReferenceQueue<Object>();
         }
 
         removeStaleIteratorReferences();
-        iterators.add(new WeakReference(iterator, iteratorReferenceQueue));
+        iterators.add(new WeakReference<Object>(iterator));
 
         return iterator;
     }
@@ -301,9 +301,9 @@ public class DocumentImpl
         if (iterators == null) return;
 
         removeStaleIteratorReferences();
-        Iterator i = iterators.iterator();
+        Iterator<WeakReference<Object>> i = iterators.iterator();
         while (i.hasNext()) {
-            Object iterator = ((Reference) i.next()).get();
+            Object iterator = i.next().get();
             if (iterator == nodeIterator) {
                 i.remove();
                 return;
@@ -325,17 +325,17 @@ public class DocumentImpl
     /**
      * Remove stale references from the given list.
      */
-    private void removeStaleReferences(ReferenceQueue queue, List list) {
-        Reference ref = queue.poll();
+    private void removeStaleReferences(ReferenceQueue<?> queue, List<WeakReference<Object>> list) {
+        Reference<?> ref = queue.poll();
         int count = 0;
         while (ref != null) {
             ++count;
             ref = queue.poll();
         }
         if (count > 0) {
-            final Iterator i = list.iterator();
+            final Iterator<WeakReference<Object>> i = list.iterator();
             while (i.hasNext()) {
-                Object o = ((Reference) i.next()).get();
+                Object o = i.next().get();
                 if (o == null) {
                     i.remove();
                     if (--count <= 0) {
@@ -354,14 +354,14 @@ public class DocumentImpl
     public Range createRange() {
 
         if (ranges == null) {
-            ranges = new LinkedList();
-            rangeReferenceQueue = new ReferenceQueue();
+            ranges = new LinkedList<WeakReference<Object>>();
+            rangeReferenceQueue = new ReferenceQueue<Object>();
         }
 
         Range range = new RangeImpl(this);
 
         removeStaleRangeReferences();
-        ranges.add(new WeakReference(range, rangeReferenceQueue));
+        ranges.add(new WeakReference<Object>(range));
 
         return range;
 
@@ -377,9 +377,9 @@ public class DocumentImpl
         if (ranges == null) return;
 
         removeStaleRangeReferences();
-        Iterator i = ranges.iterator();
+        Iterator<WeakReference<Object>> i = ranges.iterator();
         while (i.hasNext()) {
-            Object otherRange = ((Reference) i.next()).get();
+            Object otherRange = i.next().get();
             if (otherRange == range) {
                 i.remove();
                 return;
@@ -404,9 +404,9 @@ public class DocumentImpl
     
     private void notifyRangesReplacedText(CharacterDataImpl node) {
         removeStaleRangeReferences();
-        final Iterator i = ranges.iterator();
+        final Iterator<WeakReference<Object>> i = ranges.iterator();
         while (i.hasNext()) {
-            RangeImpl range = (RangeImpl) ((Reference) i.next()).get();
+            RangeImpl range = (RangeImpl) i.next().get();
             if (range != null) {
                 range.receiveReplacedText(node);
             }
@@ -430,9 +430,9 @@ public class DocumentImpl
     
     private void notifyRangesDeletedText(CharacterDataImpl node, int offset, int count) {
         removeStaleRangeReferences();
-        final Iterator i = ranges.iterator();
+        final Iterator<WeakReference<Object>> i = ranges.iterator();
         while (i.hasNext()) {
-            RangeImpl range = (RangeImpl) ((Reference) i.next()).get();
+            RangeImpl range = (RangeImpl) i.next().get();
             if (range != null) {
                 range.receiveDeletedText(node, offset, count);
             }
@@ -456,9 +456,9 @@ public class DocumentImpl
     
     private void notifyRangesInsertedText(CharacterDataImpl node, int offset, int count) {
         removeStaleRangeReferences();
-        final Iterator i = ranges.iterator();
+        final Iterator<WeakReference<Object>> i = ranges.iterator();
         while (i.hasNext()) {
-            RangeImpl range = (RangeImpl) ((Reference) i.next()).get();
+            RangeImpl range = (RangeImpl) i.next().get();
             if (range != null) {
                 range.receiveInsertedText(node, offset, count);
             }
@@ -482,9 +482,9 @@ public class DocumentImpl
     
     private void notifyRangesSplitData(Node node, Node newNode, int offset) {
         removeStaleRangeReferences();
-        final Iterator i = ranges.iterator();
+        final Iterator<WeakReference<Object>> i = ranges.iterator();
         while (i.hasNext()) {
-            RangeImpl range = (RangeImpl) ((Reference) i.next()).get();
+            RangeImpl range = (RangeImpl) i.next().get();
             if (range != null) {
                 range.receiveSplitData(node, newNode, offset);
             }
@@ -569,9 +569,9 @@ public class DocumentImpl
      * node here won't be GC'ed as long as some listener is registered on it,
      * since the eventsListeners table will have a reference to the node.
      */
-    protected void setEventListeners(NodeImpl n, Vector listeners) {
+    protected void setEventListeners(NodeImpl n, Vector<LEntry> listeners) {
         if (eventListeners == null) {
-            eventListeners = new Hashtable();
+            eventListeners = new Hashtable<NodeImpl, Vector<LEntry>>();
         }
         if (listeners == null) {
             eventListeners.remove(n);
@@ -589,11 +589,11 @@ public class DocumentImpl
     /**
      * Retreive event listener registered on a given node
      */
-    protected Vector getEventListeners(NodeImpl n) {
+    protected Vector<LEntry> getEventListeners(NodeImpl n) {
         if (eventListeners == null) {
             return null;
         }
-        return (Vector) eventListeners.get(n);
+        return eventListeners.get(n);
     }
 
     //
@@ -659,9 +659,9 @@ public class DocumentImpl
         // Simplest way to code that is to zap the previous entry, if any.
         removeEventListener(node, type, listener, useCapture);
 	    
-        Vector nodeListeners = getEventListeners(node);
+        Vector<LEntry> nodeListeners = getEventListeners(node);
         if(nodeListeners == null) {
-            nodeListeners = new Vector();
+            nodeListeners = new Vector<LEntry>();
             setEventListeners(node, nodeListeners);
         }
         nodeListeners.addElement(new LEntry(type, listener, useCapture));
@@ -697,7 +697,7 @@ public class DocumentImpl
         // If this couldn't be a valid listener registration, ignore request
         if (type == null || type.length() == 0 || listener == null)
             return;
-        Vector nodeListeners = getEventListeners(node);
+        Vector<LEntry> nodeListeners = getEventListeners(node);
         if (nodeListeners == null)
             return;
 
@@ -705,7 +705,7 @@ public class DocumentImpl
         // each listener may be registered only once per type per phase.
         // count-down is OK for deletions!
         for (int i = nodeListeners.size() - 1; i >= 0; --i) {
-            LEntry le = (LEntry) nodeListeners.elementAt(i);
+            LEntry le = nodeListeners.elementAt(i);
             if (le.useCapture == useCapture && le.listener == listener && 
                 le.type.equals(type)) {
                 nodeListeners.removeElementAt(i);
@@ -729,12 +729,13 @@ public class DocumentImpl
         }
     } // removeEventListener(NodeImpl,String,EventListener,boolean) :void
 
+    @SuppressWarnings("unchecked")
     protected void copyEventListeners(NodeImpl src, NodeImpl tgt) {
-        Vector nodeListeners = getEventListeners(src);
+        Vector<LEntry> nodeListeners = getEventListeners(src);
         if (nodeListeners == null) {
             return;
         }
-        setEventListeners(tgt, (Vector) nodeListeners.clone());
+        setEventListeners(tgt, (Vector<LEntry>) nodeListeners.clone());
     }
 
     /**
@@ -823,7 +824,7 @@ public class DocumentImpl
         // is issued to the Element rather than the Attr
         // and causes a _second_ DOMSubtreeModified in the Element's
         // tree.
-        ArrayList pv = new ArrayList(10);
+        ArrayList<Node> pv = new ArrayList<Node>(10);
         Node p = node;
         Node n = p.getParentNode();
         while (n != null) {
@@ -844,9 +845,9 @@ public class DocumentImpl
                 // Handle all capturing listeners on this node
                 NodeImpl nn = (NodeImpl) pv.get(j);
                 evt.currentTarget = nn;
-                Vector nodeListeners = getEventListeners(nn);
+                Vector<LEntry> nodeListeners = getEventListeners(nn);
                 if (nodeListeners != null) {
-                    Vector nl = (Vector) nodeListeners.clone();
+                    Vector<?> nl = (Vector<?>) nodeListeners.clone();
                     // call listeners in the order in which they got registered
                     int nlsize = nl.size();
                     for (int i = 0; i < nlsize; i++) {
@@ -873,9 +874,9 @@ public class DocumentImpl
             // node are _not_ invoked, even during the capture phase.
             evt.eventPhase = Event.AT_TARGET;
             evt.currentTarget = node;
-            Vector nodeListeners = getEventListeners(node);
+            Vector<LEntry> nodeListeners = getEventListeners(node);
             if (!evt.stopPropagation && nodeListeners != null) {
-                Vector nl = (Vector) nodeListeners.clone();
+                Vector<?> nl = (Vector<?>) nodeListeners.clone();
                 // call listeners in the order in which they got registered
                 int nlsize = nl.size();
                 for (int i = 0; i < nlsize; i++) {
@@ -908,7 +909,7 @@ public class DocumentImpl
                     evt.currentTarget = nn;
                     nodeListeners = getEventListeners(nn);
                     if (nodeListeners != null) {
-                        Vector nl = (Vector) nodeListeners.clone();
+                        Vector<?> nl = (Vector<?>) nodeListeners.clone();
                         // call listeners in the order in which they got
                         // registered
                         int nlsize = nl.size();
@@ -1259,9 +1260,9 @@ public class DocumentImpl
     
     private void notifyRangesInsertedNode(NodeImpl newInternal) {
         removeStaleRangeReferences();
-        final Iterator i = ranges.iterator();
+        final Iterator<WeakReference<Object>> i = ranges.iterator();
         while (i.hasNext()) {
-            RangeImpl range = (RangeImpl) ((Reference) i.next()).get();
+            RangeImpl range = (RangeImpl) i.next().get();
             if (range != null) {
                 range.insertedNodeFromDOM(newInternal);
             }
@@ -1295,9 +1296,9 @@ public class DocumentImpl
     
     private void notifyIteratorsRemovingNode(NodeImpl oldChild) {
         removeStaleIteratorReferences();
-        final Iterator i = iterators.iterator();
+        final Iterator<WeakReference<Object>> i = iterators.iterator();
         while (i.hasNext()) {
-            NodeIteratorImpl iterator = (NodeIteratorImpl) ((Reference) i.next()).get();
+            NodeIteratorImpl iterator = (NodeIteratorImpl) i.next().get();
             if (iterator != null) {
                 iterator.removeNode(oldChild);
             }
@@ -1310,9 +1311,9 @@ public class DocumentImpl
     
     private void notifyRangesRemovingNode(NodeImpl oldChild) {
         removeStaleRangeReferences();
-        final Iterator i = ranges.iterator();
+        final Iterator<WeakReference<Object>> i = ranges.iterator();
         while (i.hasNext()) {
-            RangeImpl range = (RangeImpl) ((Reference) i.next()).get();
+            RangeImpl range = (RangeImpl) i.next().get();
             if (range != null) {
                 range.removeNode(oldChild);
             }

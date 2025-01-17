@@ -591,7 +591,7 @@ public class DFAContentModel
 	     * a large content model such as, "(t001+|t002+|.... |t500+)".
 	     */
 
-        HashMap stateTable = new HashMap();
+        HashMap<CMStateSet, Integer> stateTable = new HashMap<CMStateSet, Integer>();
 
 	    /* Optimization(Jan, 2001) */
 
@@ -982,6 +982,14 @@ public class DFAContentModel
             throw new RuntimeException("ImplementationMessages.VAL_NIICM: type="+nodeCur.type());
         }
         return curIndex;
+    }
+
+    public int getfTransTableSize() {
+        return fTransTableSize;
+    }
+
+    public void setfTransTableSize(int fTransTableSize) {
+        this.fTransTableSize = fTransTableSize;
     }
 
 } // class DFAContentModel

@@ -29,7 +29,7 @@ import org.apache.xerces.xs.datatypes.ObjectList;
  * 
  * @version $Id$
  */
-public final class ObjectListImpl extends AbstractList implements ObjectList {
+public final class ObjectListImpl extends AbstractList<Object> implements ObjectList {
 
     /**
      * An immutable empty list.
@@ -94,10 +94,11 @@ public final class ObjectListImpl extends AbstractList implements ObjectList {
         return a;
     }
     
+    @SuppressWarnings("unchecked")
     public Object[] toArray(Object[] a) {
         if (a.length < fLength) {
-            Class arrayClass = a.getClass();
-            Class componentType = arrayClass.getComponentType();
+            Class<?> arrayClass = a.getClass();
+            Class<?> componentType = arrayClass.getComponentType();
             a = (Object[]) Array.newInstance(componentType, fLength);
         }
         toArray0(a);

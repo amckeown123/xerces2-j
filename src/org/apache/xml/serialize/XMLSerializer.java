@@ -35,6 +35,7 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.xerces.dom.DOMMessageFormatter;
 import org.apache.xerces.util.NamespaceSupport;
@@ -337,10 +338,10 @@ extends BaseMarkupSerializer {
             }
 
             if (_prefixes != null) {
-                Iterator entries = _prefixes.entrySet().iterator();
+                Iterator<Entry<String, Object>> entries = _prefixes.entrySet().iterator();
                 while (entries.hasNext()) {
                     _printer.printSpace();
-                    Map.Entry entry = (Map.Entry) entries.next();
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) entries.next();
                     value = (String) entry.getKey();
                     name = (String) entry.getValue();
                     if (name.length() == 0) {

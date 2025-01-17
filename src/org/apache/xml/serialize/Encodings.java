@@ -57,7 +57,7 @@ public class Encodings
     // note that the size of this Hashtable
     // is bounded by the number of encodings recognized by EncodingMap;
     // therefore it poses no static mutability risk.
-    static Hashtable _encodings = new Hashtable();
+    static Hashtable<String, EncodingInfo> _encodings = new Hashtable<String, EncodingInfo>();
 
     /**
      * @param encoding a MIME charset name, or null.

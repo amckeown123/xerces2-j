@@ -80,6 +80,6 @@ public abstract class DTDDVFactory {
      *
      * @return      a hashtable which contains all datatypes
      */
-    public abstract Hashtable getBuiltInTypes();
+    public abstract Hashtable<?, ?> getBuiltInTypes();
 
 }

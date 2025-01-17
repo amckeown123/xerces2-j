@@ -35,13 +35,13 @@ import org.apache.xerces.xs.XSObjectList;
  *
  * @version $Id$
  */
-public class XSObjectListImpl extends AbstractList implements XSObjectList {
+public class XSObjectListImpl extends AbstractList<Object> implements XSObjectList {
     
     /**
      * An immutable empty list.
      */
     public static final XSObjectListImpl EMPTY_LIST = new XSObjectListImpl(new XSObject[0], 0);
-    private static final ListIterator EMPTY_ITERATOR = new ListIterator() {
+    private static final ListIterator<Object> EMPTY_ITERATOR = new ListIterator<Object>() {
         public boolean hasNext() {
             return false;
         }
@@ -159,22 +159,22 @@ public class XSObjectListImpl extends AbstractList implements XSObjectList {
         return getLength();
     }
     
-    public Iterator iterator() {
+    public Iterator<Object> iterator() {
         return listIterator0(0);
     }
     
-    public ListIterator listIterator() {
+    public ListIterator<Object> listIterator() {
         return listIterator0(0);
     }
     
-    public ListIterator listIterator(int index) {
+    public ListIterator<Object> listIterator(int index) {
         if (index >= 0 && index < fLength) {
             return listIterator0(index);
         }
         throw new IndexOutOfBoundsException("Index: " + index);
     }
     
-    private ListIterator listIterator0(int index) {
+    private ListIterator<Object> listIterator0(int index) {
         return fLength == 0 ? EMPTY_ITERATOR : new XSObjectListIterator(index);
     }
     
@@ -202,10 +202,11 @@ public class XSObjectListImpl extends AbstractList implements XSObjectList {
         return a;
     }
     
+    @SuppressWarnings("unchecked")
     public Object[] toArray(Object[] a) {
         if (a.length < fLength) {
-            Class arrayClass = a.getClass();
-            Class componentType = arrayClass.getComponentType();
+            Class<? extends Object[]> arrayClass = a.getClass();
+            Class<?> componentType = arrayClass.getComponentType();
             a = (Object[]) Array.newInstance(componentType, fLength);
         }
         toArray0(a);
@@ -221,7 +222,7 @@ public class XSObjectListImpl extends AbstractList implements XSObjectList {
         }
     }
     
-    private final class XSObjectListIterator implements ListIterator {
+    private final class XSObjectListIterator implements ListIterator<Object> {
         private int index;
         public XSObjectListIterator(int index) {
             this.index = index;

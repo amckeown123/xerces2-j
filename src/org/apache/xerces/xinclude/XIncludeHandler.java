@@ -294,13 +294,13 @@ public class XIncludeHandler
     // these are needed for XML Base processing
     protected final XMLResourceIdentifier fCurrentBaseURI;
     protected final IntStack fBaseURIScope;
-    protected final Stack fBaseURI;
-    protected final Stack fLiteralSystemID;
-    protected final Stack fExpandedSystemID;
+    protected final Stack<String> fBaseURI;
+    protected final Stack<String> fLiteralSystemID;
+    protected final Stack<String> fExpandedSystemID;
     
     // these are needed for Language Fixup
     protected final IntStack fLanguageScope;
-    protected final Stack fLanguageStack;
+    protected final Stack<String> fLanguageStack;
     protected String fCurrentLanguage;
     
     protected String fHrefFromParent;
@@ -333,8 +333,8 @@ public class XIncludeHandler
     private int[] fState = new int[INITIAL_SIZE];
 
     // buffering the necessary DTD events
-    private final ArrayList fNotations;
-    private final ArrayList fUnparsedEntities;
+    private final ArrayList<Notation> fNotations;
+    private final ArrayList<UnparsedEntity> fUnparsedEntities;
     
     // flags which control whether base URI or language fixup is performed.
     private boolean fFixupBaseURIs = true;
@@ -367,17 +367,17 @@ public class XIncludeHandler
         fSawFallback[fDepth] = false;
         fSawInclude[fDepth] = false;
         fState[fDepth] = STATE_NORMAL_PROCESSING;
-        fNotations = new ArrayList();
-        fUnparsedEntities = new ArrayList();
+        fNotations = new ArrayList<Notation>();
+        fUnparsedEntities = new ArrayList<UnparsedEntity>();
 
         fBaseURIScope = new IntStack();
-        fBaseURI = new Stack();
-        fLiteralSystemID = new Stack();
-        fExpandedSystemID = new Stack();
+        fBaseURI = new Stack<String>();
+        fLiteralSystemID = new Stack<String>();
+        fExpandedSystemID = new Stack<String>();
         fCurrentBaseURI = new XMLResourceIdentifierImpl();
         
         fLanguageScope = new IntStack();
-        fLanguageStack = new Stack();
+        fLanguageStack = new Stack<String>();
         fCurrentLanguage = null;
     }
 
@@ -1985,6 +1985,7 @@ public class XIncludeHandler
      * @param attributes
      * @return the processed XMLAttributes
      */
+    @SuppressWarnings("unused")
     protected XMLAttributes processAttributes(XMLAttributes attributes) {
         if (isTopLevelIncludedItem()) {
             // Modify attributes to fix the base URI (spec 4.5.5).
@@ -2030,7 +2031,7 @@ public class XIncludeHandler
             }
 
             // Modify attributes of included items to do namespace-fixup. (spec 4.5.4)
-            Enumeration inscopeNS = fNamespaceContext.getAllPrefixes();
+            Enumeration<?> inscopeNS = fNamespaceContext.getAllPrefixes();
             while (inscopeNS.hasMoreElements()) {
                 String prefix = (String)inscopeNS.nextElement();
                 String parentURI =
@@ -2637,7 +2638,7 @@ public class XIncludeHandler
     protected void copyFeatures(
         XMLComponentManager from,
         ParserConfigurationSettings to) {
-        Enumeration features = Constants.getXercesFeatures();
+        Enumeration<?> features = Constants.getXercesFeatures();
         copyFeatures1(features, Constants.XERCES_FEATURE_PREFIX, from, to);
         features = Constants.getSAXFeatures();
         copyFeatures1(features, Constants.SAX_FEATURE_PREFIX, from, to);
@@ -2646,14 +2647,14 @@ public class XIncludeHandler
     protected void copyFeatures(
         XMLComponentManager from,
         XMLParserConfiguration to) {
-        Enumeration features = Constants.getXercesFeatures();
+        Enumeration<?> features = Constants.getXercesFeatures();
         copyFeatures1(features, Constants.XERCES_FEATURE_PREFIX, from, to);
         features = Constants.getSAXFeatures();
         copyFeatures1(features, Constants.SAX_FEATURE_PREFIX, from, to);
     }
 
     private void copyFeatures1(
-        Enumeration features,
+        Enumeration<?> features,
         String featurePrefix,
         XMLComponentManager from,
         ParserConfigurationSettings to) {
@@ -2673,7 +2674,7 @@ public class XIncludeHandler
     }
 
     private void copyFeatures1(
-        Enumeration features,
+        Enumeration<?> features,
         String featurePrefix,
         XMLComponentManager from,
         XMLParserConfiguration to) {

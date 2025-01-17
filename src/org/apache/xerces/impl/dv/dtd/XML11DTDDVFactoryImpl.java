@@ -34,7 +34,7 @@ import org.apache.xerces.impl.dv.DatatypeValidator;
  */
 public class XML11DTDDVFactoryImpl extends DTDDVFactoryImpl {
 
-    static final Hashtable fXML11BuiltInTypes = new Hashtable();
+    static final Hashtable<String, DatatypeValidator> fXML11BuiltInTypes = new Hashtable<String, DatatypeValidator>();
 
     /**
      * return a dtd type of the given name
@@ -46,7 +46,7 @@ public class XML11DTDDVFactoryImpl extends DTDDVFactoryImpl {
      */
     public DatatypeValidator getBuiltInDV(String name) {
         if(fXML11BuiltInTypes.get(name) != null) {
-            return (DatatypeValidator)fXML11BuiltInTypes.get(name);
+            return fXML11BuiltInTypes.get(name);
         }
         return (DatatypeValidator)fBuiltInTypes.get(name);
     }
@@ -57,13 +57,14 @@ public class XML11DTDDVFactoryImpl extends DTDDVFactoryImpl {
      *
      * @return      a hashtable which contains all datatypes
      */
-    public Hashtable getBuiltInTypes() {
-        Hashtable toReturn = (Hashtable)fBuiltInTypes.clone();
-        Iterator entries = fXML11BuiltInTypes.entrySet().iterator();
+    @SuppressWarnings("unchecked")
+    public Hashtable<String, DatatypeValidator> getBuiltInTypes() {
+        Hashtable<String, DatatypeValidator> toReturn = (Hashtable<String, DatatypeValidator>)fBuiltInTypes.clone();
+        Iterator<?> entries = fXML11BuiltInTypes.entrySet().iterator();
         while (entries.hasNext()) {
-            Map.Entry entry = (Map.Entry) entries.next();
-            Object key = entry.getKey();
-            Object dv = entry.getValue();
+            Map.Entry<String, DatatypeValidator> entry = (Map.Entry<String, DatatypeValidator>) entries.next();
+            String key = entry.getKey();
+            DatatypeValidator dv = entry.getValue();
             toReturn.put(key, dv);
         }
         return toReturn;

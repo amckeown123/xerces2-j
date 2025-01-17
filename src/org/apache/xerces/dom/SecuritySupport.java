@@ -38,7 +38,7 @@ final class SecuritySupport {
 
     static ClassLoader getContextClassLoader() {
         return (ClassLoader)
-        AccessController.doPrivileged(new PrivilegedAction() {
+        AccessController.doPrivileged(new PrivilegedAction<Object>() {
             public Object run() {
                 ClassLoader cl = null;
                 try {
@@ -48,10 +48,9 @@ final class SecuritySupport {
             }
         });
     }
-    
     static ClassLoader getSystemClassLoader() {
         return (ClassLoader)
-        AccessController.doPrivileged(new PrivilegedAction() {
+        AccessController.doPrivileged(new PrivilegedAction<Object>() {
             public Object run() {
                 ClassLoader cl = null;
                 try {
@@ -64,7 +63,7 @@ final class SecuritySupport {
     
     static ClassLoader getParentClassLoader(final ClassLoader cl) {
         return (ClassLoader)
-        AccessController.doPrivileged(new PrivilegedAction() {
+        AccessController.doPrivileged(new PrivilegedAction<Object>() {
             public Object run() {
                 ClassLoader parent = null;
                 try {
@@ -80,7 +79,7 @@ final class SecuritySupport {
     
     static String getSystemProperty(final String propName) {
         return (String)
-        AccessController.doPrivileged(new PrivilegedAction() {
+        AccessController.doPrivileged(new PrivilegedAction<Object>() {
             public Object run() {
                 return System.getProperty(propName);
             }
@@ -92,7 +91,7 @@ final class SecuritySupport {
     {
         try {
             return (FileInputStream)
-            AccessController.doPrivileged(new PrivilegedExceptionAction() {
+            AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
                 public Object run() throws FileNotFoundException {
                     return new FileInputStream(file);
                 }
@@ -106,7 +105,7 @@ final class SecuritySupport {
             final String name)
     {
         return (InputStream)
-        AccessController.doPrivileged(new PrivilegedAction() {
+        AccessController.doPrivileged(new PrivilegedAction<Object>() {
             public Object run() {
                 InputStream ris;
                 if (cl == null) {
@@ -121,16 +120,15 @@ final class SecuritySupport {
     
     static boolean getFileExists(final File f) {
         return ((Boolean)
-                AccessController.doPrivileged(new PrivilegedAction() {
+                AccessController.doPrivileged(new PrivilegedAction<Object>() {
                     public Object run() {
                         return f.exists() ? Boolean.TRUE : Boolean.FALSE;
                     }
                 })).booleanValue();
     }
-    
     static long getLastModified(final File f) {
         return ((Long)
-                AccessController.doPrivileged(new PrivilegedAction() {
+                AccessController.doPrivileged(new PrivilegedAction<Object>() {
                     public Object run() {
                         return new Long(f.lastModified());
                     }

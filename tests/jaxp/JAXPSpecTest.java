@@ -130,6 +130,7 @@ public class JAXPSpecTest extends DefaultHandler {
         "http://www.w3.org/2001/XMLSchema");
         DocumentBuilder docBuilder = dbf.newDocumentBuilder();
         docBuilder.setErrorHandler(this);
+        @SuppressWarnings("unused")
         Document document = docBuilder.parse(
         new File("tests/jaxp/data/personal-schema.xml"));
         System.out.println(" JAXPSpecTest.testSchemaLanguageDOM Passed");
@@ -153,6 +154,7 @@ public class JAXPSpecTest extends DefaultHandler {
             "tests/jaxp/data/personal-schema.xsd");
             DocumentBuilder docBuilder = dbf.newDocumentBuilder();
             docBuilder.setErrorHandler(this);
+            @SuppressWarnings("unused")
             Document document = docBuilder.parse(
             "tests/jaxp/data/personal-schema.xml");
         } catch (IllegalArgumentException e) {

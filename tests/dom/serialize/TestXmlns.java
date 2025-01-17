@@ -45,6 +45,7 @@ import org.w3c.dom.ls.LSSerializer;
  * @author Elena Litani, IBM
  * @version $Id$
  */
+@SuppressWarnings("deprecation")
 public class TestXmlns implements DOMErrorHandler{
 
       public static void main(String[] args) {
@@ -77,14 +78,16 @@ public class TestXmlns implements DOMErrorHandler{
             System.out.println("\n---XMLSerializer output---");
             System.out.println(writer.toString());
 
-          DOMSerializerImpl s = new DOMSerializerImpl();
+          @SuppressWarnings("unused")
+        DOMSerializerImpl s = new DOMSerializerImpl();
                   DOMParser p = new DOMParser();
                   try {
        
                       p.parse(args[0]);
                   } catch (Exception e){
                   }
-                  Document doc = p.getDocument();
+                  @SuppressWarnings("unused")
+                Document doc = p.getDocument();
 
 
             // create DOM Serializer

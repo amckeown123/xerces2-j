@@ -98,6 +98,7 @@ public class TestSerializeDOMOut
             System.out.println( "Writing Serialize DOM  to file = " + nameOfSerializedFile ); 
 
 
+            @SuppressWarnings({ "resource", "unused" })
             FileOutputStream fileOut =  new FileOutputStream( nameOfSerializedFile );
 
 

@@ -74,7 +74,7 @@ public abstract class CMNode
 
     final void setFollowPos(CMStateSet setToAdopt)
     {
-        fFollowPos = setToAdopt;
+        setfFollowPos(setToAdopt);
     }
 
     public final void setMaxStates(int maxStates)
@@ -97,6 +97,16 @@ public abstract class CMNode
     protected abstract void calcFirstPos(CMStateSet toSet) ;
 
     protected abstract void calcLastPos(CMStateSet toSet) ;
+
+
+    public CMStateSet getfFollowPos() {
+        return fFollowPos;
+    }
+
+
+    public void setfFollowPos(CMStateSet fFollowPos) {
+        this.fFollowPos = fFollowPos;
+    }
 
 
     // -------------------------------------------------------------------

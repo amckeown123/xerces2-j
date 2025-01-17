@@ -36,7 +36,7 @@ public class XSGrammarBucket {
     /**
      * Hashtable that maps between Namespace and a Grammar
      */
-    Hashtable fGrammarRegistry = new Hashtable();
+    Hashtable<String, SchemaGrammar> fGrammarRegistry = new Hashtable<String, SchemaGrammar>();
     SchemaGrammar fNoNSGrammar = null;
 
     /**
@@ -75,6 +75,7 @@ public class XSGrammarBucket {
      * @param deep      whether to add imported grammars
      * @return          whether the process succeeded
      */
+    @SuppressWarnings("unchecked")
     public boolean putGrammar(SchemaGrammar grammar, boolean deep) {
         // whether there is one with the same tns
         SchemaGrammar sg = getGrammar(grammar.fTargetNamespace);
@@ -91,15 +92,15 @@ public class XSGrammarBucket {
         // get all imported grammars, and make a copy of the Vector, so that
         // we can recursively process the grammars, and add distinct ones
         // to the same vector
-        Vector currGrammars = (Vector)grammar.getImportedGrammars();
+        Vector<SchemaGrammar> currGrammars = (Vector<SchemaGrammar>)grammar.getImportedGrammars();
         if (currGrammars == null) {
             putGrammar(grammar);
             return true;
         }
         
-        Vector grammars = ((Vector)currGrammars.clone());
+        Vector<SchemaGrammar> grammars = ((Vector<SchemaGrammar>)currGrammars.clone());
         SchemaGrammar sg1, sg2;
-        Vector gs;
+        Vector<?> gs;
         // for all (recursively) imported grammars
         for (int i = 0; i < grammars.size(); i++) {
             // get the grammar
@@ -145,6 +146,7 @@ public class XSGrammarBucket {
      *                       bucket or not - including 'grammar' parameter. 
      * @return               whether the process succeeded
      */
+    @SuppressWarnings("unchecked")
     public boolean putGrammar(SchemaGrammar grammar, boolean deep, boolean ignoreConflict) {
         if (!ignoreConflict) {
             return putGrammar(grammar, deep);
@@ -164,14 +166,14 @@ public class XSGrammarBucket {
         // get all imported grammars, and make a copy of the Vector, so that
         // we can recursively process the grammars, and add distinct ones
         // to the same vector
-        Vector currGrammars = (Vector)grammar.getImportedGrammars();
+        Vector<SchemaGrammar> currGrammars = (Vector<SchemaGrammar>)grammar.getImportedGrammars();
         if (currGrammars == null) {
             return true;
         }
         
-        Vector grammars = ((Vector)currGrammars.clone());
+        Vector<SchemaGrammar> grammars = ((Vector<SchemaGrammar>)currGrammars.clone());
         SchemaGrammar sg1, sg2;
-        Vector gs;
+        Vector<?> gs;
         // for all (recursively) imported grammars
         for (int i = 0; i < grammars.size(); i++) {
             // get the grammar
@@ -214,7 +216,7 @@ public class XSGrammarBucket {
         int count = fGrammarRegistry.size() + (fNoNSGrammar==null ? 0 : 1);
         SchemaGrammar[] grammars = new SchemaGrammar[count];
         // get grammars with target namespace
-        Enumeration schemas = fGrammarRegistry.elements();
+        Enumeration<SchemaGrammar> schemas = fGrammarRegistry.elements();
         int i = 0;
         while (schemas.hasMoreElements())
             grammars[i++] = (SchemaGrammar)schemas.nextElement();

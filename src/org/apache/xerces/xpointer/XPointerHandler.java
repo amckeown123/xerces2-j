@@ -65,7 +65,7 @@ public final class XPointerHandler extends XIncludeHandler implements
 
     // Fields
     // An ArrayList of XPointerParts  
-    protected ArrayList fXPointerParts = null;
+    protected ArrayList<XPointerPart> fXPointerParts = null;
 
     // The current XPointerPart  
     protected XPointerPart fXPointerPart = null;
@@ -102,7 +102,7 @@ public final class XPointerHandler extends XIncludeHandler implements
     public XPointerHandler() {
         super();
 
-        fXPointerParts = new ArrayList();
+        fXPointerParts = new ArrayList<XPointerPart>();
         fSymbolTable = new SymbolTable();
     }
 
@@ -110,7 +110,7 @@ public final class XPointerHandler extends XIncludeHandler implements
             XMLErrorHandler errorHandler, XMLErrorReporter errorReporter) {
         super();
 
-        fXPointerParts = new ArrayList();
+        fXPointerParts = new ArrayList<XPointerPart>();
         fSymbolTable = symbolTable;
         fErrorHandler = errorHandler;
         fXPointerErrorReporter = errorReporter;
@@ -438,7 +438,7 @@ public final class XPointerHandler extends XIncludeHandler implements
      * 
      * @return An ArrayList of XPointerPart objects.
      */
-    public ArrayList getPointerParts() {
+    public ArrayList<XPointerPart> getPointerParts() {
         return fXPointerParts;
     }
 
@@ -484,7 +484,7 @@ public final class XPointerHandler extends XIncludeHandler implements
 
         private SymbolTable fSymbolTable;
 
-        private HashMap fTokenNames = new HashMap();
+        private HashMap<Integer, String> fTokenNames = new HashMap<Integer, String>();
 
         /**
          * Constructor 
@@ -492,7 +492,7 @@ public final class XPointerHandler extends XIncludeHandler implements
          * @param symbolTable SymbolTable
          */
         private Tokens(SymbolTable symbolTable) {
-            fSymbolTable = symbolTable;
+            setfSymbolTable(symbolTable);
 
             fTokenNames.put(new Integer(XPTRTOKEN_OPEN_PAREN),
                     "XPTRTOKEN_OPEN_PAREN");
@@ -521,11 +521,7 @@ public final class XPointerHandler extends XIncludeHandler implements
          * @param token The token string
          */
         private void addToken(String tokenStr) {
-            Integer tokenInt = (Integer) fTokenNames.get(tokenStr);
-            if (tokenInt == null) {
-                tokenInt = new Integer(fTokenNames.size());
-                fTokenNames.put(tokenInt, tokenStr);
-            }
+            Integer tokenInt = new Integer(fTokenNames.size());
             addToken(tokenInt.intValue());
         }
 
@@ -549,6 +545,7 @@ public final class XPointerHandler extends XIncludeHandler implements
         /**
          * Resets the current position to the head of the token list.
          */
+        @SuppressWarnings("unused")
         private void rewind() {
             fCurrentTokenIndex = 0;
         }
@@ -597,12 +594,27 @@ public final class XPointerHandler extends XIncludeHandler implements
          * If there's no such next token, this method throws
          * <tt>new XNIException("XPointerProcessingError");</tt>.
          */
+        @SuppressWarnings("unused")
         private String nextTokenAsString() throws XNIException {
             String tokenStrint = getTokenString(nextToken());
             if (tokenStrint == null) {
                 reportError("XPointerProcessingError", null);
             }
             return tokenStrint;
+        }
+
+        @SuppressWarnings("unused")
+        public String[] getFgTokenNames() {
+            return fgTokenNames;
+        }
+
+        @SuppressWarnings("unused")
+        public SymbolTable getfSymbolTable() {
+            return fSymbolTable;
+        }
+
+        public void setfSymbolTable(SymbolTable fSymbolTable) {
+            this.fSymbolTable = fSymbolTable;
         }
     }
 
@@ -657,6 +669,7 @@ public final class XPointerHandler extends XIncludeHandler implements
         // Data
         //
         /** Symbol table. */
+        @SuppressWarnings("unused")
         private SymbolTable fSymbolTable;
 
         /** 
@@ -682,6 +695,7 @@ public final class XPointerHandler extends XIncludeHandler implements
             int openParen = 0;
             int closeParen = 0;
             int nameOffset, dataOffset;
+            @SuppressWarnings("unused")
             boolean isQName = false;
             String name = null;
             String prefix = null;
@@ -979,6 +993,11 @@ public final class XPointerHandler extends XIncludeHandler implements
         protected void addToken(Tokens tokens, int token) throws XNIException {
             tokens.addToken(token);
         } // addToken(int)
+
+        @SuppressWarnings("unused")
+        public byte getChartypeInvalid() {
+            return CHARTYPE_INVALID;
+        }
 
     } // class Scanner
 

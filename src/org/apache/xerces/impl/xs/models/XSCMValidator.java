@@ -87,7 +87,7 @@ public interface XSCMValidator {
      * @return       a Vector whose entries are instances of
      *               either XSWildcardDecl or XSElementDecl.
      */
-    public Vector whatCanGoHere(int[] state);
+    public Vector<?> whatCanGoHere(int[] state);
     
     /**
      * <p>Returns an array containing information about the current repeating term

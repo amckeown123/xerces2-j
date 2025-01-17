@@ -31,7 +31,7 @@ import org.apache.xerces.xs.XSException;
  *
  * @version $Id$
  */
-public final class ShortListImpl extends AbstractList implements ShortList {
+public final class ShortListImpl extends AbstractList<Object> implements ShortList {
 
     /**
      * An immutable empty list.

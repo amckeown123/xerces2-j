@@ -123,14 +123,14 @@ public class RangeImpl implements Range {
                 DOMException.INVALID_STATE_ERR, 
                 DOMMessageFormatter.formatMessage(DOMMessageFormatter.DOM_DOMAIN, "INVALID_STATE_ERR", null));
         }
-        ArrayList startV = new ArrayList();
+        ArrayList<Node> startV = new ArrayList<Node>();
         Node node;
         for (node=fStartContainer; node != null; 
              node=node.getParentNode()) 
         {
             startV.add(node);
         }
-        ArrayList endV = new ArrayList();
+        ArrayList<Node> endV = new ArrayList<Node>();
         for (node=fEndContainer; node != null; 
              node=node.getParentNode()) 
         {

@@ -137,7 +137,7 @@ public class DOMNormalizer implements XMLDocumentHandler {
     protected final NamespaceContext fLocalNSBinder = new NamespaceSupport();
 
     /** list of attributes */
-    protected final ArrayList fAttributeList = new ArrayList(5);
+    protected final ArrayList<Node> fAttributeList = new ArrayList<Node>(5);
 
     /** DOM Locator -  for namespace fixup algorithm */
     protected final DOMLocatorImpl fLocator = new DOMLocatorImpl();
@@ -1456,8 +1456,8 @@ public class DOMNormalizer implements XMLDocumentHandler {
         protected CoreDocumentImpl fDocument;
         protected ElementImpl fElement;
 
-        protected final Vector fDTDTypes = new Vector(5);
-        protected final Vector fAugmentations = new Vector(5);
+        protected final Vector<String> fDTDTypes = new Vector<String>(5);
+        protected final Vector<Augmentations> fAugmentations = new Vector<Augmentations>(5);
 
         public void setAttributes(AttributeMap attributes, CoreDocumentImpl doc, ElementImpl elem) {
             fDocument = doc;
@@ -1859,6 +1859,7 @@ public class DOMNormalizer implements XMLDocumentHandler {
                     //       the node value because that turns the "specified"
                     //       flag to "true" which may overwrite a "false"
                     //       value from the attribute list.
+                    @SuppressWarnings("deprecation")
                     final String normalizedValue = attrPSVI.getSchemaNormalizedValue();
                     if (normalizedValue != null) {
                         boolean specified = attr.getSpecified();
@@ -2027,6 +2028,7 @@ public class DOMNormalizer implements XMLDocumentHandler {
                     ((ElementNSImpl) elementNode).setType(type);
                 }
                 // include element default content (if one is available)
+                @SuppressWarnings("deprecation")
                 String normalizedValue = elementPSVI.getSchemaNormalizedValue();
                 if ((fConfiguration.features & DOMConfigurationImpl.DTNORMALIZATION) != 0) {
                     if (normalizedValue !=null)

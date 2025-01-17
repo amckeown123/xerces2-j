@@ -185,6 +185,7 @@ public class Test {
     public boolean performTest(String arg) {
         boolean passed = true;
         try {
+            @SuppressWarnings("unused")
             Writer writer = new Writer(false);
             DOMParser parser = new DOMParser();
             if (!arg.equals("delete2") && !arg.equals("insert2")) {
@@ -382,7 +383,9 @@ public class Test {
                 Range range = document.createRange();
                 Range ranged = document.createRange();
                 Node root = document.getDocumentElement();
+                @SuppressWarnings("unused")
                 boolean surround = false;
+                @SuppressWarnings("unused")
                 Node surroundNode=document.createElement(SURROUND);
                 if (arg.equals("surround")) {
                     surround = true;
@@ -428,6 +431,7 @@ public class Test {
                         .getFirstChild(), 15);
                 }
                 
+                @SuppressWarnings("unused")
                 DocumentFragment frag = null;
                 
                 if (arg.equals("delete2")) {

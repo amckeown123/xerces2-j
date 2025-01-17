@@ -38,7 +38,7 @@ public final class EndElementImpl extends ElementImpl implements EndElement {
     /**
      * @param location The location object for this event.
      */
-    public EndElementImpl(final QName name, final Iterator namespaces, final Location location) {
+    public EndElementImpl(final QName name, final Iterator<?> namespaces, final Location location) {
         super(name, false, namespaces, location);
     }
 
