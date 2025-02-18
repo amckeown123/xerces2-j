@@ -384,8 +384,8 @@ public class XML11DTDConfiguration extends ParserConfigurationSettings
 		fCommonComponents = new ArrayList<XMLComponent>();
 
 		// create storage for recognized features and properties
-		fRecognizedFeatures = new ArrayList();
-		fRecognizedProperties = new ArrayList();
+		fRecognizedFeatures = new ArrayList<String>();
+		fRecognizedProperties = new ArrayList<String>();
 
 		// create table for features and properties
 		fFeatures = new HashMap<String, Boolean>();

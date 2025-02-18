@@ -17,6 +17,7 @@
 
 package org.apache.xerces.util;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
@@ -39,7 +40,7 @@ public final class JAXPNamespaceContextWrapper implements NamespaceContext {
     private javax.xml.namespace.NamespaceContext fNamespaceContext;
     private SymbolTable fSymbolTable;
     private List<?> fPrefixes;
-    private final Vector fAllPrefixes = new Vector();
+    private final Vector<String> fAllPrefixes = new Vector<String>();
     
     private int[] fContext = new int[8];
     private int fCurrentContext;
@@ -118,7 +119,7 @@ public final class JAXPNamespaceContextWrapper implements NamespaceContext {
         // push context
         fContext[++fCurrentContext] = fAllPrefixes.size();
         if (fPrefixes != null) {
-            fAllPrefixes.addAll(fPrefixes);
+            fAllPrefixes.addAll((Collection<? extends String>) fPrefixes);
         }
     }
 

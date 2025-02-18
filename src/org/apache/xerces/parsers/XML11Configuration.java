@@ -476,8 +476,8 @@ public class XML11Configuration extends ParserConfigurationSettings
 		fCommonComponents = new ArrayList<XMLComponent>();
 
 		// create storage for recognized features and properties
-		fRecognizedFeatures = new ArrayList();
-		fRecognizedProperties = new ArrayList();
+		fRecognizedFeatures = new ArrayList<String>();
+		fRecognizedProperties = new ArrayList<String>();
 
 		// create table for features and properties
 		fFeatures = new HashMap<String, Boolean>();
@@ -934,20 +934,20 @@ public class XML11Configuration extends ParserConfigurationSettings
 		// forward to every XML 1.0 component
 		int count = fComponents.size();
 		for (int i = 0; i < count; i++) {
-			XMLComponent c = (XMLComponent) fComponents.get(i);
+			XMLComponent c = fComponents.get(i);
 			c.setFeature(featureId, state);
 		}
 		// forward it to common components
 		count = fCommonComponents.size();
 		for (int i = 0; i < count; i++) {
-			XMLComponent c = (XMLComponent) fCommonComponents.get(i);
+			XMLComponent c = fCommonComponents.get(i);
 			c.setFeature(featureId, state);
 		}
 				
 		// forward to every XML 1.1 component
 		count = fXML11Components.size();
 		for (int i = 0; i < count; i++) {
-			XMLComponent c = (XMLComponent) fXML11Components.get(i);
+			XMLComponent c = fXML11Components.get(i);
 			try{            
 				c.setFeature(featureId, state);
 			}
@@ -995,19 +995,19 @@ public class XML11Configuration extends ParserConfigurationSettings
 		// forward to every XML 1.0 component
 		int count = fComponents.size();
 		for (int i = 0; i < count; i++) {
-			XMLComponent c = (XMLComponent) fComponents.get(i);
+			XMLComponent c = fComponents.get(i);
 			c.setProperty(propertyId, value);
 		}
 		// forward it to every common Component
 		count = fCommonComponents.size();
 		for (int i = 0; i < count; i++) {
-			XMLComponent c = (XMLComponent) fCommonComponents.get(i);
+			XMLComponent c = fCommonComponents.get(i);
 			c.setProperty(propertyId, value);
 		}
 		// forward it to every XML 1.1 component
 		count = fXML11Components.size();
 		for (int i = 0; i < count; i++) {
-			XMLComponent c = (XMLComponent) fXML11Components.get(i);
+			XMLComponent c = fXML11Components.get(i);
 			try{			
 				c.setProperty(propertyId, value);
 			}
@@ -1033,7 +1033,7 @@ public class XML11Configuration extends ParserConfigurationSettings
 	protected void reset() throws XNIException {
 		int count = fComponents.size();
 		for (int i = 0; i < count; i++) {
-			XMLComponent c = (XMLComponent) fComponents.get(i);
+			XMLComponent c = fComponents.get(i);
 			c.reset(this);
 		}
 
@@ -1046,7 +1046,7 @@ public class XML11Configuration extends ParserConfigurationSettings
 		// reset common components
 		int count = fCommonComponents.size();
 		for (int i = 0; i < count; i++) {
-			XMLComponent c = (XMLComponent) fCommonComponents.get(i);
+			XMLComponent c = fCommonComponents.get(i);
 			c.reset(this);
 		}
 
@@ -1060,7 +1060,7 @@ public class XML11Configuration extends ParserConfigurationSettings
 		// reset every component
 		int count = fXML11Components.size();
 		for (int i = 0; i < count; i++) {			
-			XMLComponent c = (XMLComponent) fXML11Components.get(i);
+			XMLComponent c = fXML11Components.get(i);
 			c.reset(this);
 		}
 

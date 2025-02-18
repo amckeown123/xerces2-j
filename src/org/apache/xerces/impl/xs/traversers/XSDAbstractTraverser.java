@@ -286,10 +286,10 @@ abstract class XSDAbstractTraverser {
         short facetsFixed = 0; // facets that have fixed="true"        
         String facet;
         boolean hasQName = containsQName(baseValidator);
-        Vector enumData = null;
+        Vector<String> enumData = null;
         XSObjectListImpl enumAnnotations = null;
         XSObjectListImpl patternAnnotations = null;
-        Vector enumNSDecls = hasQName ? new Vector() : null;       
+        Vector<NamespaceSupport> enumNSDecls = hasQName ? new Vector<NamespaceSupport>() : null;       
         int currentFacet = 0;
         xsFacets.reset();
         boolean seenPattern = false;
@@ -340,7 +340,7 @@ abstract class XSDAbstractTraverser {
                     schemaDoc.fValidationContext.setNamespaceSupport(schemaDoc.fNamespaceSupport);
                 }
                 if (enumData == null){
-                    enumData = new Vector<Object>();
+                    enumData = new Vector<String>();
                     enumAnnotations = new XSObjectListImpl();
                 }
                 enumData.addElement(enumVal);

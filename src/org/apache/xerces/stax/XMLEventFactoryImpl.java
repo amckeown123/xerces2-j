@@ -109,8 +109,8 @@ public final class XMLEventFactoryImpl extends XMLEventFactory {
         return createStartElement(new QName(namespaceUri, localName, prefix), attributes, namespaces, context);
     }
     
-    private StartElement createStartElement(QName name, Iterator attributes,
-            Iterator namespaces, NamespaceContext context) {
+    private StartElement createStartElement(QName name, Iterator<?> attributes,
+            Iterator<?> namespaces, NamespaceContext context) {
         return new StartElementImpl(name, attributes, namespaces, context, fLocation);
     }
 

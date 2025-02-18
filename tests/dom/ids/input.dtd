@@ -3,7 +3,6 @@
 
 <!ELEMENT person (name,email*,url*,link?)>
 <!ATTLIST person id ID #REQUIRED>
-<!ATTLIST person id2 ID "default.id">
 <!ATTLIST person note CDATA #IMPLIED>
 <!ATTLIST person contr (true|false) 'false'>
 <!ATTLIST person salary CDATA #IMPLIED>
